@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { DatabaseService } from '../../services/database.service';
+import { DatabaseService } from '../../services/database/database.service';
 import 'rxjs/add/operator/takeUntil';
+import { MailerService } from '../../services/mailer/mailer.service';
 
 @Component({
     selector: 'app-footer',
@@ -16,7 +17,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     public queryResult: string;
     private unsubscribe = new Subject<void>();
 
-    constructor(private databaseService: DatabaseService) { }
+    constructor(private databaseService: DatabaseService, private mailerService: MailerService) { }
 
     ngOnInit() {
         this.createFormControls();
@@ -38,9 +39,18 @@ export class FooterComponent implements OnInit, OnDestroy {
 
     addSubscriber() {
         if (this.subscribeForm.valid) {
-            this.databaseService.addSubscriber(this.subscribeForm.value)
-                .takeUntil(this.unsubscribe)
-                .subscribe(res => this.queryResult = res);
+            this.databaseService.addSubscriber(this.subscribeForm.value).takeUntil(this.unsubscribe)
+                .subscribe(res => {
+                    this.queryResult = res
+                    if (this.queryResult == "Inserted") {
+                        this.mailerService.successfulSubscribe(this.subscribeForm.value).takeUntil(this.unsubscribe)
+                            .subscribe(res => {
+                                console.log('AppComponent Success', res);
+                            }, error => {
+                                console.log('AppComponent Error', error);
+                            })
+                    }
+                });
         }
     }
 

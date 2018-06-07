@@ -6,8 +6,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { Routing } from './app.routing';
-import { DatabaseService } from './services/database.service';
+import { DatabaseService } from './services/database/database.service';
 import { HttpModule } from '@angular/http';
+import { MailerService } from './services/mailer/mailer.service';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { HttpModule } from '@angular/http';
         HttpModule
     ],
     providers: [
-        DatabaseService
+        DatabaseService,
+        MailerService
     ],
     bootstrap: [AppComponent]
 })
