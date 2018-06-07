@@ -69,4 +69,17 @@ export class DatabaseService {
             });
     }
 
+    getMostPopularArticles() : Observable<any>{
+        return this.http.get('http://localhost/listeo-desktop/src/api/database/getMostPopularArticles.php')
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
 }

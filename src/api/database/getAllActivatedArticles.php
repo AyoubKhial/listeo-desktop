@@ -1,6 +1,6 @@
 <?php
     include "./connection.php";
-    $sql = "SELECT * FROM article WHERE active = 1 ORDER BY inserted DESC";
+    $sql = "SELECT id, titre, texte, photo, inserted FROM article WHERE active = 1 ORDER BY inserted DESC";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         $data = array() ;

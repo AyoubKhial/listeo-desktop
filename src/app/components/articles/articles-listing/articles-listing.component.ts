@@ -14,12 +14,14 @@ export class ArticlesListingComponent implements OnInit {
     constructor(private databaseService: DatabaseService, private pagerService: PagerService) { }
 
     public articles: any[];
+    public popularArticles: Object;
     public pager: any = {};
 	public pagedArticles: any[];
     private unsubscribe = new Subject<void>();
     
     ngOnInit() {
         this.getAllActivatedArticles();
+        this.getMostPopularArticles();
     }
 
     getAllActivatedArticles() {
@@ -27,6 +29,14 @@ export class ArticlesListingComponent implements OnInit {
 			if (response != 'Not found') {
                 this.articles = response;
                 this.setPage(1);
+			}
+		});
+    }
+
+    getMostPopularArticles() {
+		this.databaseService.getMostPopularArticles().takeUntil(this.unsubscribe).subscribe(response => {
+			if (response != 'Not found') {
+                this.popularArticles = response;
 			}
 		});
     }
