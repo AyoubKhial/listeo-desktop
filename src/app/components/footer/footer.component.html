@@ -1,13 +1,19 @@
-<div id="footer" class="sticky-footer">
-    <!-- Main -->
+<div id="footer">
     <div class="container">
         <div class="row">
             <div class="col-md-5 col-sm-6">
-                <img class="footer-logo" src="images/logo.png" alt="">
-                <br>
-                <br>
-                <p>Morbi convallis bibendum urna ut viverra. Maecenas quis consequat libero, a feugiat eros. Nunc ut lacinia
-                    tortor morbi ultricies laoreet ullamcorper phasellus semper.</p>
+                <h3>Become an insider</h3>
+                <p>Gain access to exclusive offers, best-of lists, local events & more (you can unsubscribe any time).</p>
+                <span class="error" *ngIf="email.invalid && !!email.errors.required && (email.dirty || email.touched)">Email is required.</span>
+                <span class="error" *ngIf="email.invalid && !!email.errors.pattern && (email.dirty || email.touched)">Invalid email.</span>
+                <span class="success" *ngIf="queryResult==='Inserted'">Well subscribed.</span>
+                <span class="error" *ngIf="queryResult==='Already exists'">Email already exists.</span>
+                <form [formGroup]="subscribeForm" novalidate (ngSubmit)="addSubscriber($event)">
+                    <input type="text" placeholder="Enter your email" formControlName="email" [ngClass]="{ 'has-success': email.valid
+						&& (email.dirty || email.touched),'has-danger': email.invalid
+						&& (email.dirty || email.touched)}" />
+                    <button class="button margin-top-15" type="submit">Subscribe</button>
+                </form>
             </div>
             <div class="col-md-4 col-sm-6 ">
                 <h4>Helpful Links</h4>
@@ -59,7 +65,7 @@
                     <br> E-Mail:
                     <span>
                         <a href="#">
-                            <span class="__cf_email__" data-cfemail="39565f5f505a5c795c41585449555c175a5654">[email&#160;protected]</span>
+                            <span class="__cf_email__" data-cfemail="244b42424d474164415c45495448410a474b49">[email&#160;protected]</span>
                         </a>
                     </span>
                     <br>
