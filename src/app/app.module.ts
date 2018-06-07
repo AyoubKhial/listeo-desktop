@@ -10,13 +10,15 @@ import { DatabaseService } from './services/database/database.service';
 import { HttpModule } from '@angular/http';
 import { MailerService } from './services/mailer/mailer.service';
 import {Ng2Webstorage} from 'ngx-webstorage';
+import { ArticlesListingComponent } from './components/articles/articles-listing/articles-listing.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HeaderComponent,
         FooterComponent,
-        HomeComponent
+        HomeComponent,
+        ArticlesListingComponent
     ],
     imports: [
         BrowserModule,
