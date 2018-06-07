@@ -11,6 +11,7 @@ import { HttpModule } from '@angular/http';
 import { MailerService } from './services/mailer/mailer.service';
 import {Ng2Webstorage} from 'ngx-webstorage';
 import { ArticlesListingComponent } from './components/articles/articles-listing/articles-listing.component';
+import { PagerService } from './services/pager/pager.service';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { ArticlesListingComponent } from './components/articles/articles-listing
     ],
     providers: [
         DatabaseService,
-        MailerService
+        MailerService,
+        PagerService
     ],
     bootstrap: [AppComponent]
 })

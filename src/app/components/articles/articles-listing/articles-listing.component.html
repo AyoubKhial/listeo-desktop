@@ -20,8 +20,8 @@
 <div class="container">
     <div class="blog-page">
         <div class="row">
-            <div class="col-lg-9 col-md-8 padding-right-30">
-                <div class="blog-post" *ngFor="let article of articles" >
+            <div class="col-lg-9 col-md-8 padding-right-30" *ngIf="pagedArticles?.length > 0">
+                <div class="blog-post" *ngFor="let article of pagedArticles">
                     <a href="pages-blog-post.html" class="post-img">
                         <img src="assets/images/blog-post-01.jpg" alt="">
                     </a>
@@ -49,25 +49,33 @@
                     <div class="col-md-12">
                         <div class="pagination-container margin-bottom-40">
                             <nav class="pagination">
-                                <ul>
-                                    <li>
-                                        <a href="#" class="current-page">1</a>
+                                <ul *ngIf="pager.pages && pager.pages.length">
+                                    <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                        <a (click)="setPage(1)">First</a>
                                     </li>
-                                    <li>
-                                        <a href="#">2</a>
+                                    <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                        <a (click)="setPage(pager.currentPage - 1)">Previous</a>
                                     </li>
-                                    <li>
-                                        <a href="#">3</a>
+                                    <li *ngFor="let page of pager.pages" [ngClass]="{'current-page':pager.currentPage === page}">
+                                        <a (click)="setPage(page)" [ngClass]="{'current-page':pager.currentPage === page}">{{page}}</a>
                                     </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="sl sl-icon-arrow-right"></i>
-                                        </a>
+                                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                        <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                                    </li>
+                                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                        <a (click)="setPage(pager.totalPages)">Last</a>
                                     </li>
                                 </ul>
                             </nav>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8 padding-right-30" *ngIf="pagedArticles?.length == 0">
+                <div class="notification error">
+                    <p>
+                        <span>Error!</span> We're sorry, but the article you were looking for doesn't exist.
+                    </p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-4">
