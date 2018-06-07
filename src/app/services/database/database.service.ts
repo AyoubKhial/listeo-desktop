@@ -13,8 +13,20 @@ export class DatabaseService {
     addSubscriber(data) {
         return this.http.post('http://localhost/listeo-desktop/src/api/database/addSubscriber.php', data)
             .map(res => {
-                console.log(res.text());
                 return res.text();
+            });
+    }
+
+    checkLoginCredentials(data) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/checkLoginCredentials.php', data)
+            .map(res => {
+                this.hasResult = res;
+                if (this.hasResult._body !== '0') {
+                    return res.json();
+                }
+                else {
+                    return res.text();
+                }
             });
     }
 }

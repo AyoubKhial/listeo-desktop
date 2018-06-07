@@ -9,6 +9,7 @@ import { Routing } from './app.routing';
 import { DatabaseService } from './services/database/database.service';
 import { HttpModule } from '@angular/http';
 import { MailerService } from './services/mailer/mailer.service';
+import {Ng2Webstorage} from 'ngx-webstorage';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { MailerService } from './services/mailer/mailer.service';
         BrowserModule,
         Routing,
         ReactiveFormsModule,
-        HttpModule
+        HttpModule,
+        Ng2Webstorage
     ],
     providers: [
         DatabaseService,

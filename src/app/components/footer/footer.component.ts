@@ -40,12 +40,12 @@ export class FooterComponent implements OnInit, OnDestroy {
     addSubscriber() {
         if (this.subscribeForm.valid) {
             this.databaseService.addSubscriber(this.subscribeForm.value).takeUntil(this.unsubscribe)
-                .subscribe(res => {
-                    this.queryResult = res
+                .subscribe(response => {
+                    this.queryResult = response
                     if (this.queryResult == "Inserted") {
                         this.mailerService.successfulSubscribe(this.subscribeForm.value).takeUntil(this.unsubscribe)
-                            .subscribe(res => {
-                                console.log('AppComponent Success', res);
+                            .subscribe(response => {
+                                console.log('AppComponent Success', response);
                             }, error => {
                                 console.log('AppComponent Error', error);
                             })
