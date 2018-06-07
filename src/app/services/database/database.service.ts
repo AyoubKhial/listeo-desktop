@@ -12,21 +12,48 @@ export class DatabaseService {
 
     addSubscriber(data) {
         return this.http.post('http://localhost/listeo-desktop/src/api/database/addSubscriber.php', data)
-            .map(res => {
-                return res.text();
+            .map(response => {
+                return response.text();
             });
     }
 
     checkLoginCredentials(data) {
         return this.http.post('http://localhost/listeo-desktop/src/api/database/checkLoginCredentials.php', data)
-            .map(res => {
-                this.hasResult = res;
-                if (this.hasResult._body !== '0') {
-                    return res.json();
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Error') {
+                    return response.json();
                 }
                 else {
-                    return res.text();
+                    return response.text();
                 }
             });
     }
+
+    registerWithForm(data) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/registerWithForm.php', data)
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Error' && this.hasResult._body !== 'Already exists') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
+    getAllCountries() {
+        return this.http.get('http://localhost/listeo-desktop/src/api/database/getAllCountries.php')
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Error') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
 }

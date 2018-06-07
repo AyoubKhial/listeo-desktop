@@ -2,3 +2,9 @@
     color: red;
     font-size: 14px;
 }
+.has-success:focus{
+    border-color: green
+}
+.has-danger:focus{
+    border-color: red
+}

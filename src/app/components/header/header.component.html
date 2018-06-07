@@ -59,7 +59,7 @@
                     </ul>
                     <div class="tabs-container alt">
                         <div class="tab-content" id="tab1" style="display: none;">
-                            <form method="post" class="login" [formGroup]="loginForm" (ngSubmit)="checkAuth()">
+                            <form method="post" class="login" [formGroup]="loginForm" (ngSubmit)="checkLoginCredentials()">
                                 <p class="error" *ngIf="loginUnsuccess">The credentials that you've entered are incorrect.</p>
                                 <p class="form-row form-row-wide">
                                     <label>Email:
@@ -86,33 +86,64 @@
                             </form>
                         </div>
                         <div class="tab-content" id="tab2" style="display: none;">
-                            <!--<form method="post" class="register">
+                            <form method="post" class="register" [formGroup]="registerForm" (ngSubmit)=" registerWithForm()">
+                                <span class="error" *ngIf="registerFirstName.invalid && !!registerFirstName.errors.required && (registerFirstName.dirty || registerFirstName.touched)">First name is required.</span>
+                                <span class="error" *ngIf="registerFirstName.invalid && !!registerFirstName.errors.pattern && (registerFirstName.dirty || registerFirstName.touched)">Invalid first name.</span>
                                 <p class="form-row form-row-wide">
-                                    <label for="username2">Username:
+                                    <label>First Name:
                                         <i class="im im-icon-Male"></i>
-                                        <input type="text" class="input-text" name="username" id="username2" value="" />
+                                        <input type="text" class="input-text" name="username" formControlName="registerFirstName" [ngClass]="{ 'has-success': registerFirstName.valid
+                                        && (registerFirstName.dirty || registerFirstName.touched),'has-danger': registerFirstName.invalid
+                                        && (registerFirstName.dirty || registerFirstName.touched)}"/>
                                     </label>
                                 </p>
+                                <span class="error" *ngIf="registerLastName.invalid && !!registerLastName.errors.required && (registerLastName.dirty || registerLastName.touched)">Last name is required.</span>
+                                <span class="error" *ngIf="registerLastName.invalid && !!registerLastName.errors.pattern && (registerLastName.dirty || registerLastName.touched)">Invalid last name.</span>
                                 <p class="form-row form-row-wide">
-                                    <label for="email2">Email Address:
+                                    <label>Last Name:
                                         <i class="im im-icon-Mail"></i>
-                                        <input type="text" class="input-text" name="email" id="email2" value="" />
+                                        <input type="text" class="input-text" name="email" formControlName="registerLastName" [ngClass]="{ 'has-success': registerLastName.valid
+                                        && (registerLastName.dirty || registerLastName.touched),'has-danger': registerLastName.invalid
+                                        && (registerLastName.dirty || registerLastName.touched)}"/>
                                     </label>
                                 </p>
+                                <span class="error" *ngIf="registerEmail.invalid && !!registerEmail.errors.required && (registerEmail.dirty || registerEmail.touched)">Email is required.</span>
+                                <span class="error" *ngIf="registerEmail.invalid && !!registerEmail.errors.pattern && (registerEmail.dirty || registerEmail.touched)">Invalid email.</span>
                                 <p class="form-row form-row-wide">
-                                    <label for="password1">Password:
-                                        <i class="im im-icon-Lock-2"></i>
-                                        <input class="input-text" type="password" name="password1" id="password1" />
+                                    <label>Email:
+                                        <i class="im im-icon-Mail"></i>
+                                        <input type="text" class="input-text" name="email" formControlName="registerEmail" [ngClass]="{ 'has-success': registerEmail.valid
+                                        && (registerEmail.dirty || registerEmail.touched),'has-danger': registerEmail.invalid
+                                        && (registerEmail.dirty || registerEmail.touched)}"/>
                                     </label>
                                 </p>
+                                <span class="error" *ngIf="registerPassword.invalid && !!registerPassword.errors.required && (registerPassword.dirty || registerPassword.touched)">Password is required.</span>
+                                <span class="error" *ngIf="registerPassword.invalid && !!registerPassword.errors.pattern && (registerPassword.dirty || registerPassword.touched)">Invalid password.</span>
+                                <p class="form-row form-row-wide">
+                                    <label>Password:
+                                        <i class="im im-icon-Lock-2"></i>
+                                        <input class="input-text" type="password" name="password1" formControlName="registerPassword" [ngClass]="{ 'has-success': registerPassword.valid
+                                        && (registerPassword.dirty || registerPassword.touched),'has-danger': registerPassword.invalid
+                                        && (registerPassword.dirty || registerPassword.touched)}"/>
+                                    </label>
+                                </p>
+                                <span class="error" *ngIf="registerRepeatPassword.invalid && !!registerRepeatPassword.errors.required && (registerRepeatPassword.dirty || registerRepeatPassword.touched)">Password confirmation is required.</span>
+                                <span class="error" *ngIf="passwordMismatch">Password confirmation should match the password above.</span>
                                 <p class="form-row form-row-wide">
                                     <label for="password2">Repeat Password:
                                         <i class="im im-icon-Lock-2"></i>
-                                        <input class="input-text" type="password" name="password2" id="password2" />
+                                        <input class="input-text" type="password" name="password2" formControlName="registerRepeatPassword"/>
+                                    </label>
+                                </p>
+                                <p class="form-row form-row-wide">
+                                    <label for="password2">Ville:
+                                        <select data-placeholder="Select Ville" class="chosen-select" formControlName="registerVille" #registerVille>
+                                            <option *ngFor="let country of countries" value="{{country.id}}">{{country.name}}</option>
+                                        </select>
                                     </label>
                                 </p>
                                 <input type="submit" class="button border fw margin-top-10" name="register" value="Register" />
-                            </form>-->
+                            </form>
                         </div>
                     </div>
                 </div>

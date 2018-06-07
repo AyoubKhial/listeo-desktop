@@ -15,11 +15,11 @@
             echo json_encode($data);
         }
         else {
-            echo "0";
+            echo "Error";
         }
     }
     else {
-        echo "0";
+        echo "Error";
     }
     $stmt->close();
     $conn->close();
