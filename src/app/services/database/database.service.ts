@@ -82,4 +82,29 @@ export class DatabaseService {
             });
     }
 
+    getArticlesByTitle(data) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/getArticlesByTitle.php', data)
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
+    getAllActivatedRestaurants() : Observable<any>{
+        return this.http.get('http://localhost/listeo-desktop/src/api/database/getAllActivatedRestaurants.php')
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
 }

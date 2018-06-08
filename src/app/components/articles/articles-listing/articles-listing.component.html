@@ -78,13 +78,18 @@
                     </p>
                 </div>
             </div>
+            <button id="y"></button>
             <div class="col-lg-3 col-md-4">
                 <div class="sidebar right">
                     <div class="widget">
                         <h3 class="margin-top-0 margin-bottom-25">Search Blog</h3>
+                        <span class="error" *ngIf="requiredField">Search term is required.</span>
                         <div class="search-blog-input">
                             <div class="input">
-                                <input class="search-field" type="text" placeholder="Type and hit enter" value="" />
+                                <form [formGroup]="articleSearchForm" novalidate (ngSubmit)="searchForArticle()">
+                                    <input class="search-field" type="text" placeholder="Type and hit enter" formControlName="term" />
+                                    <button class="button margin-top-15" type="submit">Search</button>
+                                </form>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -100,7 +105,7 @@
                     <div class="widget margin-top-40">
                         <h3>Popular Posts</h3>
                         <ul class="widget-tabs">
-                            <li *ngFor="let article of popularArticles" >
+                            <li *ngFor="let article of popularArticles">
                                 <div class="widget-content">
                                     <div class="widget-thumb">
                                         <a href="pages-blog-post.html">
