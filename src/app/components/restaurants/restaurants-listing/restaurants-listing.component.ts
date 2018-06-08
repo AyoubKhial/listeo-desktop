@@ -12,17 +12,22 @@ import { PagerService } from '../../../services/pager/pager.service';
 export class RestaurantsListingComponent implements OnInit, OnDestroy {
 
     public restaurants: any[];
-    public pager: any;
+    public pager: any = {};
     public pagedRestaurants: any[];
+    public listingList: boolean;
+    public listingGrid: boolean;
     private unsubscribe = new Subject<void>();
 
-    constructor(private databaseService: DatabaseService, private pagerService: PagerService) { }
+    constructor(private databaseService: DatabaseService, private pagerService: PagerService) {
+        this.listingList = true;
+        this.listingGrid = false;
+    }
 
 
     ngOnInit() {
         var scriptCall = document.getElementById('scriptCall');
         scriptCall.click();
-        //this.getAllActivatedRestaurants();
+        this.getAllActivatedRestaurants();
     }
 
     getAllActivatedRestaurants() {
@@ -41,14 +46,13 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
         if (page < 1 || page > this.pager.totalPages) {
             return;
         }
-        this.pager = this.pagerService.getPager(this.restaurants.length, page, 3);
+        this.pager = this.pagerService.getPager(this.restaurants.length, page, 6);
         this.pagedRestaurants = this.restaurants.slice(this.pager.startIndex, this.pager.endIndex + 1);
     }
 
     getStars(rating) {
         return { 'width': parseFloat(rating) / 5 * 100 + '%' };
     }
-
 
     ngOnDestroy(): void {
         this.unsubscribe.next();

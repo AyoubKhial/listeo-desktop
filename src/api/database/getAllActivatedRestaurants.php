@@ -20,9 +20,17 @@
             }
             $sql3 = "SELECT url FROM photo_item WHERE main = 1 AND id_item = $restaurant_id";
             $result3 = $conn->query($sql3);
-
-
-
+            if ($result3->num_rows > 0) {
+                $photo = $result3->fetch_object()->url;
+                $row['photo'] = $photo;
+            }
+            else{
+                $row['photo'] = "null";
+            }
+            $sql4 = "SELECT COUNT(*) AS number_reviews FROM commentaire_item WHERE rating IS NOT NULL AND id_item = $restaurant_id";
+            $result4 = $conn->query($sql4);
+            $data4= $result4->fetch_row();
+            $row['number_reviews'] = $data4[0];
             $data[] = $row;
         }
         echo json_encode($data);

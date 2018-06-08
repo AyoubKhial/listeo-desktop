@@ -22,6 +22,16 @@
         <div class="col-lg-9 col-md-8 padding-right-30">
             <div class="row margin-bottom-25">
                 <div class="col-md-6 col-xs-6">
+                    <div class="layout-switcher">
+                        <a class="grid" [ngClass]="{'active': listingGrid}" (click)="listingGrid = true; listingList = false">
+                            <i class="fa fa-th"></i>
+                        </a>
+                        <a class="list" [ngClass]="{'active': listingList}" (click)="listingGrid = false; listingList = true">
+                            <i class="fa fa-align-justify"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-6">
                     <div class="sort-by">
                         <div class="sort-by-select">
                             <select data-placeholder="Default order" class="chosen-select-no-single">
@@ -35,24 +45,28 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="listingList">
                 <div class="col-lg-12 col-md-12" *ngFor="let restaurant of pagedRestaurants">
                     <div class="listing-item-container list-layout">
                         <a href="listings-single-page.html" class="listing-item">
                             <div class="listing-item-image">
-                                <img src="images/listing-item-01.jpg" alt="">
+                                <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/{{restaurant.photo}}" alt="">
+                                <ng-template #defaultPhoto>
+                                    <img src="assets/images/listing-item-01.jpg" alt="">
+                                </ng-template>
                                 <span class="tag">{{restaurant.category_name}}</span>
                             </div>
                             <div class="listing-item-content">
-                                <div class="listing-badge now-open">Now Open</div>
+                                <div *ngIf="restaurant.open == true" class="listing-badge now-open">Now Open</div>
+                                <div *ngIf="restaurant.open == false" class="listing-badge now-closed">Now Closed</div>
                                 <div class="listing-item-inner">
                                     <h3>{{restaurant.name}}
                                         <i class="verified-icon"></i>
                                     </h3>
-                                    <span>{{restaurant.address}}, {{restaurant.ville_name}}</span>
+                                    <span>{{restaurant.adresse}}, {{restaurant.ville_name}}</span>
                                     <div class="star-rating">
                                         <div class="rating-counter">
-                                            (x reviews)
+                                            ({{restaurant.number_reviews}} reviews)
                                         </div>
                                         <span class="stars alignright">
                                             <span [ngStyle]="getStars(restaurant.rating)"></span>
@@ -65,8 +79,32 @@
                     </div>
                 </div>
             </div>
+            <div class="row" *ngIf="listingGrid" >
+                    <div class="col-lg-6 col-md-12" *ngFor="let restaurant of pagedRestaurants">
+                        <a href="listings-single-page.html" class="listing-item-container compact">
+                            <div class="listing-item">
+                                    <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/{{restaurant.photo}}" alt="">
+                                    <ng-template #defaultPhoto>
+                                        <img src="assets/images/listing-item-01.jpg" alt="">
+                                    </ng-template>
+                                    <div *ngIf="restaurant.open" class="listing-badge now-open">Now Open</div>
+                                    <div *ngIf="!restaurant.open" class="listing-badge now-closed">Now Closed</div>
+                                <div class="listing-item-content">
+                                    <div class="numerical-rating" attr.data-rating="{{restaurant.rating | number : '1.2-2'}}" [ngClass]="{
+                                        'low':restaurant.rating < 3,
+                                        'mid':restaurant.rating >= 3 && restaurant.rating < 4,
+                                        'high':restaurant.rating >= 4 && restaurant.rating <= 5
+                                      }"></div>
+                                    <h3>{{restaurant.name}} <i class="verified-icon"></i></h3>
+                                    <span>{{restaurant.adresse}}, {{restaurant.ville_name}}</span>
+                                </div>
+                                <span class="like-icon"></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             <div class="clearfix"></div>
-            <div class="row"><!--
+            <div class="row">
                 <div class="col-md-12">
                     <div class="pagination-container margin-top-20 margin-bottom-40">
                         <nav class="pagination">
@@ -89,7 +127,7 @@
                             </ul>
                         </nav>
                     </div>
-                </div>-->
+                </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-4">
