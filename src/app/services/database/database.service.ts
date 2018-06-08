@@ -107,4 +107,17 @@ export class DatabaseService {
                 }
             });
     }
+
+    orderRestaurants(data){
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/orderRestaurants.php', data)
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
 }

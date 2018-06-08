@@ -34,13 +34,28 @@
                 <div class="col-md-6 col-xs-6">
                     <div class="sort-by">
                         <div class="sort-by-select">
-                            <select data-placeholder="Default order" class="chosen-select-no-single">
-                                <option>Default Order</option>
-                                <option>Highest Rated</option>
-                                <option>Most Reviewed</option>
-                                <option>Newest Listings</option>
-                                <option>Oldest Listings</option>
-                            </select>
+                            <div id="choosenOrder" class="chosen-container chosen-container-single chosen-container-single-nosearch chosen-with-drop" (click)="doOrder()" style="width: 100%;" title="">
+                                <a class="chosen-single">
+                                    <span>{{choosenOrder}}</span>
+                                    <div>
+                                        <b></b>
+                                    </div>
+                                </a>
+                                <div class="chosen-drop">
+                                    <div class="chosen-search">
+                                        <input type="text" autocomplete="off" readonly="">
+                                    </div>
+                                    <ul class="chosen-results">
+                                        <li class="active-result" (click)="orderRestaurants($event)">Default Order</li>
+                                        <li class="active-result" (click)="orderRestaurants($event)">Highest Rated</li>
+                                        <li class="active-result" (click)="orderRestaurants($event)">Most Reviewed</li>
+                                        <li class="active-result" (click)="orderRestaurants($event)">Newest Listings</li>
+                                        <li class="active-result" (click)="orderRestaurants($event)">Oldest Listings</li>
+                                        <li class="active-result" (click)="orderRestaurants($event)">Highest Price</li>
+                                        <li class="active-result" (click)="orderRestaurants($event)">Lowest Price</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -79,30 +94,32 @@
                     </div>
                 </div>
             </div>
-            <div class="row" *ngIf="listingGrid" >
-                    <div class="col-lg-6 col-md-12" *ngFor="let restaurant of pagedRestaurants">
-                        <a href="listings-single-page.html" class="listing-item-container compact">
-                            <div class="listing-item">
-                                    <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/{{restaurant.photo}}" alt="">
-                                    <ng-template #defaultPhoto>
-                                        <img src="assets/images/listing-item-01.jpg" alt="">
-                                    </ng-template>
-                                    <div *ngIf="restaurant.open" class="listing-badge now-open">Now Open</div>
-                                    <div *ngIf="!restaurant.open" class="listing-badge now-closed">Now Closed</div>
-                                <div class="listing-item-content">
-                                    <div class="numerical-rating" attr.data-rating="{{restaurant.rating | number : '1.2-2'}}" [ngClass]="{
+            <div class="row" *ngIf="listingGrid">
+                <div class="col-lg-6 col-md-12" *ngFor="let restaurant of pagedRestaurants">
+                    <a href="listings-single-page.html" class="listing-item-container compact">
+                        <div class="listing-item">
+                            <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/{{restaurant.photo}}" alt="">
+                            <ng-template #defaultPhoto>
+                                <img src="assets/images/listing-item-01.jpg" alt="">
+                            </ng-template>
+                            <div *ngIf="restaurant.open" class="listing-badge now-open">Now Open</div>
+                            <div *ngIf="!restaurant.open" class="listing-badge now-closed">Now Closed</div>
+                            <div class="listing-item-content">
+                                <div class="numerical-rating" attr.data-rating="{{restaurant.rating | number : '1.2-2'}}" [ngClass]="{
                                         'low':restaurant.rating < 3,
                                         'mid':restaurant.rating >= 3 && restaurant.rating < 4,
                                         'high':restaurant.rating >= 4 && restaurant.rating <= 5
                                       }"></div>
-                                    <h3>{{restaurant.name}} <i class="verified-icon"></i></h3>
-                                    <span>{{restaurant.adresse}}, {{restaurant.ville_name}}</span>
-                                </div>
-                                <span class="like-icon"></span>
+                                <h3>{{restaurant.name}}
+                                    <i class="verified-icon"></i>
+                                </h3>
+                                <span>{{restaurant.adresse}}, {{restaurant.ville_name}}</span>
                             </div>
-                        </a>
-                    </div>
+                            <span class="like-icon"></span>
+                        </div>
+                    </a>
                 </div>
+            </div>
             <div class="clearfix"></div>
             <div class="row">
                 <div class="col-md-12">

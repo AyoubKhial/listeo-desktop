@@ -16,3 +16,7 @@ span.stars span {
 .layout-switcher a.active:hover{
     color: white
 }
+
+.active-result:hover{
+    color: #f91942
+}

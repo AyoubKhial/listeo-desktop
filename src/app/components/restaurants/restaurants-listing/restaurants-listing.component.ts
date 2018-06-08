@@ -16,13 +16,16 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
     public pagedRestaurants: any[];
     public listingList: boolean;
     public listingGrid: boolean;
+    public choosenOrder: string;
+    public orderActive : boolean;
     private unsubscribe = new Subject<void>();
 
     constructor(private databaseService: DatabaseService, private pagerService: PagerService) {
         this.listingList = true;
         this.listingGrid = false;
+        this.orderActive = false;
+        this.choosenOrder = "Default Order";
     }
-
 
     ngOnInit() {
         var scriptCall = document.getElementById('scriptCall');
@@ -40,6 +43,39 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
                 console.log("No restaurants FOUND");
             }
         });
+    }
+
+    doOrder(){
+        if(!this.orderActive){
+            document.getElementById("choosenOrder").classList.add("chosen-container-active");
+            this.orderActive = true;
+        }
+        else{
+            document.getElementById("choosenOrder").classList.remove("chosen-container-active");
+            this.orderActive = false;
+        }
+    }
+
+    orderRestaurants(event:Event){
+        this.choosenOrder = event.srcElement.innerHTML;
+		if(this.choosenOrder == 'Highest Price'){
+            this.restaurants.unshift("Highest Price");
+			this.databaseService.orderRestaurants(this.restaurants).takeUntil(this.unsubscribe).subscribe(response=> {
+				if (response != 'Not found') {
+					this.restaurants = response;
+					this.setPage(1);
+				}
+            })
+		}
+		if(this.choosenOrder == 'Lowest Price'){
+            this.restaurants.unshift("Lowest Price");
+			this.databaseService.orderRestaurants(this.restaurants).takeUntil(this.unsubscribe).subscribe(response=> {
+				if (response != 'Not found') {
+					this.restaurants = response;
+					this.setPage(1);
+				}
+            })
+		}
     }
 
     setPage(page: number) {
