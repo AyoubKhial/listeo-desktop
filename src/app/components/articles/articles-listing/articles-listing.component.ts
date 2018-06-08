@@ -28,8 +28,8 @@ export class ArticlesListingComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        var button = document.getElementById('y');
-        button.click();
+        var scriptCall = document.getElementById('scriptCall');
+        scriptCall.click();
         if (!this.inSearch) {
             this.createFormControls();
             this.createForm();

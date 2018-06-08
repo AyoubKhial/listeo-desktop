@@ -1,26 +1,25 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DatabaseService } from '../../../services/database/database.service';
+import { PagerService } from '../../../services/pager/pager.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
-import { PagerService } from '../../../services/pager/pager.service';
 
 @Component({
-    selector: 'app-restaurants-listing',
-    templateUrl: './restaurants-listing.component.html',
-    styleUrls: ['./restaurants-listing.component.css']
+    selector: 'app-hotels-listing',
+    templateUrl: './hotels-listing.component.html',
+    styleUrls: ['./hotels-listing.component.css']
 })
-export class RestaurantsListingComponent implements OnInit, OnDestroy {
+export class HotelsListingComponent implements OnInit, OnDestroy {
 
     public listingList: boolean;
     public listingGrid: boolean;
-    public restaurants: any[];
+    public hotels: any[];
     public pager: any = {};
-    public pagedRestaurants: any[];
-    public choosenOrder: string;
+    public pagedHotels: any[];
     private orderActive : boolean;
     public privileges: Object;
+    public choosenOrder: string;
     public city: string;
-    public open: boolean;
     public alreadyHaveLocation: boolean;
     private userLongitude: number;
     private userLatitude: number;
@@ -33,21 +32,20 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
         this.orderActive = false;
         this.choosenOrder = "Newest Listings";
         this.city = "";
-        this.open = false;
         this.alreadyHaveLocation = false;
     }
 
     ngOnInit() {
         var scriptCall = document.getElementById('scriptCall');
         scriptCall.click();
-        this.getAllActivatedRestaurants();
+        this.getAllActivatedHotels();
         this.getAllPrivileges();
     }
 
-    getAllActivatedRestaurants() {
-        this.databaseService.getAllActivatedRestaurants().takeUntil(this.unsubscribe).subscribe(response => {
+    getAllActivatedHotels() {
+        this.databaseService.getAllActivatedHotels().takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
-                this.restaurants = response;
+                this.hotels = response;
                 this.setPage(1);
             }
         });
@@ -63,30 +61,29 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
             this.orderActive = false;
         }
     }
-
-    orderRestaurants(event:Event){
+    orderHotels(event:Event){
         this.choosenOrder = event.srcElement.innerHTML;
 		if(this.choosenOrder == 'Highest Price'){
-            this.restaurants.unshift("Highest Price");
+            this.hotels.unshift("Highest Price");
 		}
 		if(this.choosenOrder == 'Lowest Price'){
-            this.restaurants.unshift("Lowest Price");
+            this.hotels.unshift("Lowest Price");
         }
         if(this.choosenOrder == 'Highest Rated'){
-            this.restaurants.unshift("Highest Rated");
+            this.hotels.unshift("Highest Rated");
         }
         if(this.choosenOrder == 'Most Reviewed'){
-            this.restaurants.unshift("Most Reviewed");
+            this.hotels.unshift("Most Reviewed");
         }
         if(this.choosenOrder == 'Newest Listings'){
-            this.restaurants.unshift("Newest Listings");
+            this.hotels.unshift("Newest Listings");
         }
         if(this.choosenOrder == 'Oldest Listings'){
-            this.restaurants.unshift("Oldest Listings");
+            this.hotels.unshift("Oldest Listings");
         }
-        this.databaseService.orderRestaurants(this.restaurants).takeUntil(this.unsubscribe).subscribe(response=> {
+        this.databaseService.orderHotels(this.hotels).takeUntil(this.unsubscribe).subscribe(response=> {
             if (response != 'Not found') {
-                this.restaurants = response;
+                this.hotels = response;
                 this.setPage(1);
             }
         })
@@ -99,7 +96,7 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
 			}
 		});
     }
-    
+
     doFilter(){
 		var radiusSelected = parseInt(document.getElementsByClassName('range-output')[0].innerHTML) / 1000;
 		var citySelected = this.city;
@@ -116,20 +113,19 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
                     this.userLongitude = position.coords.longitude;
                     this.data = { 
                         city: citySelected,
-                        open: this.open,
                         privileges: privilegesChecked,
                         radius: radiusSelected,
                         latitude: this.userLatitude,
                         longitude: this.userLongitude
                     }
-                    this.databaseService.filterRestaurants(this.data).takeUntil(this.unsubscribe).subscribe(response => {
+                    this.databaseService.filterHotels(this.data).takeUntil(this.unsubscribe).subscribe(response => {
                         if (response != '0') {
                             this.choosenOrder = "Newest Listings";
-                            this.restaurants = response;
+                            this.hotels = response;
                             this.setPage(1);
                         }
                         else {
-                            this.pagedRestaurants = [];
+                            this.pagedHotels = [];
                         }
                     });
                     this.alreadyHaveLocation = true;
@@ -138,37 +134,35 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
             else{
                 this.data = { 
                     city: citySelected,
-                    open: this.open,
                     privileges: privilegesChecked,
                     radius: radiusSelected,
                     latitude: this.userLatitude,
                     longitude: this.userLongitude
                 }
-                this.databaseService.filterRestaurants(this.data).takeUntil(this.unsubscribe).subscribe(response => {
+                this.databaseService.filterHotels(this.data).takeUntil(this.unsubscribe).subscribe(response => {
                     if (response != '0') {
                         this.choosenOrder = "Newest Listings";
-                        this.restaurants = response;
+                        this.hotels = response;
                         this.setPage(1);
                     }
                     else {
-                        this.pagedRestaurants = [];
+                        this.pagedHotels = [];
                     }
                 });
             }
 		}
 		if(this.alreadyHaveLocation){
 			this.data.city = citySelected;
-			this.data.open = this.open;
 			this.data.privileges = privilegesChecked;
 			this.data.radius = radiusSelected;
-			this.databaseService.filterRestaurants(this.data).takeUntil(this.unsubscribe).subscribe(response => {
+			this.databaseService.filterHotels(this.data).takeUntil(this.unsubscribe).subscribe(response => {
 				if (response != '0') {
                     this.choosenOrder = "Newest Listings";
-					this.restaurants = response;
+					this.hotels = response;
 					this.setPage(1);
 				}
 				else {
-					this.pagedRestaurants = [];
+					this.pagedHotels = [];
 				}
 				
 			});
@@ -179,8 +173,8 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
         if (page < 1 || page > this.pager.totalPages) {
             return;
         }
-        this.pager = this.pagerService.getPager(this.restaurants.length, page, 6);
-        this.pagedRestaurants = this.restaurants.slice(this.pager.startIndex, this.pager.endIndex + 1);
+        this.pager = this.pagerService.getPager(this.hotels.length, page, 6);
+        this.pagedHotels = this.hotels.slice(this.pager.startIndex, this.pager.endIndex + 1);
     }
 
     getStars(rating) {
@@ -191,4 +185,5 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
         this.unsubscribe.next();
         this.unsubscribe.complete();
     }
+
 }

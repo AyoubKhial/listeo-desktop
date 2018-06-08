@@ -146,4 +146,42 @@ export class DatabaseService {
                 }
             });
     }
+
+    getAllActivatedHotels() : Observable<any>{
+        return this.http.get('http://localhost/listeo-desktop/src/api/database/getAllActivatedHotels.php')
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
+    orderHotels(data){
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/orderHotels.php', data)
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+    filterHotels(data){
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/filterHotels.php', data)
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== '0') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
 }

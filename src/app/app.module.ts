@@ -14,6 +14,7 @@ import { ArticlesListingComponent } from './components/articles/articles-listing
 import { PagerService } from './services/pager/pager.service';
 import { RestaurantsListingComponent } from './components/restaurants/restaurants-listing/restaurants-listing.component';
 import { FormsModule } from '@angular/forms';
+import { HotelsListingComponent } from './components/hotels/hotels-listing/hotels-listing.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { FormsModule } from '@angular/forms';
         FooterComponent,
         HomeComponent,
         ArticlesListingComponent,
-        RestaurantsListingComponent
+        RestaurantsListingComponent,
+        HotelsListingComponent
     ],
     imports: [
         BrowserModule,

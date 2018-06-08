@@ -47,12 +47,12 @@
                                         <input type="text" autocomplete="off" readonly="">
                                     </div>
                                     <ul class="chosen-results">
-                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Newest Listings'}" (click)="orderRestaurants($event)">Newest Listings</li>
-                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Oldest Listings'}" (click)="orderRestaurants($event)">Oldest Listings</li>
-                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Highest Rated'}" (click)="orderRestaurants($event)">Highest Rated</li>
-                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Most Reviewed'}" (click)="orderRestaurants($event)">Most Reviewed</li>
-                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Highest Price'}" (click)="orderRestaurants($event)">Highest Price</li>
-                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Lowest Price'}" (click)="orderRestaurants($event)">Lowest Price</li>
+                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Newest Listings'}" (click)="orderHotels($event)">Newest Listings</li>
+                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Oldest Listings'}" (click)="orderHotels($event)">Oldest Listings</li>
+                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Highest Rated'}" (click)="orderHotels($event)">Highest Rated</li>
+                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Most Reviewed'}" (click)="orderHotels($event)">Most Reviewed</li>
+                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Highest Price'}" (click)="orderHotels($event)">Highest Price</li>
+                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Lowest Price'}" (click)="orderHotels($event)">Lowest Price</li>
                                     </ul>
                                 </div>
                             </div>
@@ -60,31 +60,28 @@
                     </div>
                 </div>
             </div>
-            <div class="row" *ngIf="listingList && pagedRestaurants?.length > 0">
-                <div class="col-lg-12 col-md-12" *ngFor="let restaurant of pagedRestaurants">
+            <div class="row" *ngIf="listingList && pagedHotels?.length > 0">
+                <div class="col-lg-12 col-md-12" *ngFor="let hotel of pagedHotels">
                     <div class="listing-item-container list-layout">
                         <a href="listings-single-page.html" class="listing-item">
                             <div class="listing-item-image">
-                                <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/{{restaurant.photo}}" alt="">
+                                <img *ngIf="hotel.photo !== 'null'; else defaultPhoto" src="assets/images/{{hotel.photo}}" alt="">
                                 <ng-template #defaultPhoto>
                                     <img src="assets/images/listing-item-01.jpg" alt="">
                                 </ng-template>
-                                <span class="tag">{{restaurant.category_name}}</span>
                             </div>
                             <div class="listing-item-content">
-                                <div *ngIf="restaurant.open == true" class="listing-badge now-open">Now Open</div>
-                                <div *ngIf="restaurant.open == false" class="listing-badge now-closed">Now Closed</div>
                                 <div class="listing-item-inner">
-                                    <h3>{{restaurant.name}}
+                                    <h3>{{hotel.name}}
                                         <i class="verified-icon"></i>
                                     </h3>
-                                    <span>{{restaurant.adresse}}, {{restaurant.ville_name}}</span>
+                                    <span>{{hotel.adresse}}, {{hotel.ville_name}}</span>
                                     <div class="star-rating">
                                         <div class="rating-counter">
-                                            ({{restaurant.number_reviews}} reviews)
+                                            ({{hotel.number_reviews}} reviews)
                                         </div>
                                         <span class="stars alignright">
-                                            <span [ngStyle]="getStars(restaurant.rating)"></span>
+                                            <span [ngStyle]="getStars(hotel.rating)"></span>
                                         </span>
                                     </div>
                                 </div>
@@ -94,26 +91,24 @@
                     </div>
                 </div>
             </div>
-            <div class="row" *ngIf="listingGrid && pagedRestaurants?.length > 0">
-                <div class="col-lg-6 col-md-12" *ngFor="let restaurant of pagedRestaurants">
+            <div class="row" *ngIf="listingGrid && pagedHotels?.length > 0">
+                <div class="col-lg-6 col-md-12" *ngFor="let hotel of pagedHotels">
                     <a href="listings-single-page.html" class="listing-item-container compact">
                         <div class="listing-item">
-                            <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/{{restaurant.photo}}" alt="">
+                            <img *ngIf="hotel.photo !== 'null'; else defaultPhoto" src="assets/images/{{hotel.photo}}" alt="">
                             <ng-template #defaultPhoto>
                                 <img src="assets/images/listing-item-01.jpg" alt="">
                             </ng-template>
-                            <div *ngIf="restaurant.open" class="listing-badge now-open">Now Open</div>
-                            <div *ngIf="!restaurant.open" class="listing-badge now-closed">Now Closed</div>
                             <div class="listing-item-content">
-                                <div class="numerical-rating" attr.data-rating="{{restaurant.rating | number : '1.2-2'}}" [ngClass]="{
-                                        'low':restaurant.rating < 3,
-                                        'mid':restaurant.rating >= 3 && restaurant.rating < 4,
-                                        'high':restaurant.rating >= 4 && restaurant.rating <= 5
+                                <div class="numerical-rating" attr.data-rating="{{hotel.rating | number : '1.2-2'}}" [ngClass]="{
+                                        'low':hotel.rating < 3,
+                                        'mid':hotel.rating >= 3 && hotel.rating < 4,
+                                        'high':hotel.rating >= 4 && hotel.rating <= 5
                                       }"></div>
-                                <h3>{{restaurant.name}}
+                                <h3>{{hotel.name}}
                                     <i class="verified-icon"></i>
                                 </h3>
-                                <span>{{restaurant.adresse}}, {{restaurant.ville_name}}</span>
+                                <span>{{hotel.adresse}}, {{hotel.ville_name}}</span>
                             </div>
                             <span class="like-icon"></span>
                         </div>
@@ -121,7 +116,7 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-            <div class="row" *ngIf="pagedRestaurants?.length > 0">
+            <div class="row" *ngIf="pagedHotels?.length > 0">
                 <div class="col-md-12">
                     <div class="pagination-container margin-top-20 margin-bottom-40">
                         <nav class="pagination">
@@ -147,10 +142,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-9 col-md-8 padding-right-30" *ngIf="pagedRestaurants?.length == 0">
+        <div class="col-lg-9 col-md-8 padding-right-30" *ngIf="pagedHotels?.length == 0">
             <div class="notification error">
                 <p>
-                    <span>Error!</span> We're sorry, but the restaurant you were looking for doesn't exist.
+                    <span>Error!</span> We're sorry, but the hotel you were looking for doesn't exist.
                 </p>
             </div>
         </div>
@@ -168,13 +163,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row with-forms">
-                        <div class="checkboxes col-md-12">
-                            <input id="open-now" type="checkbox" name="check-open" [(ngModel)]="open">
-                            <label for="open-now">Open Now</label>
-                        </div>
-                    </div>
-                    <br>
                     <div class="range-slider">
                         <input class="distance-radius" type="range" min="0" max="5000" step="100" value="0" data-title="Radius around current destination">
                     </div>
