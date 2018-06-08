@@ -20,3 +20,6 @@ span.stars span {
 .active-result:hover{
     color: #f91942
 }
+.result-selected{
+    color: #f91942
+}

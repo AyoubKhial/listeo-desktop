@@ -34,7 +34,8 @@
                 <div class="col-md-6 col-xs-6">
                     <div class="sort-by">
                         <div class="sort-by-select">
-                            <div id="choosenOrder" class="chosen-container chosen-container-single chosen-container-single-nosearch chosen-with-drop" (click)="doOrder()" style="width: 100%;" title="">
+                            <div id="choosenOrder" class="chosen-container chosen-container-single chosen-container-single-nosearch chosen-with-drop"
+                                (click)="doOrder()" style="width: 100%;" title="">
                                 <a class="chosen-single">
                                     <span>{{choosenOrder}}</span>
                                     <div>
@@ -46,12 +47,12 @@
                                         <input type="text" autocomplete="off" readonly="">
                                     </div>
                                     <ul class="chosen-results">
-                                        <li class="active-result" (click)="orderRestaurants($event)">Newest Listings</li>
-                                        <li class="active-result" (click)="orderRestaurants($event)">Oldest Listings</li>
-                                        <li class="active-result" (click)="orderRestaurants($event)">Highest Rated</li>
-                                        <li class="active-result" (click)="orderRestaurants($event)">Most Reviewed</li>
-                                        <li class="active-result" (click)="orderRestaurants($event)">Highest Price</li>
-                                        <li class="active-result" (click)="orderRestaurants($event)">Lowest Price</li>
+                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Newest Listings'}" (click)="orderRestaurants($event)">Newest Listings</li>
+                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Oldest Listings'}" (click)="orderRestaurants($event)">Oldest Listings</li>
+                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Highest Rated'}" (click)="orderRestaurants($event)">Highest Rated</li>
+                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Most Reviewed'}" (click)="orderRestaurants($event)">Most Reviewed</li>
+                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Highest Price'}" (click)="orderRestaurants($event)">Highest Price</li>
+                                        <li class="active-result" [ngClass]="{'result-selected': choosenOrder === 'Lowest Price'}" (click)="orderRestaurants($event)">Lowest Price</li>
                                     </ul>
                                 </div>
                             </div>
@@ -59,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" *ngIf="listingList">
+            <div class="row" *ngIf="listingList && pagedRestaurants?.length > 0">
                 <div class="col-lg-12 col-md-12" *ngFor="let restaurant of pagedRestaurants">
                     <div class="listing-item-container list-layout">
                         <a href="listings-single-page.html" class="listing-item">
@@ -93,7 +94,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" *ngIf="listingGrid">
+            <div class="row" *ngIf="listingGrid && pagedRestaurants?.length > 0">
                 <div class="col-lg-6 col-md-12" *ngFor="let restaurant of pagedRestaurants">
                     <a href="listings-single-page.html" class="listing-item-container compact">
                         <div class="listing-item">
@@ -120,7 +121,7 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-            <div class="row">
+            <div class="row" *ngIf="pagedRestaurants?.length > 0">
                 <div class="col-md-12">
                     <div class="pagination-container margin-top-20 margin-bottom-40">
                         <nav class="pagination">
@@ -146,63 +147,47 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-9 col-md-8 padding-right-30" *ngIf="pagedRestaurants?.length == 0">
+            <div class="notification error">
+                <p>
+                    <span>Error!</span> We're sorry, but the restaurant you were looking for doesn't exist.
+                </p>
+            </div>
+        </div>
         <div class="col-lg-3 col-md-4">
             <div class="sidebar">
                 <div class="widget margin-bottom-40">
                     <h3 class="margin-top-0 margin-bottom-30">Filters</h3>
                     <div class="row with-forms">
                         <div class="col-md-12">
-                            <input type="text" placeholder="What are you looking for?" value="" />
-                        </div>
-                    </div>
-                    <div class="row with-forms">
-                        <div class="col-md-12">
-                            <select data-placeholder="All Categories" class="chosen-select">
-                                <option>All Categories</option>
-                                <option>Shops</option>
-                                <option>Hotels</option>
-                                <option>Restaurants</option>
-                                <option>Fitness</option>
-                                <option>Events</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row with-forms">
-                        <div class="col-md-12">
                             <div class="input-with-icon location">
-                                <input type="text" placeholder="Destination, city, address" value="" />
+                                <input type="text" placeholder="City" [(ngModel)]="city" />
                                 <a href="#">
                                     <i class="fa fa-dot-circle-o"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
+                    <div class="row with-forms">
+                        <div class="checkboxes col-md-12">
+                            <input id="open-now" type="checkbox" name="check-open" [(ngModel)]="open">
+                            <label for="open-now">Open Now</label>
+                        </div>
+                    </div>
                     <br>
                     <div class="range-slider">
-                        <input class="distance-radius" type="range" min="1" max="100" step="1" value="50" data-title="Radius around selected destination">
+                        <input class="distance-radius" type="range" min="0" max="5000" step="100" value="0" data-title="Radius around current destination">
                     </div>
                     <a href="#" class="more-search-options-trigger margin-bottom-5 margin-top-20" data-open-title="More Filters" data-close-title="More Filters"></a>
                     <div class="more-search-options relative">
                         <div class="checkboxes one-in-row margin-bottom-15">
-                            <input id="check-a" type="checkbox" name="check">
-                            <label for="check-a">Elevator in building</label>
-                            <input id="check-b" type="checkbox" name="check">
-                            <label for="check-b">Friendly workspace</label>
-                            <input id="check-c" type="checkbox" name="check">
-                            <label for="check-c">Instant Book</label>
-                            <input id="check-d" type="checkbox" name="check">
-                            <label for="check-d">Wireless Internet</label>
-                            <input id="check-e" type="checkbox" name="check">
-                            <label for="check-e">Free parking on premises</label>
-                            <input id="check-f" type="checkbox" name="check">
-                            <label for="check-f">Free parking on street</label>
-                            <input id="check-g" type="checkbox" name="check">
-                            <label for="check-g">Smoking allowed</label>
-                            <input id="check-h" type="checkbox" name="check">
-                            <label for="check-h">Events</label>
+                            <div *ngFor="let privilege of privileges; let i = index">
+                                <input id="check-{{i}}" type="checkbox" name="check" value="{{privilege.id}}" class="privilege">
+                                <label for="check-{{i}}">{{privilege.name}}</label>
+                            </div>
                         </div>
                     </div>
-                    <button class="button fullwidth margin-top-25">Update</button>
+                    <button class="button fullwidth margin-top-25" (click)="doFilter()">Update</button>
                 </div>
             </div>
         </div>

@@ -27,7 +27,7 @@
     elseif($data[0] == "Highest Rated"){
         $sql = "SELECT i.id,i.name,type,adresse,i.rating,active,cr.name AS category_name, v.name AS ville_name
                 FROM ville v INNER JOIN item i ON v.id = i.id_ville INNER JOIN categorie_restaurant cr ON i.id_categorie_restaurant = cr.id
-                WHERE i.active = 1 AND i.type = 'restaurant'
+                WHERE i.active = 1 AND i.type = 'restaurant' AND i.id IN($ids)
                 ORDER BY i.rating DESC";
     }
     
@@ -35,20 +35,20 @@
         $b = true;
         $sql = "SELECT i.id,i.name,type,adresse,i.rating,active,cr.name AS category_name, v.name AS ville_name, (SELECT COUNT(*) from commentaire_item ci2 where ci2.id_item = i.id AND rating is not null) AS number_reviews
                 FROM ville v LEFT JOIN item i ON v.id = i.id_ville LEFT JOIN commentaire_item ci ON i.id = ci.id_item LEFT JOIN categorie_restaurant cr ON i.id_categorie_restaurant = cr.id
-                WHERE i.active = 1 AND i.type = 'restaurant'
+                WHERE i.active = 1 AND i.type = 'restaurant' AND i.id IN($ids)
                 GROUP BY i.id
                 ORDER BY number_reviews DESC";
     }
     elseif($data[0] == "Newest Listings"){
         $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, c.name AS category_name, v.name AS ville_name, i.updated
                 FROM ville v INNER JOIN item i ON v.id = i.id_ville INNER JOIN categorie_restaurant c ON c.id = i.id_categorie_restaurant
-                WHERE i.type = 'restaurant' AND i.active = 1
+                WHERE i.type = 'restaurant' AND i.active = 1 AND i.id IN($ids)
                 ORDER BY i.inserted DESC";
     }
     elseif($data[0] == "Oldest Listings"){
         $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, c.name AS category_name, v.name AS ville_name, i.updated
                 FROM ville v INNER JOIN item i ON v.id = i.id_ville INNER JOIN categorie_restaurant c ON c.id = i.id_categorie_restaurant
-                WHERE i.type = 'restaurant' AND i.active = 1
+                WHERE i.type = 'restaurant' AND i.active = 1 AND i.id IN($ids)
                 ORDER BY i.inserted ";
     }
     $result = $conn->query($sql);

@@ -17,7 +17,14 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
     public listingList: boolean;
     public listingGrid: boolean;
     public choosenOrder: string;
-    public orderActive : boolean;
+    private orderActive : boolean;
+    public privileges: Object;
+    public city: string;
+    public open: boolean;
+    public alreadyHaveLocation: boolean;
+    private userLongitude: number;
+    private userLatitude: number;
+    private data: any;
     private unsubscribe = new Subject<void>();
 
     constructor(private databaseService: DatabaseService, private pagerService: PagerService) {
@@ -25,12 +32,16 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
         this.listingGrid = false;
         this.orderActive = false;
         this.choosenOrder = "Newest Listings";
+        this.city = "";
+        this.open = false;
+        this.alreadyHaveLocation = false;
     }
 
     ngOnInit() {
         var scriptCall = document.getElementById('scriptCall');
         scriptCall.click();
         this.getAllActivatedRestaurants();
+        this.getAllPrivileges();
     }
 
     getAllActivatedRestaurants() {
@@ -83,6 +94,89 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
             }
         })
     }
+
+    getAllPrivileges(){
+		this.databaseService.getAllPrivileges().takeUntil(this.unsubscribe).subscribe(res => {
+			if (res != 'Not found') {
+				this.privileges = res;
+			}
+		});
+    }
+    
+    doFilter(){
+		var radiusSelected = parseInt(document.getElementsByClassName('range-output')[0].innerHTML) / 1000;
+		var citySelected = this.city;
+		var privilegesChecked = [];
+		for(var i = 0; i<document.getElementsByClassName('privilege').length; i++){
+            if((document.getElementById('check-'+i) as HTMLInputElement).checked == true){
+                privilegesChecked.push((document.getElementById('check-'+i) as HTMLInputElement).value);
+            }
+        }		
+		if (navigator.geolocation && !this.alreadyHaveLocation) {
+            if(radiusSelected != 0){
+                navigator.geolocation.getCurrentPosition((position) => {
+                    this.userLatitude = position.coords.latitude;
+                    this.userLongitude = position.coords.longitude;
+                    this.data = { 
+                        city: citySelected,
+                        open: this.open,
+                        privileges: privilegesChecked,
+                        radius: radiusSelected,
+                        latitude: this.userLatitude,
+                        longitude: this.userLongitude
+                    }
+                    this.databaseService.filterRestaurants(this.data).takeUntil(this.unsubscribe).subscribe(res => {
+                        if (res != '0') {
+                            this.choosenOrder = "Newest Listings";
+                            this.restaurants = res;
+                            this.setPage(1);
+                        }
+                        else {
+                            this.pagedRestaurants = [];
+                        }
+                    });
+                    this.alreadyHaveLocation = true;
+                });
+            }
+            else{
+                this.data = { 
+                    city: citySelected,
+                    open: this.open,
+                    privileges: privilegesChecked,
+                    radius: radiusSelected,
+                    latitude: this.userLatitude,
+                    longitude: this.userLongitude
+                }
+                this.databaseService.filterRestaurants(this.data).takeUntil(this.unsubscribe).subscribe(res => {
+                    if (res != '0') {
+                        this.choosenOrder = "Newest Listings";
+                        this.restaurants = res;
+                        this.setPage(1);
+                    }
+                    else {
+                        this.pagedRestaurants = [];
+                    }
+                });
+            }
+		}
+		if(this.alreadyHaveLocation){
+			this.data.city = citySelected;
+			this.data.open = this.open;
+			this.data.privileges = privilegesChecked;
+			this.data.radius = radiusSelected;
+			this.databaseService.filterRestaurants(this.data).takeUntil(this.unsubscribe).subscribe(res => {
+				if (res != '0') {
+                    this.choosenOrder = "Newest Listings";
+					this.restaurants = res;
+					this.setPage(1);
+				}
+				else {
+					this.pagedRestaurants = [];
+				}
+				
+			});
+		}
+	}
 
     setPage(page: number) {
         if (page < 1 || page > this.pager.totalPages) {

@@ -13,6 +13,7 @@ import {Ng2Webstorage} from 'ngx-webstorage';
 import { ArticlesListingComponent } from './components/articles/articles-listing/articles-listing.component';
 import { PagerService } from './services/pager/pager.service';
 import { RestaurantsListingComponent } from './components/restaurants/restaurants-listing/restaurants-listing.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { RestaurantsListingComponent } from './components/restaurants/restaurant
         Routing,
         ReactiveFormsModule,
         HttpModule,
-        Ng2Webstorage
+        Ng2Webstorage,
+        FormsModule
     ],
     providers: [
         DatabaseService,

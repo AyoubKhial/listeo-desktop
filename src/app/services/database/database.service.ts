@@ -120,4 +120,30 @@ export class DatabaseService {
                 }
             });
     }
+
+    getAllPrivileges() : Observable<any>{
+        return this.http.get('http://localhost/listeo-desktop/src/api/database/getAllPrivileges.php')
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
+    filterRestaurants(data){
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/filterRestaurants.php', data)
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== '0') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
 }
