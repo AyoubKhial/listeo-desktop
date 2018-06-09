@@ -1,12 +1,12 @@
 var infoBox_ratingType = 'star-rating';
 function singleListingMap() {
-    var myLatlng = new google.maps.LatLng({
+    var latlng = new google.maps.LatLng({
         lng: parseFloat($('#singleListingMap').data('longitude')),
         lat: parseFloat($('#singleListingMap').data('latitude')),
     });
     var single_map = new google.maps.Map(document.getElementById('singleListingMap'), {
         zoom: 16,
-        center: myLatlng,
+        center: latlng,
         scrollwheel: false,
         zoomControl: false,
         mapTypeControl: false,
@@ -21,13 +21,13 @@ function singleListingMap() {
             ]
         }]
     });
-    $('#streetView').click(function (e) {
+    /*$('#streetView').click(function (e) {
         e.preventDefault();
         single_map.getStreetView().setOptions({
             visible: true,
-            position: myLatlng
+            position: latlng
         });
-    });
+    });*/
     var zoomControlDiv = document.createElement('div');
     var zoomControl = new ZoomControl(zoomControlDiv, single_map);
     function ZoomControl(controlDiv, single_map) {
@@ -50,7 +50,7 @@ function singleListingMap() {
         });
     }
     var singleMapIco = "<i class='" + $('#singleListingMap').data('map-icon') + "'></i>";
-    new CustomMarker(myLatlng, single_map, {
+    new CustomMarker(latlng, single_map, {
         marker_id: '1'
     }, singleMapIco);
 }

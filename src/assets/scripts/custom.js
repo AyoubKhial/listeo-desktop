@@ -699,11 +699,15 @@ function scriptCall(){
             if (document.getElementById("listing-nav") !== null) {
                 $(window).scroll(function() {
                     var window_top = $(window).scrollTop();
-                    var div_top = $('.listing-nav').not('.listing-nav-container.cloned .listing-nav').offset().top + 90;
-                    if (window_top > div_top) {
-                        $('.listing-nav-container.cloned').addClass('stick');
+                    var div_top = ($('.listing-nav').not('.listing-nav-container.cloned .listing-nav').offset() || { "top": NaN }).top + 90;
+                    if (isNaN(top)) {
+                        
                     } else {
-                        $('.listing-nav-container.cloned').removeClass('stick');
+                        if (window_top > div_top) {
+                            $('.listing-nav-container.cloned').addClass('stick');
+                        } else {
+                            $('.listing-nav-container.cloned').removeClass('stick');
+                        }
                     }
                 });
             }

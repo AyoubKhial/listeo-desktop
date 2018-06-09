@@ -97,7 +97,7 @@
                 <h3 class="listing-desc-headline margin-top-60 margin-bottom-30">Location</h3>
                 <div id="singleListingMap-container">
                     <div id="singleListingMap" attr.data-latitude="{{restaurant.latitude}}" attr.data-longitude="{{restaurant.longitude}}" data-map-icon="im im-icon-Hamburger"></div>
-                    <a href="#" id="streetView">Street View</a>
+                    <a [routerLink]="['directions']" id="streetView">Go to this restaurant</a>
                 </div>
             </div>
             <div id="listing-reviews" class="listing-section">

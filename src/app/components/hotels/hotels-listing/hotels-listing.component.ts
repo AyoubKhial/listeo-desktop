@@ -36,8 +36,6 @@ export class HotelsListingComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        var scriptCall = document.getElementById('scriptCall');
-        scriptCall.click();
         this.getAllActivatedHotels();
         this.getAllPrivileges();
     }
@@ -185,5 +183,4 @@ export class HotelsListingComponent implements OnInit, OnDestroy {
         this.unsubscribe.next();
         this.unsubscribe.complete();
     }
-
 }

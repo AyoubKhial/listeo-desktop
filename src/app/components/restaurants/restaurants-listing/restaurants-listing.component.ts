@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DatabaseService } from '../../../services/database/database.service';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
 import { PagerService } from '../../../services/pager/pager.service';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
     selector: 'app-restaurants-listing',
@@ -38,8 +38,6 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        var scriptCall = document.getElementById('scriptCall');
-        scriptCall.click();
         this.getAllActivatedRestaurants();
         this.getAllPrivileges();
     }

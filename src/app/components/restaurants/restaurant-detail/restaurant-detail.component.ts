@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
 import { DatabaseService } from '../../../services/database/database.service';
-import 'rxjs/add/observable/interval';
-import { Observable, Subscription } from 'rxjs';
 import { PagerService } from '../../../services/pager/pager.service';
+import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/observable/interval';
 
 @Component({
     selector: 'app-restaurant-detail',
@@ -14,29 +13,21 @@ import { PagerService } from '../../../services/pager/pager.service';
 
 })
 export class RestaurantDetailComponent implements OnInit, OnDestroy {
-    evilResponseProps
+
     private restaurantId: number;
     public restaurant;
     private unsubscribe = new Subject<void>();
-    private callMapScript: Subscription;
     public comments: any[];
     public pager: any = {};
     public pagedComments: any[];
+    
     constructor(private activatedRoute: ActivatedRoute, private databaseService: DatabaseService, private pagerService: PagerService) {
     }
 
     ngOnInit() {
-        this.callMapScript = Observable.interval(500).subscribe((val) => {
-            var scriptCall = document.getElementById('scriptCall');
-            scriptCall.click();
-            var loadMap = document.getElementById('loadMap');
-            loadMap.click();
-            this.callMapScript.unsubscribe();
-        });
         this.getRestaurantId();
         this.getRestaurantDetails();
     }
-
 
     getRestaurantId() {
         this.activatedRoute.params.subscribe((params: Params) => {
@@ -73,5 +64,4 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
         this.unsubscribe.next();
         this.unsubscribe.complete();
     }
-
 }

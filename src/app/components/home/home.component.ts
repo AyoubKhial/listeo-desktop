@@ -10,8 +10,6 @@ export class HomeComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        var scriptCall = document.getElementById('scriptCall');
-        scriptCall.click();
-    }
 
+    }
 }

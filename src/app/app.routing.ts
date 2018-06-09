@@ -6,6 +6,7 @@ import { ArticlesListingComponent } from './components/articles/articles-listing
 import { RestaurantsListingComponent } from './components/restaurants/restaurants-listing/restaurants-listing.component';
 import { HotelsListingComponent } from './components/hotels/hotels-listing/hotels-listing.component';
 import { RestaurantDetailComponent } from './components/restaurants/restaurant-detail/restaurant-detail.component';
+import { RestaurantDirectionsComponent } from './components/restaurants/restaurant-directions/restaurant-directions.component';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -13,7 +14,8 @@ const appRoutes: Routes = [
     { path: 'articles', component: ArticlesListingComponent },
     { path: 'restaurants', component: RestaurantsListingComponent },
     { path: 'hotels', component: HotelsListingComponent },
-    { path: 'restaurants/:id', component: RestaurantDetailComponent }
+    { path: 'restaurants/:id', component: RestaurantDetailComponent },
+    { path: 'restaurants/:id/directions', component: RestaurantDirectionsComponent },
 ];
 
 export const Routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
