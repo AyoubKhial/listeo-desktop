@@ -15,6 +15,7 @@ import { PagerService } from './services/pager/pager.service';
 import { RestaurantsListingComponent } from './components/restaurants/restaurants-listing/restaurants-listing.component';
 import { FormsModule } from '@angular/forms';
 import { HotelsListingComponent } from './components/hotels/hotels-listing/hotels-listing.component';
+import { RestaurantDetailComponent } from './components/restaurants/restaurant-detail/restaurant-detail.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { HotelsListingComponent } from './components/hotels/hotels-listing/hotel
         HomeComponent,
         ArticlesListingComponent,
         RestaurantsListingComponent,
-        HotelsListingComponent
+        HotelsListingComponent,
+        RestaurantDetailComponent
     ],
     imports: [
         BrowserModule,

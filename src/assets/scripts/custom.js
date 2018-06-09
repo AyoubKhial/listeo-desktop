@@ -71,7 +71,15 @@ function scriptCall(){
             });
     
             function inlineCSS() {
-                $(".main-search-container, section.fullwidth, .listing-slider .item, .address-container, .img-box-background, .image-edge, .edge-bg").each(function() {
+                /*alert(document.getElementsByClassName("mfp-gallery").length);
+                for(var i = 0; i< document.getElementsByClassName("mfp-gallery").length; i++){
+                    var attrImageBG = document.getElementsByClassName("mfp-gallery")[i].getAttribute("data-background-image");
+                    alert(attrImageBG);
+                    if (attrImageBG !== undefined) {
+                        $(this).css('background-image', 'url(' + attrImageBG + ')');
+                    }
+                }*/
+                $(".main-search-container, section.fullwidth, .listing-slider .item, .address-container, .img-box-background, .image-edge, .edge-bg, .item").each(function() {
                     var attrImageBG = $(this).attr('data-background-image');
                     var attrColorBG = $(this).attr('data-background-color');
                     if (attrImageBG !== undefined) {

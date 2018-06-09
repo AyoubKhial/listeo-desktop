@@ -63,17 +63,19 @@
             <div class="row" *ngIf="listingList && pagedRestaurants?.length > 0">
                 <div class="col-lg-12 col-md-12" *ngFor="let restaurant of pagedRestaurants">
                     <div class="listing-item-container list-layout">
-                        <a href="listings-single-page.html" class="listing-item">
+                        <a [routerLink]="['/restaurants', restaurant.id]" class="listing-item">
                             <div class="listing-item-image">
-                                <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/{{restaurant.photo}}" alt="">
+                                <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/restaurants/{{restaurant.photo}}" alt="">
                                 <ng-template #defaultPhoto>
                                     <img src="assets/images/listing-item-01.jpg" alt="">
                                 </ng-template>
                                 <span class="tag">{{restaurant.category_name}}</span>
                             </div>
                             <div class="listing-item-content">
-                                <div *ngIf="restaurant.open == true" class="listing-badge now-open">Now Open</div>
-                                <div *ngIf="restaurant.open == false" class="listing-badge now-closed">Now Closed</div>
+                                <div *ngIf="restaurant.open; else closed" class="listing-badge now-open">Now Open</div>
+                                <ng-template #closed>
+                                    <div class="listing-badge now-closed">Now Closed</div>
+                                </ng-template>
                                 <div class="listing-item-inner">
                                     <h3>{{restaurant.name}}
                                         <i class="verified-icon"></i>
@@ -98,7 +100,7 @@
                 <div class="col-lg-6 col-md-12" *ngFor="let restaurant of pagedRestaurants">
                     <a href="listings-single-page.html" class="listing-item-container compact">
                         <div class="listing-item">
-                            <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/{{restaurant.photo}}" alt="">
+                            <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/restaurants/{{restaurant.photo}}" alt="">
                             <ng-template #defaultPhoto>
                                 <img src="assets/images/listing-item-01.jpg" alt="">
                             </ng-template>

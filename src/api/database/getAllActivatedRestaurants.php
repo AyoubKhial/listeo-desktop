@@ -1,6 +1,6 @@
 <?php
     include "./connection.php";
-    $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, c.name AS category_name, v.name AS ville_name, i.updated
+    $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, c.name AS category_name, v.name AS ville_name
             FROM ville v INNER JOIN item i ON v.id = i.id_ville INNER JOIN categorie_restaurant c ON c.id = i.id_categorie_restaurant
             WHERE i.type = 'restaurant' AND i.active = 1
             ORDER BY i.inserted DESC";

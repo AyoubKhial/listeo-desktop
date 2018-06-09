@@ -1,0 +1,325 @@
+<button onclick="scriptCall()" id="scriptCall" style="display: none"></button>
+<button onclick="singleListingMap()" id="loadMap" style="display: none"></button>
+<div class="listing-slider mfp-gallery-container margin-bottom-0" *ngIf="restaurant.photos; else defaultSliderPhotos">
+    <a *ngFor="let photo of restaurant.photos" href="assets/images/restaurants/{{photo}}" attr.data-background-image="assets/images/restaurants/{{photo}}"
+        class="item mfp-gallery" title="Title 1"></a>
+</div>
+<ng-template #defaultSliderPhotos>
+    <div class="listing-slider mfp-gallery-container margin-bottom-0">
+        <a href="assets/images/restaurants/default/single-listing-01.jpg" data-background-image="assets/images/restaurants/default/single-listing-01.jpg"
+            class="item mfp-gallery" title="Title 1"></a>
+        <a href="assets/images/restaurants/default/single-listing-02.jpg" data-background-image="assets/images/restaurants/default/single-listing-02.jpg"
+            class="item mfp-gallery" title="Title 1"></a>
+        <a href="assets/images/restaurants/default/single-listing-03.jpg" data-background-image="assets/images/restaurants/default/single-listing-03.jpg"
+            class="item mfp-gallery" title="Title 1"></a>
+        <a href="assets/images/restaurants/default/single-listing-04.jpg" data-background-image="assets/images/restaurants/default/single-listing-04.jpg"
+            class="item mfp-gallery" title="Title 1"></a>
+    </div>
+</ng-template>
+<div class="container">
+    <div class="row sticky-wrapper">
+        <div class="col-lg-8 col-md-8 padding-right-30">
+            <div id="titlebar" class="listing-titlebar">
+                <div class="listing-titlebar-title">
+                    <h2>{{restaurant.name}}
+                        <span class="listing-tag">{{restaurant.category_name}}</span>
+                    </h2>
+                    <span>
+                        <a href="#listing-location" class="listing-address">
+                            <i class="fa fa-map-marker"></i>
+                            {{restaurant.adresse}}, {{restaurant.ville_name}}
+                        </a>
+                    </span>
+                    <div class="star-rating">
+                        <div class="rating-counter">
+                            ({{restaurant.number_reviews}} reviews)
+                        </div>
+                        <span class="stars alignright">
+                            <span [ngStyle]="getStars(restaurant.rating)"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="listing-nav" class="listing-nav-container">
+                <ul class="listing-nav">
+                    <li>
+                        <a href="#listing-overview" class="active">Overview</a>
+                    </li>
+                    <li>
+                        <a href="#listing-pricing-list">Pricing</a>
+                    </li>
+                    <li>
+                        <a href="#listing-location">Location</a>
+                    </li>
+                    <li>
+                        <a href="#listing-reviews">Reviews</a>
+                    </li>
+                    <li>
+                        <a href="#add-review">Add Review</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="listing-overview" class="listing-section">
+                <p>
+                    {{restaurant?.description}}
+                </p>
+                <h3 class="listing-desc-headline">Privileges</h3>
+                <ul class="listing-features checkboxes margin-top-0" *ngIf="restaurant.privileges; else noPrivilegesFound">
+                    <li *ngFor="let privilege of restaurant.privileges">{{privilege}}</li>
+                </ul>
+                <ng-template #noPrivilegesFound>
+                    <span class="no-data">This restaurant has no privileges informations.</span>
+                </ng-template>
+            </div>
+            <div id="listing-pricing-list" class="listing-section">
+                <h3 class="listing-desc-headline margin-top-70 margin-bottom-30">Pricing</h3>
+                <div class="show-more" *ngIf="restaurant.categories; else noPricesFound">
+                    <div class="pricing-list-container">
+                        <div *ngFor="let category of restaurant.categories; let i = index">
+                            <h4>{{category.name}}</h4>
+                            <ul>
+                                <li *ngFor="let plat of restaurant.categories[i].plats; let j = index">
+                                    <h5>{{plat}}</h5>
+                                    <span>${{restaurant.categories[i].prices[j]}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #noPricesFound>
+                    <span class="no-data">This restaurant has no prices informations.</span>
+                </ng-template>
+                <a href="#" class="show-more-button" data-more-title="Show More" data-less-title="Show Less" *ngIf="restaurant.categories">
+                    <i class="fa fa-angle-down"></i>
+                </a>
+            </div>
+            <div id="listing-location" class="listing-section">
+                <h3 class="listing-desc-headline margin-top-60 margin-bottom-30">Location</h3>
+                <div id="singleListingMap-container">
+                    <div id="singleListingMap" attr.data-latitude="{{restaurant.latitude}}" attr.data-longitude="{{restaurant.longitude}}" data-map-icon="im im-icon-Hamburger"></div>
+                    <a href="#" id="streetView">Street View</a>
+                </div>
+            </div>
+            <div id="listing-reviews" class="listing-section">
+                <h3 class="listing-desc-headline margin-top-75 margin-bottom-20">Comments
+                    <span>({{restaurant.number_comments}})</span>
+                </h3>
+                <div class="clearfix"></div>
+                <section class="comments listing-reviews">
+                    <ul *ngIf="restaurant.comments; else noCommentsFound">
+                        <li *ngFor="let comment of pagedComments">
+                            <div class="avatar">
+                                <img *ngIf="comment[3] !== 'null'; else defaultPhoto" src="assets/images/users/{{comment[3]}}" alt="">
+                                <ng-template #defaultPhoto>
+                                    <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
+                                </ng-template>
+                            </div>
+                            <div class="comment-content">
+                                <div class="arrow-comment"></div>
+                                <div class="comment-by"> {{comment[1]}}
+                                    <span class="date">{{comment[2]}}</span>
+                                    <div class="star-rating">
+                                        <span class="stars alignright">
+                                            <span [ngStyle]="getStars(comment[4])"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <p>{{comment[0]}}</p>
+                                <div class="review-images mfp-gallery-container">
+                                    <a *ngFor="let photo of comment[5]" href="assets/images/comments/{{photo}}" class="mfp-gallery">
+                                        <img src="assets/images/comments/{{photo}}" alt="">
+                                    </a>
+                                </div>
+                                <a href="#" class="rate-review">
+                                    <i class="sl sl-icon-like"></i> Helpful Review
+                                    <span>4</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <ng-template #noCommentsFound>
+                        <span class="no-data">Be the first to comment ...</span>
+                    </ng-template>
+                </section>
+                <div class="clearfix"></div>
+                <div class="row" *ngIf="restaurant.comments">
+                    <div class="col-md-12">
+                        <div class="pagination-container margin-top-30">
+                            <nav class="pagination">
+                                    <ul *ngIf="pager.pages && pager.pages.length">
+                                            <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                                <a (click)="setPage(1)">First</a>
+                                            </li>
+                                            <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                                <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                                            </li>
+                                            <li *ngFor="let page of pager.pages" [ngClass]="{'current-page':pager.currentPage === page}">
+                                                <a (click)="setPage(page)" [ngClass]="{'current-page':pager.currentPage === page}">{{page}}</a>
+                                            </li>
+                                            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                                <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                                            </li>
+                                            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                                <a (click)="setPage(pager.totalPages)">Last</a>
+                                            </li>
+                                        </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div id="add-review" class="add-review-box">
+                <h3 class="listing-desc-headline margin-bottom-20">Add Review</h3>
+                <span class="leave-rating-title">Your rating for this listing</span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="clearfix"></div>
+                        <div class="leave-rating margin-bottom-30">
+                            <input type="radio" name="rating" id="rating-1" value="1" />
+                            <label for="rating-1" class="fa fa-star"></label>
+                            <input type="radio" name="rating" id="rating-2" value="2" />
+                            <label for="rating-2" class="fa fa-star"></label>
+                            <input type="radio" name="rating" id="rating-3" value="3" />
+                            <label for="rating-3" class="fa fa-star"></label>
+                            <input type="radio" name="rating" id="rating-4" value="4" />
+                            <label for="rating-4" class="fa fa-star"></label>
+                            <input type="radio" name="rating" id="rating-5" value="5" />
+                            <label for="rating-5" class="fa fa-star"></label>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="add-review-photos margin-bottom-30">
+                            <div class="photoUpload">
+                                <span>
+                                    <i class="sl sl-icon-arrow-up-circle"></i> Upload Photos
+                                </span>
+                                <input type="file" class="upload" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form id="add-comment" class="add-comment">
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Name:</label>
+                                <input type="text" value="" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Email:</label>
+                                <input type="text" value="" />
+                            </div>
+                        </div>
+                        <div>
+                            <label>Review:</label>
+                            <textarea cols="40" rows="3"></textarea>
+                        </div>
+                    </fieldset>
+                    <button class="button">Submit Review</button>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 margin-top-75 sticky">
+            <div class="verified-badge with-tip" data-tip-content="Listing has been verified and belongs the business owner or manager.">
+                <i class="sl sl-icon-check"></i> Verified Listing
+            </div>
+            <div class="boxed-widget opening-hours margin-top-35">
+                <div *ngIf="restaurant.open; else closed" class="listing-badge now-open">Now Open</div>
+                <ng-template #closed>
+                    <div class="listing-badge now-closed">Now Closed</div>
+                </ng-template>
+                <h3>
+                    <i class="sl sl-icon-clock"></i> Opening Hours
+                </h3>
+                <ul *ngIf="restaurant.horaire; else noHoraireFound">
+                    <div *ngFor="let horaire of restaurant.horaire">
+                        <li *ngIf="horaire[3] != 1; else closed">{{horaire[0]}}
+                            <span>{{horaire[1]}} - {{horaire[2]}}</span>
+                        </li>
+                        <ng-template #closed>
+                            <li>{{horaire[0]}}
+                                <span>Closed</span>
+                            </li>
+                        </ng-template>
+                    </div>
+                </ul>
+                <ng-template #noHoraireFound>
+                    <span class="no-data">This restaurant has no opening hours informations.</span>
+                </ng-template>
+            </div>
+            <div class="boxed-widget margin-top-35">
+                <div class="hosted-by-title">
+                    <h4>
+                        <span>Hosted by</span>
+                        <a href="pages-user-profile.html">Tom Perrin</a>
+                    </h4>
+                    <a href="pages-user-profile.html" class="hosted-by-avatar">
+                        <img src="assets/images/dashboard-avatar.jpg" alt="">
+                    </a>
+                </div>
+                <ul class="listing-details-sidebar">
+                    <li>
+                        <i class="sl sl-icon-phone"></i> (123) 123-456
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope-o"></i>
+                        <a href="#">
+                            <span class="__cf_email__" data-cfemail="c1b5aeac81a4b9a0acb1ada4efa2aeac">[email&#160;protected]</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="listing-details-sidebar social-profiles">
+                    <li>
+                        <a href="#" class="facebook-profile">
+                            <i class="fa fa-facebook-square"></i> Facebook
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="twitter-profile">
+                            <i class="fa fa-twitter"></i> Twitter
+                        </a>
+                    </li>
+                </ul>
+                <div id="small-dialog" class="zoom-anim-dialog mfp-hide">
+                    <div class="small-dialog-header">
+                        <h3>Send Message</h3>
+                    </div>
+                    <div class="message-reply margin-top-0">
+                        <textarea cols="40" rows="3" placeholder="Your message to Tom"></textarea>
+                        <button class="button">Send Message</button>
+                    </div>
+                </div>
+                <a href="#small-dialog" class="send-message-to-owner button popup-with-zoom-anim">
+                    <i class="sl sl-icon-envelope-open"></i> Send Message
+                </a>
+            </div>
+            <div class="listing-share margin-top-40 margin-bottom-40 no-border">
+                <button class="like-button">
+                    <span class="like-icon"></span> Bookmark this listing</button>
+                <span>159 people bookmarked this place</span>
+                <ul class="share-buttons margin-top-40 margin-bottom-0">
+                    <li>
+                        <a class="fb-share" href="#">
+                            <i class="fa fa-facebook"></i> Share
+                        </a>
+                    </li>
+                    <li>
+                        <a class="twitter-share" href="#">
+                            <i class="fa fa-twitter"></i> Tweet
+                        </a>
+                    </li>
+                    <li>
+                        <a class="gplus-share" href="#">
+                            <i class="fa fa-google-plus"></i> Share
+                        </a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

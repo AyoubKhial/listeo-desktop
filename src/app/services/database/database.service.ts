@@ -172,11 +172,25 @@ export class DatabaseService {
                 }
             });
     }
+
     filterHotels(data){
         return this.http.post('http://localhost/listeo-desktop/src/api/database/filterHotels.php', data)
             .map(response => {
                 this.hasResult = response;
                 if (this.hasResult._body !== '0') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
+    getRestaurantDetails(restaurantId) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/getRestaurantDetails.php', restaurantId)
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
                     return response.json();
                 }
                 else {
