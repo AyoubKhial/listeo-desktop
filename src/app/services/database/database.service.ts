@@ -147,8 +147,8 @@ export class DatabaseService {
             });
     }
 
-    getAllActivatedHotels(): Observable<any> {
-        return this.http.get('http://localhost/listeo-desktop/src/api/database/getAllActivatedHotels.php')
+    getAllActivatedHotels(userId): Observable<any> {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/getAllActivatedHotels.php', userId)
             .map(response => {
                 this.hasResult = response;
                 if (this.hasResult._body !== 'Not found') {

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DatabaseService } from '../../../services/database/database.service';
 import { PagerService } from '../../../services/pager/pager.service';
 import { Subject } from 'rxjs/Subject';
+import { SessionStorageService } from 'ngx-webstorage';
 import 'rxjs/add/operator/takeUntil';
 
 @Component({
@@ -24,9 +25,10 @@ export class HotelsListingComponent implements OnInit, OnDestroy {
     private userLongitude: number;
     private userLatitude: number;
     private data: any;
+    private userId: number;
     private unsubscribe = new Subject<void>();
 
-    constructor(private databaseService: DatabaseService, private pagerService: PagerService) {
+    constructor(private databaseService: DatabaseService, private pagerService: PagerService, private session: SessionStorageService) {
         this.listingList = true;
         this.listingGrid = false;
         this.orderActive = false;
@@ -36,12 +38,15 @@ export class HotelsListingComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        if(this.session.retrieve("login") != null){
+            this.userId = this.session.retrieve("login").id;
+        }
         this.getAllActivatedHotels();
         this.getAllPrivileges();
     }
 
     getAllActivatedHotels() {
-        this.databaseService.getAllActivatedHotels().takeUntil(this.unsubscribe).subscribe(response => {
+        this.databaseService.getAllActivatedHotels(this.userId).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
                 this.hotels = response;
                 this.setPage(1);
@@ -165,7 +170,25 @@ export class HotelsListingComponent implements OnInit, OnDestroy {
 				
 			});
 		}
-	}
+    }
+    
+    addOrRemoveFromFavoris(event, id) {
+        if (this.userId != 0) {
+            var dt = {
+                item: id,
+                user: this.userId,
+                action: null
+            }
+            if (event.target.classList.length == 2) {
+                dt.action = "remove";
+                this.databaseService.addToFavoris(dt).takeUntil(this.unsubscribe).subscribe();
+            }
+            else {
+                dt.action = "add";
+                this.databaseService.addToFavoris(dt).takeUntil(this.unsubscribe).subscribe();
+            }
+        }
+    }
 
     setPage(page: number) {
         if (page < 1 || page > this.pager.totalPages) {

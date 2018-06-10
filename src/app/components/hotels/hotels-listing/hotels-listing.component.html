@@ -85,15 +85,15 @@
                                         </span>
                                     </div>
                                 </div>
-                                <span class="like-icon"></span>
                             </div>
                         </a>
+                        <span class="like-icon" [ngClass]="{'liked': hotel.liked}" (click)="addOrRemoveFromFavoris($event, hotel?.id)"></span>
                     </div>
                 </div>
             </div>
             <div class="row" *ngIf="listingGrid && pagedHotels?.length > 0">
                 <div class="col-lg-6 col-md-12" *ngFor="let hotel of pagedHotels">
-                    <a href="listings-single-page.html" class="listing-item-container compact">
+                    <a [routerLink]="['/hotels', hotel.id]" class="listing-item-container compact">
                         <div class="listing-item">
                             <img *ngIf="hotel.photo !== 'null'; else defaultPhoto" src="assets/images/hotels/{{hotel.photo}}" alt="">
                             <ng-template #defaultPhoto>
@@ -110,9 +110,9 @@
                                 </h3>
                                 <span>{{hotel.adresse}}, {{hotel.ville_name}}</span>
                             </div>
-                            <span class="like-icon"></span>
                         </div>
                     </a>
+                    <span class="like-icon" [ngClass]="{'liked': hotel.liked}" (click)="addOrRemoveFromFavoris($event, hotel?.id)"></span>
                 </div>
             </div>
             <div class="clearfix"></div>

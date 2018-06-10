@@ -98,7 +98,7 @@
             </div>
             <div class="row" *ngIf="listingGrid && pagedRestaurants?.length > 0">
                 <div class="col-lg-6 col-md-12" *ngFor="let restaurant of pagedRestaurants">
-                    <a href="listings-single-page.html" class="listing-item-container compact">
+                    <a [routerLink]="['/restaurants', restaurant.id]" class="listing-item-container compact">
                         <div class="listing-item">
                             <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/restaurants/{{restaurant.photo}}" alt="">
                             <ng-template #defaultPhoto>
@@ -117,9 +117,9 @@
                                 </h3>
                                 <span>{{restaurant.adresse}}, {{restaurant.ville_name}}</span>
                             </div>
-                            <span class="like-icon"></span>
                         </div>
                     </a>
+                    <span class="like-icon" [ngClass]="{'liked': restaurant?.liked}" (click)="addOrRemoveFromFavoris($event, restaurant?.id)"></span>
                 </div>
             </div>
             <div class="clearfix"></div>

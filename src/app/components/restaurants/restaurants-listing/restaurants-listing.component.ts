@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DatabaseService } from '../../../services/database/database.service';
 import { Subject } from 'rxjs/Subject';
 import { PagerService } from '../../../services/pager/pager.service';
-import 'rxjs/add/operator/takeUntil';
 import { SessionStorageService } from 'ngx-webstorage';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
     selector: 'app-restaurants-listing',
@@ -180,6 +180,7 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
     }
 
     addOrRemoveFromFavoris(event, id) {
+        console.log(event)
         if (this.userId != 0) {
             var dt = {
                 item: id,
