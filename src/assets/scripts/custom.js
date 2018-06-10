@@ -41,6 +41,9 @@ function scriptCall(){
             $('.user-menu').on('click', function() {
                 $(this).toggleClass('active');
             });
+            /*$(".like-icon").on('click', function(d) {
+				d.preventDefault();
+            });*/
             $("#header").not("#header.not-sticky").clone(true).addClass('cloned unsticky').insertAfter("#header");
             $("#navigation.style-2").clone(true).addClass('cloned unsticky').insertAfter("#navigation.style-2");
             $("#logo .sticky-logo").clone(true).prependTo("#navigation.style-2.cloned ul#responsive");

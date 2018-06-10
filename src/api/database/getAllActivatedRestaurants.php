@@ -1,5 +1,6 @@
 <?php
     include "./connection.php";
+    $userId = json_decode(file_get_contents("php://input"));
     $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, c.name AS category_name, v.name AS ville_name
             FROM ville v INNER JOIN item i ON v.id = i.id_ville INNER JOIN categorie_restaurant c ON c.id = i.id_categorie_restaurant
             WHERE i.type = 'restaurant' AND i.active = 1
@@ -31,6 +32,16 @@
             $result4 = $conn->query($sql4);
             $data4= $result4->fetch_row();
             $row['number_reviews'] = $data4[0];
+            if($userId != 0){
+                $sql5 = "SELECT * FROM favoris WHERE id_utilisateur = $userId AND id_item = $restaurant_id";
+                $result5 = $conn->query($sql5);
+                if ($result5->num_rows > 0) {
+                    $row['liked'] = true;
+                }
+                else{
+                    $row['liked'] = false; 
+                }
+            }
             $data[] = $row;
         }
         echo json_encode($data);

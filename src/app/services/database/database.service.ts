@@ -56,7 +56,7 @@ export class DatabaseService {
             });
     }
 
-    getAllActivatedArticles() : Observable<any>{
+    getAllActivatedArticles(): Observable<any> {
         return this.http.get('http://localhost/listeo-desktop/src/api/database/getAllActivatedArticles.php')
             .map(response => {
                 this.hasResult = response;
@@ -69,7 +69,7 @@ export class DatabaseService {
             });
     }
 
-    getMostPopularArticles() : Observable<any>{
+    getMostPopularArticles(): Observable<any> {
         return this.http.get('http://localhost/listeo-desktop/src/api/database/getMostPopularArticles.php')
             .map(response => {
                 this.hasResult = response;
@@ -95,8 +95,8 @@ export class DatabaseService {
             });
     }
 
-    getAllActivatedRestaurants() : Observable<any>{
-        return this.http.get('http://localhost/listeo-desktop/src/api/database/getAllActivatedRestaurants.php')
+    getAllActivatedRestaurants(userId): Observable<any> {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/getAllActivatedRestaurants.php', userId)
             .map(response => {
                 this.hasResult = response;
                 if (this.hasResult._body !== 'Not found') {
@@ -108,7 +108,7 @@ export class DatabaseService {
             });
     }
 
-    orderRestaurants(data){
+    orderRestaurants(data) {
         return this.http.post('http://localhost/listeo-desktop/src/api/database/orderRestaurants.php', data)
             .map(response => {
                 this.hasResult = response;
@@ -121,7 +121,7 @@ export class DatabaseService {
             });
     }
 
-    getAllPrivileges() : Observable<any>{
+    getAllPrivileges(): Observable<any> {
         return this.http.get('http://localhost/listeo-desktop/src/api/database/getAllPrivileges.php')
             .map(response => {
                 this.hasResult = response;
@@ -134,7 +134,7 @@ export class DatabaseService {
             });
     }
 
-    filterRestaurants(data){
+    filterRestaurants(data) {
         return this.http.post('http://localhost/listeo-desktop/src/api/database/filterRestaurants.php', data)
             .map(response => {
                 this.hasResult = response;
@@ -147,7 +147,7 @@ export class DatabaseService {
             });
     }
 
-    getAllActivatedHotels() : Observable<any>{
+    getAllActivatedHotels(): Observable<any> {
         return this.http.get('http://localhost/listeo-desktop/src/api/database/getAllActivatedHotels.php')
             .map(response => {
                 this.hasResult = response;
@@ -160,7 +160,7 @@ export class DatabaseService {
             });
     }
 
-    orderHotels(data){
+    orderHotels(data) {
         return this.http.post('http://localhost/listeo-desktop/src/api/database/orderHotels.php', data)
             .map(response => {
                 this.hasResult = response;
@@ -173,7 +173,7 @@ export class DatabaseService {
             });
     }
 
-    filterHotels(data){
+    filterHotels(data) {
         return this.http.post('http://localhost/listeo-desktop/src/api/database/filterHotels.php', data)
             .map(response => {
                 this.hasResult = response;
@@ -212,7 +212,7 @@ export class DatabaseService {
             });
     }
 
-    getArticleDetails(articleId){
+    getArticleDetails(articleId) {
         return this.http.post('http://localhost/listeo-desktop/src/api/database/getArticleDetails.php', articleId)
             .map(response => {
                 this.hasResult = response;
@@ -244,6 +244,19 @@ export class DatabaseService {
                 this.hasResult = response;
                 if (this.hasResult._body !== 'Not found') {
                     return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
+    addToFavoris(data) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/addToFavoris.php', data)
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Error') {
+                    return response.text();
                 }
                 else {
                     return response.text();

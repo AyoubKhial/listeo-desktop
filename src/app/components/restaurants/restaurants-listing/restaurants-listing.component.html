@@ -90,9 +90,9 @@
                                         </span>
                                     </div>
                                 </div>
-                                <span class="like-icon"></span>
                             </div>
                         </a>
+                        <span class="like-icon" [ngClass]="{'liked': restaurant.liked}" (click)="addOrRemoveFromFavoris($event, restaurant?.id)"></span>
                     </div>
                 </div>
             </div>

@@ -3,6 +3,7 @@ import { DatabaseService } from '../../../services/database/database.service';
 import { Subject } from 'rxjs/Subject';
 import { PagerService } from '../../../services/pager/pager.service';
 import 'rxjs/add/operator/takeUntil';
+import { SessionStorageService } from 'ngx-webstorage';
 
 @Component({
     selector: 'app-restaurants-listing',
@@ -17,7 +18,7 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
     public pager: any = {};
     public pagedRestaurants: any[];
     public choosenOrder: string;
-    private orderActive : boolean;
+    private orderActive: boolean;
     public privileges: Object;
     public city: string;
     public open: boolean;
@@ -25,9 +26,10 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
     private userLongitude: number;
     private userLatitude: number;
     private data: any;
+    private userId: number;
     private unsubscribe = new Subject<void>();
 
-    constructor(private databaseService: DatabaseService, private pagerService: PagerService) {
+    constructor(private databaseService: DatabaseService, private pagerService: PagerService, private session: SessionStorageService) {
         this.listingList = true;
         this.listingGrid = false;
         this.orderActive = false;
@@ -35,15 +37,19 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
         this.city = "";
         this.open = false;
         this.alreadyHaveLocation = false;
+        this.userId = 0;
     }
 
     ngOnInit() {
+        if(this.session.retrieve("login") != null){
+            this.userId = this.session.retrieve("login").id;
+        }
         this.getAllActivatedRestaurants();
         this.getAllPrivileges();
     }
 
     getAllActivatedRestaurants() {
-        this.databaseService.getAllActivatedRestaurants().takeUntil(this.unsubscribe).subscribe(response => {
+        this.databaseService.getAllActivatedRestaurants(this.userId).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
                 this.restaurants = response;
                 this.setPage(1);
@@ -51,38 +57,38 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
         });
     }
 
-    doOrder(){
-        if(!this.orderActive){
+    doOrder() {
+        if (!this.orderActive) {
             document.getElementById("choosenOrder").classList.add("chosen-container-active");
             this.orderActive = true;
         }
-        else{
+        else {
             document.getElementById("choosenOrder").classList.remove("chosen-container-active");
             this.orderActive = false;
         }
     }
 
-    orderRestaurants(event:Event){
+    orderRestaurants(event: Event) {
         this.choosenOrder = event.srcElement.innerHTML;
-		if(this.choosenOrder == 'Highest Price'){
+        if (this.choosenOrder == 'Highest Price') {
             this.restaurants.unshift("Highest Price");
-		}
-		if(this.choosenOrder == 'Lowest Price'){
+        }
+        if (this.choosenOrder == 'Lowest Price') {
             this.restaurants.unshift("Lowest Price");
         }
-        if(this.choosenOrder == 'Highest Rated'){
+        if (this.choosenOrder == 'Highest Rated') {
             this.restaurants.unshift("Highest Rated");
         }
-        if(this.choosenOrder == 'Most Reviewed'){
+        if (this.choosenOrder == 'Most Reviewed') {
             this.restaurants.unshift("Most Reviewed");
         }
-        if(this.choosenOrder == 'Newest Listings'){
+        if (this.choosenOrder == 'Newest Listings') {
             this.restaurants.unshift("Newest Listings");
         }
-        if(this.choosenOrder == 'Oldest Listings'){
+        if (this.choosenOrder == 'Oldest Listings') {
             this.restaurants.unshift("Oldest Listings");
         }
-        this.databaseService.orderRestaurants(this.restaurants).takeUntil(this.unsubscribe).subscribe(response=> {
+        this.databaseService.orderRestaurants(this.restaurants).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
                 this.restaurants = response;
                 this.setPage(1);
@@ -90,29 +96,29 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
         })
     }
 
-    getAllPrivileges(){
-		this.databaseService.getAllPrivileges().takeUntil(this.unsubscribe).subscribe(response => {
-			if (response != 'Not found') {
-				this.privileges = response;
-			}
-		});
-    }
-    
-    doFilter(){
-		var radiusSelected = parseInt(document.getElementsByClassName('range-output')[0].innerHTML) / 1000;
-		var citySelected = this.city;
-		var privilegesChecked = [];
-		for(var i = 0; i<document.getElementsByClassName('privilege').length; i++){
-            if((document.getElementById('check-'+i) as HTMLInputElement).checked == true){
-                privilegesChecked.push((document.getElementById('check-'+i) as HTMLInputElement).value);
+    getAllPrivileges() {
+        this.databaseService.getAllPrivileges().takeUntil(this.unsubscribe).subscribe(response => {
+            if (response != 'Not found') {
+                this.privileges = response;
             }
-        }		
-		if (navigator.geolocation && !this.alreadyHaveLocation) {
-            if(radiusSelected != 0){
+        });
+    }
+
+    doFilter() {
+        var radiusSelected = parseInt(document.getElementsByClassName('range-output')[0].innerHTML) / 1000;
+        var citySelected = this.city;
+        var privilegesChecked = [];
+        for (var i = 0; i < document.getElementsByClassName('privilege').length; i++) {
+            if ((document.getElementById('check-' + i) as HTMLInputElement).checked == true) {
+                privilegesChecked.push((document.getElementById('check-' + i) as HTMLInputElement).value);
+            }
+        }
+        if (navigator.geolocation && !this.alreadyHaveLocation) {
+            if (radiusSelected != 0) {
                 navigator.geolocation.getCurrentPosition((position) => {
                     this.userLatitude = position.coords.latitude;
                     this.userLongitude = position.coords.longitude;
-                    this.data = { 
+                    this.data = {
                         city: citySelected,
                         open: this.open,
                         privileges: privilegesChecked,
@@ -133,8 +139,8 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
                     this.alreadyHaveLocation = true;
                 });
             }
-            else{
-                this.data = { 
+            else {
+                this.data = {
                     city: citySelected,
                     open: this.open,
                     privileges: privilegesChecked,
@@ -153,25 +159,43 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
                     }
                 });
             }
-		}
-		if(this.alreadyHaveLocation){
-			this.data.city = citySelected;
-			this.data.open = this.open;
-			this.data.privileges = privilegesChecked;
-			this.data.radius = radiusSelected;
-			this.databaseService.filterRestaurants(this.data).takeUntil(this.unsubscribe).subscribe(response => {
-				if (response != '0') {
+        }
+        if (this.alreadyHaveLocation) {
+            this.data.city = citySelected;
+            this.data.open = this.open;
+            this.data.privileges = privilegesChecked;
+            this.data.radius = radiusSelected;
+            this.databaseService.filterRestaurants(this.data).takeUntil(this.unsubscribe).subscribe(response => {
+                if (response != '0') {
                     this.choosenOrder = "Newest Listings";
-					this.restaurants = response;
-					this.setPage(1);
-				}
-				else {
-					this.pagedRestaurants = [];
-				}
-				
-			});
-		}
-	}
+                    this.restaurants = response;
+                    this.setPage(1);
+                }
+                else {
+                    this.pagedRestaurants = [];
+                }
+
+            });
+        }
+    }
+
+    addOrRemoveFromFavoris(event, id) {
+        if (this.userId != 0) {
+            var dt = {
+                item: id,
+                user: this.userId,
+                action: null
+            }
+            if (event.target.classList.length == 2) {
+                dt.action = "remove";
+                this.databaseService.addToFavoris(dt).takeUntil(this.unsubscribe).subscribe();
+            }
+            else {
+                dt.action = "add";
+                this.databaseService.addToFavoris(dt).takeUntil(this.unsubscribe).subscribe();
+            }
+        }
+    }
 
     setPage(page: number) {
         if (page < 1 || page > this.pager.totalPages) {

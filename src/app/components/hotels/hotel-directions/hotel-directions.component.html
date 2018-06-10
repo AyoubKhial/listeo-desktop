@@ -3,7 +3,6 @@
 <div class="container">
     <div class="row sticky-wrapper">
         <div class="col-lg-8 col-md-8 padding-right-30">
-            <!-- Titlebar -->
             <div id="titlebar" class="listing-titlebar">
                 <div class="listing-titlebar-title">
                     <h2>{{hotel?.name}}
@@ -15,13 +14,13 @@
                         </a>
                     </span>
                     <div class="star-rating">
-                            <div class="rating-counter">
-                                ({{hotel?.number_reviews}} reviews)
-                            </div>
-                            <span class="stars alignright">
-                                <span [ngStyle]="getStars(hotel?.rating)"></span>
-                            </span>
+                        <div class="rating-counter">
+                            ({{hotel?.number_reviews}} reviews)
                         </div>
+                        <span class="stars alignright">
+                            <span [ngStyle]="getStars(hotel?.rating)"></span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
