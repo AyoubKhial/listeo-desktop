@@ -15,7 +15,7 @@ export class ArticleDetailComponent implements OnInit {
     private articleId: number;
     public article;
     private unsubscribe = new Subject<void>();
-    public comments: any[];
+    private comments: any[];
     public pager: any = {};
     public pagedComments: any[];
 
@@ -32,11 +32,16 @@ export class ArticleDetailComponent implements OnInit {
             this.articleId = params['id'];
         });
     }
-    x;
+
     getArticleDetails() {
         this.databaseService.getArticleDetails(this.articleId).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
                 this.article = response[0];
+                console.log(this.article);
+                if(this.article.comments){
+                    this.comments = this.article.comments
+                    this.setPage(1);
+                }
             }
         });
     }
@@ -57,5 +62,4 @@ export class ArticleDetailComponent implements OnInit {
         this.unsubscribe.next();
         this.unsubscribe.complete();
     }
-
 }

@@ -217,6 +217,7 @@ export class DatabaseService {
             .map(response => {
                 this.hasResult = response;
                 if (this.hasResult._body !== 'Not found') {
+                    console.log(response.text());
                     return response.json();
                 }
                 else {

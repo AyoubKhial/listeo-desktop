@@ -72,8 +72,8 @@
             $z = 0;
             $n = 0;
             $sql11 = "SELECT ci.id, ci.texte, CONCAT(u.first_name, ' ', u.last_name) AS utilisateur, ci.inserted, u.photo, ci.rating
-                    FROM utilisateur u INNER JOIN commentaire_item ci ON u.id = ci.id_utilisateur INNER JOIN item i ON ci.id_item = i.id
-                    WHERE i.id = $restaurantId AND ci.texte IS NOT NULL
+                    FROM utilisateur u INNER JOIN commentaire_item ci ON u.id = ci.id_utilisateur
+                    WHERE ci.id_item = $restaurantId AND ci.texte IS NOT NULL
                     ORDER BY ci.inserted DESC";
             $result11 = $conn->query($sql11);
             if ($result11->num_rows > 0) {

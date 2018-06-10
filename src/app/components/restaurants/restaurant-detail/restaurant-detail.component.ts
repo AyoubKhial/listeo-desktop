@@ -16,7 +16,7 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
     private restaurantId: number;
     public restaurant;
     private unsubscribe = new Subject<void>();
-    public comments: any[];
+    private comments: any[];
     public pager: any = {};
     public pagedComments: any[];
     
@@ -42,7 +42,6 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
                     this.comments = this.restaurant.comments
                     this.setPage(1);
                 }
-                
             }
         });
     }

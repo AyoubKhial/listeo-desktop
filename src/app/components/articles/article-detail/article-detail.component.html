@@ -109,88 +109,73 @@
                 <div class="margin-top-50"></div>
                 <section class="comments">
                     <h4 class="headline margin-bottom-35">Comments
-                        <span class="comments-amount">(5)</span>
+                        <span class="comments-amount">({{article?.number_comments}})</span>
                     </h4>
                     <ul>
-                        <li>
+                        <li *ngFor="let comment of pagedComments" >
                             <div class="avatar">
-                                <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
+                                <img *ngIf="comment[3] !== null; else defaultPhoto" src="assets/images/users/{{comment[3]}}" alt="">
+                                <ng-template #defaultPhoto>
+                                    <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
+                                </ng-template>
                             </div>
                             <div class="comment-content">
                                 <div class="arrow-comment"></div>
-                                <div class="comment-by">Kathy Brown
-                                    <span class="date">22 August 2017</span>
+                                <div class="comment-by">{{comment[2]}}
+                                    <span class="date">{{comment[4] | date:'longDate'}}</span>
                                     <a href="#" class="reply">
                                         <i class="fa fa-reply"></i> Reply</a>
                                 </div>
-                                <p>Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere tristique sem,
-                                    eu ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus</p>
+                                <p>{{comment[1]}}</p>
                             </div>
-                            <ul>
+                            <ul *ngFor="let reply of comment[5]" >
                                 <li>
                                     <div class="avatar">
-                                        <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
+                                        <img *ngIf="reply[3] !== null; else defaultPhoto" src="assets/images/users/{{reply[3]}}" alt="">
+                                        <ng-template #defaultPhoto>
+                                            <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
+                                        </ng-template>
                                     </div>
                                     <div class="comment-content">
                                         <div class="arrow-comment"></div>
-                                        <div class="comment-by">Tom Smith
-                                            <span class="date">22 August 2017</span>
+                                        <div class="comment-by">{{reply[2]}}
+                                            <span class="date">{{reply[1] | date:'longDate'}}</span>
                                             <a href="#" class="reply">
                                                 <i class="fa fa-reply"></i> Reply</a>
                                         </div>
-                                        <p>Rrhoncus et erat. Nam posuere tristique sem, eu ultricies tortor imperdiet vitae.
-                                            Curabitur lacinia neque.</p>
+                                        <p>{{reply[0]}}</p>
                                     </div>
-                                </li>
-                                <li>
-                                    <div class="avatar">
-                                        <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
-                                    </div>
-                                    <div class="comment-content">
-                                        <div class="arrow-comment"></div>
-                                        <div class="comment-by">Kathy Brown
-                                            <span class="date">20 August 2017</span>
-                                            <a href="#" class="reply">
-                                                <i class="fa fa-reply"></i> Reply</a>
-                                        </div>
-                                        <p>Nam posuere tristique sem, eu ultricies tortor.</p>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            <div class="avatar">
-                                                <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
-                                            </div>
-                                            <div class="comment-content">
-                                                <div class="arrow-comment"></div>
-                                                <div class="comment-by">John Doe
-                                                    <span class="date">18 August 2017</span>
-                                                    <a href="#" class="reply">
-                                                        <i class="fa fa-reply"></i> Reply</a>
-                                                </div>
-                                                <p>Great template!</p>
-                                            </div>
-                                        </li>
-                                    </ul>
                                 </li>
                             </ul>
-                        </li>
-                        <li>
-                            <div class="avatar">
-                                <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" /> </div>
-                            <div class="comment-content">
-                                <div class="arrow-comment"></div>
-                                <div class="comment-by">John Doe
-                                    <span class="date">18 August 2017</span>
-                                    <a href="#" class="reply">
-                                        <i class="fa fa-reply"></i> Reply</a>
-                                </div>
-                                <p>Commodo est luctus eget. Proin in nunc laoreet justo volutpat blandit enim. Sem felis, ullamcorper
-                                    vel aliquam non, varius eget justo. Duis quis nunc tellus sollicitudin mauris.</p>
-                            </div>
                         </li>
                     </ul>
                 </section>
                 <div class="clearfix"></div>
+                <div class="row" *ngIf="article?.comments">
+                    <div class="col-md-12">
+                        <div class="pagination-container margin-top-30">
+                            <nav class="pagination">
+                                    <ul *ngIf="pager.pages && pager.pages.length">
+                                            <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                                <a (click)="setPage(1)">First</a>
+                                            </li>
+                                            <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                                <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                                            </li>
+                                            <li *ngFor="let page of pager.pages" [ngClass]="{'current-page':pager.currentPage === page}">
+                                                <a (click)="setPage(page)" [ngClass]="{'current-page':pager.currentPage === page}">{{page}}</a>
+                                            </li>
+                                            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                                <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                                            </li>
+                                            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                                <a (click)="setPage(pager.totalPages)">Last</a>
+                                            </li>
+                                        </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
                 <div id="add-review" class="add-review-box">
                     <h3 class="listing-desc-headline margin-bottom-35">Add Review</h3>
                     <form id="add-comment" class="add-comment">
