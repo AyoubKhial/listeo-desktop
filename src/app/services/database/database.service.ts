@@ -263,4 +263,31 @@ export class DatabaseService {
                 }
             });
     }
+
+    getTopRatedLocations(): Observable<any> {
+        return this.http.get('http://localhost/listeo-desktop/src/api/database/getTopRatedLocations.php')
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
+    getLastArticles(): Observable<any> {
+        return this.http.get('http://localhost/listeo-desktop/src/api/database/getLastArticles.php')
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
+                    console.log(response.text());
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
 }
