@@ -5,14 +5,14 @@ import { DatabaseService } from '../../../services/database/database.service';
 import 'rxjs/add/operator/takeUntil';
 
 @Component({
-    selector: 'app-restaurant-directions',
-    templateUrl: './restaurant-directions.component.html',
-    styleUrls: ['./restaurant-directions.component.css']
+    selector: 'app-hotel-directions',
+    templateUrl: './hotel-directions.component.html',
+    styleUrls: ['./hotel-directions.component.css']
 })
-export class RestaurantDirectionsComponent implements OnInit, OnDestroy {
+export class HotelDirectionsComponent implements OnInit {
 
-    private restaurantId: number;
-    public restaurant;
+    private hotelId: number;
+    public hotel;
     private unsubscribe = new Subject<void>();
 
     constructor(private activatedRoute: ActivatedRoute, private databaseService: DatabaseService) {
@@ -23,21 +23,21 @@ export class RestaurantDirectionsComponent implements OnInit, OnDestroy {
         if(x != null){
             x.remove();
         }
-        this.getRestaurantId();
-        this.getRestaurantBasicInformation();
+        this.getHotelId();
+        this.getHotelBasicInformation();
     }
 
 
-    getRestaurantId() {
+    getHotelId() {
         this.activatedRoute.params.subscribe((params: Params) => {
-            this.restaurantId = params['id'];
+            this.hotelId = params['id'];
         });
     }
 
-    getRestaurantBasicInformation() {
-        this.databaseService.getRestaurantBasicInformation(this.restaurantId).takeUntil(this.unsubscribe).subscribe(response => {
+    getHotelBasicInformation() {
+        this.databaseService.getHotelBasicInformation(this.hotelId).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
-                this.restaurant = response[0];
+                this.hotel = response[0];
             }
         });
     }

@@ -93,7 +93,7 @@
 
                 <div id="singleListingMap-container">
                     <div id="singleListingMap" attr.data-latitude="{{hotel?.latitude}}" attr.data-longitude="{{hotel?.longitude}}" data-map-icon="fa fa-bed"></div>
-                    <a href="#" id="streetView">Street View</a>
+                    <a [routerLink]="['directions']" id="streetView">Go to this hotel</a>
                 </div>
             </div>
             <div id="listing-reviews" class="listing-section">

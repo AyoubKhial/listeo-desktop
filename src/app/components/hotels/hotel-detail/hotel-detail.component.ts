@@ -37,7 +37,6 @@ export class HotelDetailComponent implements OnInit {
         this.databaseService.getHotelDetails(this.hotelId).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
                 this.hotel = response[0];
-                console.log(this.hotel);
                 if(this.hotel.comments){
                     this.comments = this.hotel.comments
                     this.setPage(1);
