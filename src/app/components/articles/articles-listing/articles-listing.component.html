@@ -23,12 +23,12 @@
         <div class="row">
             <div class="col-lg-9 col-md-8 padding-right-30" *ngIf="pagedArticles?.length > 0">
                 <div class="blog-post" *ngFor="let article of pagedArticles">
-                    <a href="pages-blog-post.html" class="post-img">
+                    <a [routerLink]="['/articles', article.id]" class="post-img">
                         <img src="assets/images/blog-post-01.jpg" alt="">
                     </a>
                     <div class="post-content">
                         <h3>
-                            <a href="pages-blog-post.html">{{article.titre}} </a>
+                            <a href="pages-blog-post.html">{{article.titre}}</a>
                         </h3>
                         <ul class="post-meta">
                             <li>{{article.inserted | date:'longDate'}}</li>

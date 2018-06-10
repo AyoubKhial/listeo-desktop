@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { HotelsListingComponent } from './components/hotels/hotels-listing/hotels-listing.component';
 import { RestaurantDetailComponent } from './components/restaurants/restaurant-detail/restaurant-detail.component';
 import { RestaurantDirectionsComponent } from './components/restaurants/restaurant-directions/restaurant-directions.component';
+import { ArticleDetailComponent } from './components/articles/article-detail/article-detail.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { RestaurantDirectionsComponent } from './components/restaurants/restaura
         RestaurantsListingComponent,
         HotelsListingComponent,
         RestaurantDetailComponent,
-        RestaurantDirectionsComponent
+        RestaurantDirectionsComponent,
+        ArticleDetailComponent
     ],
     imports: [
         BrowserModule,

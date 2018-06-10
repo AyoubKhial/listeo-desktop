@@ -1,0 +1,222 @@
+<button onclick="scriptCall()" id="scriptCall" style="display: none"></button>
+<div id="titlebar" class="gradient">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Blog</h2>
+                <span>Latest News</span>
+                <nav id="breadcrumbs">
+                    <ul>
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>Blog</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="blog-page">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="blog-post single-post">
+                    <img class="post-img" src="assets/images/articles/{{article?.photo}}" alt="">
+                    <div class="post-content">
+                        <h3>{{article?.titre}}</h3>
+                        <ul class="post-meta">
+                            <li>{{article?.inserted | date:'longDate'}}</li>
+                            <li>
+                                <a href="#" *ngFor="let tag of article?.tags; let isLast = last">{{tag}}{{isLast ? '' : ', '}}</a>
+                            </li>
+                            <li>
+                                <a href="#">{{article?.number_comments}} Comments</a>
+                            </li>
+                        </ul>
+                        <p [innerHTML]="article?.texte"></p>
+                        <ul class="share-buttons margin-top-40 margin-bottom-0">
+                            <li>
+                                <a class="fb-share" href="#">
+                                    <i class="fa fa-facebook"></i> Share
+                                </a>
+                            </li>
+                            <li>
+                                <a class="twitter-share" href="#">
+                                    <i class="fa fa-twitter"></i> Tweet
+                                </a>
+                            </li>
+                            <li>
+                                <a class="gplus-share" href="#">
+                                    <i class="fa fa-google-plus"></i> Share
+                                </a>
+                            </li>
+                            <li>
+                                <a class="pinterest-share" href="#">
+                                    <i class="fa fa-pinterest-p"></i> Pin
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <ul id="posts-nav" class="margin-top-0 margin-bottom-45">
+                    <li class="next-post" *ngIf="article?.next_id != 'null'">
+                        <a *ngIf="article">
+                            <span>Next Post</span>
+                            {{article?.next_name}}
+                        </a>
+                    </li>
+                    <li class="prev-post" *ngIf="article?.previous_id != 'null'">
+                        <a *ngIf="article">
+                            <span>Previous Post</span>
+                            {{article?.previous_name}}
+                        </a>
+                    </li>
+                </ul>
+                <div class="about-author">
+                    <img *ngIf="article?.user_photo !== null; else defaultPhoto" src="assets/images/users/{{article?.user_photo}}" alt="">
+                    <ng-template #defaultPhoto>
+                        <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
+                    </ng-template>
+                    <div class="about-description">
+                        <h4>{{article?.user_name}}</h4>
+                        <a href="#">
+                            <span class="__cf_email__" data-cfemail="a4d0cbc9e4c1dcc5c9d4c8c18ac7cbc9">{{article?.email}}</span>
+                        </a>
+                        <p>{{article?.activities}}</p>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <h4 class="headline margin-top-25">Related Posts</h4>
+                <div class="row">
+                    <div class="col-md-6" *ngFor="let relatedPost of article?.related_posts" >
+                        <a href="#" class="blog-compact-item-container">
+                            <div class="blog-compact-item">
+                                <img src="assets/images/articles/{{relatedPost[2]}}" alt="">
+                                <span class="blog-item-tag">{{relatedPost[4]}}</span>
+                                <div class="blog-compact-item-content">
+                                    <ul class="blog-post-tags">
+                                        <li>{{relatedPost[3] | date:'longDate'}}</li>
+                                    </ul>
+                                    <h3>{{relatedPost[1]}}</h3>
+                                    <p [innerHTML]="(relatedPost[5] | slice:0:150) +'...'"></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="margin-top-50"></div>
+                <section class="comments">
+                    <h4 class="headline margin-bottom-35">Comments
+                        <span class="comments-amount">(5)</span>
+                    </h4>
+                    <ul>
+                        <li>
+                            <div class="avatar">
+                                <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
+                            </div>
+                            <div class="comment-content">
+                                <div class="arrow-comment"></div>
+                                <div class="comment-by">Kathy Brown
+                                    <span class="date">22 August 2017</span>
+                                    <a href="#" class="reply">
+                                        <i class="fa fa-reply"></i> Reply</a>
+                                </div>
+                                <p>Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere tristique sem,
+                                    eu ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus</p>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="avatar">
+                                        <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
+                                    </div>
+                                    <div class="comment-content">
+                                        <div class="arrow-comment"></div>
+                                        <div class="comment-by">Tom Smith
+                                            <span class="date">22 August 2017</span>
+                                            <a href="#" class="reply">
+                                                <i class="fa fa-reply"></i> Reply</a>
+                                        </div>
+                                        <p>Rrhoncus et erat. Nam posuere tristique sem, eu ultricies tortor imperdiet vitae.
+                                            Curabitur lacinia neque.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="avatar">
+                                        <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
+                                    </div>
+                                    <div class="comment-content">
+                                        <div class="arrow-comment"></div>
+                                        <div class="comment-by">Kathy Brown
+                                            <span class="date">20 August 2017</span>
+                                            <a href="#" class="reply">
+                                                <i class="fa fa-reply"></i> Reply</a>
+                                        </div>
+                                        <p>Nam posuere tristique sem, eu ultricies tortor.</p>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <div class="avatar">
+                                                <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
+                                            </div>
+                                            <div class="comment-content">
+                                                <div class="arrow-comment"></div>
+                                                <div class="comment-by">John Doe
+                                                    <span class="date">18 August 2017</span>
+                                                    <a href="#" class="reply">
+                                                        <i class="fa fa-reply"></i> Reply</a>
+                                                </div>
+                                                <p>Great template!</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div class="avatar">
+                                <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" /> </div>
+                            <div class="comment-content">
+                                <div class="arrow-comment"></div>
+                                <div class="comment-by">John Doe
+                                    <span class="date">18 August 2017</span>
+                                    <a href="#" class="reply">
+                                        <i class="fa fa-reply"></i> Reply</a>
+                                </div>
+                                <p>Commodo est luctus eget. Proin in nunc laoreet justo volutpat blandit enim. Sem felis, ullamcorper
+                                    vel aliquam non, varius eget justo. Duis quis nunc tellus sollicitudin mauris.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+                <div class="clearfix"></div>
+                <div id="add-review" class="add-review-box">
+                    <h3 class="listing-desc-headline margin-bottom-35">Add Review</h3>
+                    <form id="add-comment" class="add-comment">
+                        <fieldset>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Name:</label>
+                                    <input type="text" value="" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Email:</label>
+                                    <input type="text" value="" />
+                                </div>
+                            </div>
+                            <div>
+                                <label>Comment:</label>
+                                <textarea cols="40" rows="3"></textarea>
+                            </div>
+
+                        </fieldset>
+
+                        <button class="button">Submit Comment</button>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
