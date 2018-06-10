@@ -217,6 +217,19 @@ export class DatabaseService {
             .map(response => {
                 this.hasResult = response;
                 if (this.hasResult._body !== 'Not found') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
+    getHotelDetails(hotelId) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/getHotelDetails.php', hotelId)
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
                     console.log(response.text());
                     return response.json();
                 }

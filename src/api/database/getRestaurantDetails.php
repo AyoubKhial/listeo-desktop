@@ -39,7 +39,6 @@
                     WHERE i.id = $restaurantId";
             $result5 = $conn->query($sql5);
             if ($result5->num_rows > 0) {
-                $data5 = array();
                 $data8 = array();
                 $data9 = array();
         		while($row5 = $result5->fetch_assoc()) {

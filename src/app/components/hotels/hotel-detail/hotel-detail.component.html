@@ -1,7 +1,7 @@
 <button onclick="scriptCall()" id="scriptCall" style="display: none"></button>
 <button onclick="singleListingMap()" id="loadMap" style="display: none"></button>
-<div class="listing-slider mfp-gallery-container margin-bottom-0" *ngIf="restaurant.photos; else defaultSliderPhotos">
-    <a *ngFor="let photo of restaurant.photos" href="assets/images/restaurants/{{photo}}" attr.data-background-image="assets/images/restaurants/{{photo}}"
+<div class="listing-slider mfp-gallery-container margin-bottom-0" *ngIf="hotel.photos; else defaultSliderPhotos">
+    <a *ngFor="let photo of hotel.photos" href="assets/images/hotels/{{photo}}" attr.data-background-image="assets/images/hotels/{{photo}}"
         class="item mfp-gallery" title="Title 1"></a>
 </div>
 <ng-template #defaultSliderPhotos>
@@ -21,21 +21,19 @@
         <div class="col-lg-8 col-md-8 padding-right-30">
             <div id="titlebar" class="listing-titlebar">
                 <div class="listing-titlebar-title">
-                    <h2>{{restaurant.name}}
-                        <span class="listing-tag">{{restaurant.category_name}}</span>
-                    </h2>
+                    <h2>{{hotel?.name}}</h2>
                     <span>
                         <a href="#listing-location" class="listing-address">
                             <i class="fa fa-map-marker"></i>
-                            {{restaurant.adresse}}, {{restaurant.ville_name}}
+                            {{hotel?.adresse}}, {{hotel?.ville_name}}
                         </a>
                     </span>
                     <div class="star-rating">
                         <div class="rating-counter">
-                            ({{restaurant.number_reviews}} reviews)
+                            ({{hotel?.number_reviews}} reviews)
                         </div>
                         <span class="stars alignright">
-                            <span [ngStyle]="getStars(restaurant.rating)"></span>
+                            <span [ngStyle]="getStars(hotel?.rating)"></span>
                         </span>
                     </div>
                 </div>
@@ -61,52 +59,50 @@
             </div>
             <div id="listing-overview" class="listing-section">
                 <p>
-                    {{restaurant?.description}}
+                    {{hotel?.description}}
                 </p>
                 <h3 class="listing-desc-headline">Privileges</h3>
-                <ul class="listing-features checkboxes margin-top-0" *ngIf="restaurant.privileges; else noPrivilegesFound">
-                    <li *ngFor="let privilege of restaurant.privileges">{{privilege}}</li>
+                <ul class="listing-features checkboxes margin-top-0" *ngIf="hotel.privileges; else noPrivilegesFound">
+                    <li *ngFor="let privilege of hotel?.privileges">{{privilege}}</li>
                 </ul>
                 <ng-template #noPrivilegesFound>
-                    <span class="no-data">This restaurant has no privileges informations.</span>
+                    <span class="no-data">This hotel has no privileges informations.</span>
                 </ng-template>
             </div>
             <div id="listing-pricing-list" class="listing-section">
                 <h3 class="listing-desc-headline margin-top-70 margin-bottom-30">Pricing</h3>
-                <div class="show-more" *ngIf="restaurant.categories; else noPricesFound">
+                <div class="show-more" *ngIf="hotel.chambres; else noPricesFound">
                     <div class="pricing-list-container">
-                        <div *ngFor="let category of restaurant.categories; let i = index">
-                            <h4>{{category.name}}</h4>
-                            <ul>
-                                <li *ngFor="let plat of restaurant.categories[i].plats; let j = index">
-                                    <h5>{{plat}}</h5>
-                                    <span>${{restaurant.categories[i].prices[j]}}</span>
-                                </li>
-                            </ul>
-                        </div>
+                        <ul>
+                            <li *ngFor="let chambre of hotel?.chambres">
+                                <h5>{{chambre.name}}</h5>
+                                <span>${{chambre.price}}</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <ng-template #noPricesFound>
                     <span class="no-data">This restaurant has no prices informations.</span>
                 </ng-template>
-                <!--<a href="#" class="show-more-button" data-more-title="Show More" data-less-title="Show Less" *ngIf="restaurant.categories">
+                <!-- <a href="#" class="show-more-button" data-more-title="Show More" data-less-title="Show Less" *ngIf="hotel.chambres">
                     <i class="fa fa-angle-down"></i>
-                </a>-->
+                </a> -->
             </div>
             <div id="listing-location" class="listing-section">
                 <h3 class="listing-desc-headline margin-top-60 margin-bottom-30">Location</h3>
+
                 <div id="singleListingMap-container">
-                    <div id="singleListingMap" attr.data-latitude="{{restaurant.latitude}}" attr.data-longitude="{{restaurant.longitude}}" data-map-icon="im im-icon-Hamburger"></div>
-                    <a [routerLink]="['directions']" id="streetView">Go to this restaurant</a>
+                    <div id="singleListingMap" attr.data-latitude="{{hotel?.latitude}}" attr.data-longitude="{{hotel?.longitude}}" data-map-icon="fa fa-bed"></div>
+                    <a href="#" id="streetView">Street View</a>
                 </div>
             </div>
             <div id="listing-reviews" class="listing-section">
                 <h3 class="listing-desc-headline margin-top-75 margin-bottom-20">Comments
-                    <span>({{restaurant.number_comments}})</span>
+                    <span>({{hotel?.number_comments}})</span>
                 </h3>
                 <div class="clearfix"></div>
                 <section class="comments listing-reviews">
-                    <ul *ngIf="restaurant.comments; else noCommentsFound">
+                    <ul *ngIf="hotel.comments; else noCommentsFound">
                         <li *ngFor="let comment of pagedComments">
                             <div class="avatar">
                                 <img *ngIf="comment[3] !== 'null'; else defaultPhoto" src="assets/images/users/{{comment[3]}}" alt="">
@@ -142,7 +138,7 @@
                     </ng-template>
                 </section>
                 <div class="clearfix"></div>
-                <div class="row" *ngIf="restaurant.comments">
+                <div class="row" *ngIf="hotel.comments">
                     <div class="col-md-12">
                         <div class="pagination-container margin-top-30">
                             <nav class="pagination">
@@ -189,12 +185,12 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
+
                     <div class="col-md-6">
                         <div class="add-review-photos margin-bottom-30">
                             <div class="photoUpload">
                                 <span>
-                                    <i class="sl sl-icon-arrow-up-circle"></i> Upload Photos
-                                </span>
+                                    <i class="sl sl-icon-arrow-up-circle"></i> Upload Photos</span>
                                 <input type="file" class="upload" />
                             </div>
                         </div>
@@ -207,7 +203,6 @@
                                 <label>Name:</label>
                                 <input type="text" value="" />
                             </div>
-
                             <div class="col-md-6">
                                 <label>Email:</label>
                                 <input type="text" value="" />
@@ -227,30 +222,6 @@
             <div class="verified-badge with-tip" data-tip-content="Listing has been verified and belongs the business owner or manager.">
                 <i class="sl sl-icon-check"></i> Verified Listing
             </div>
-            <div class="boxed-widget opening-hours margin-top-35">
-                <div *ngIf="restaurant.open; else closed" class="listing-badge now-open">Now Open</div>
-                <ng-template #closed>
-                    <div class="listing-badge now-closed">Now Closed</div>
-                </ng-template>
-                <h3>
-                    <i class="sl sl-icon-clock"></i> Opening Hours
-                </h3>
-                <ul *ngIf="restaurant.horaire; else noHoraireFound">
-                    <div *ngFor="let horaire of restaurant.horaire">
-                        <li *ngIf="horaire[3] != 1; else closed">{{horaire[0]}}
-                            <span>{{horaire[1]}} - {{horaire[2]}}</span>
-                        </li>
-                        <ng-template #closed>
-                            <li>{{horaire[0]}}
-                                <span>Closed</span>
-                            </li>
-                        </ng-template>
-                    </div>
-                </ul>
-                <ng-template #noHoraireFound>
-                    <span class="no-data">This restaurant has no opening hours informations.</span>
-                </ng-template>
-            </div>
             <div class="boxed-widget margin-top-35">
                 <div class="hosted-by-title">
                     <h4>
@@ -258,13 +229,12 @@
                         <a href="pages-user-profile.html">Tom Perrin</a>
                     </h4>
                     <a href="pages-user-profile.html" class="hosted-by-avatar">
-                        <img src="assets/images/dashboard-avatar.jpg" alt="">
+                        <img src="images/dashboard-avatar.jpg" alt="">
                     </a>
                 </div>
                 <ul class="listing-details-sidebar">
                     <li>
-                        <i class="sl sl-icon-phone"></i> (123) 123-456
-                    </li>
+                        <i class="sl sl-icon-phone"></i> (123) 123-456</li>
                     <li>
                         <i class="fa fa-envelope-o"></i>
                         <a href="#">
@@ -272,16 +242,15 @@
                         </a>
                     </li>
                 </ul>
+
                 <ul class="listing-details-sidebar social-profiles">
                     <li>
                         <a href="#" class="facebook-profile">
-                            <i class="fa fa-facebook-square"></i> Facebook
-                        </a>
+                            <i class="fa fa-facebook-square"></i> Facebook</a>
                     </li>
                     <li>
                         <a href="#" class="twitter-profile">
-                            <i class="fa fa-twitter"></i> Twitter
-                        </a>
+                            <i class="fa fa-twitter"></i> Twitter</a>
                     </li>
                 </ul>
                 <div id="small-dialog" class="zoom-anim-dialog mfp-hide">
@@ -293,9 +262,9 @@
                         <button class="button">Send Message</button>
                     </div>
                 </div>
+
                 <a href="#small-dialog" class="send-message-to-owner button popup-with-zoom-anim">
-                    <i class="sl sl-icon-envelope-open"></i> Send Message
-                </a>
+                    <i class="sl sl-icon-envelope-open"></i> Send Message</a>
             </div>
             <div class="listing-share margin-top-40 margin-bottom-40 no-border">
                 <button class="like-button">
@@ -304,22 +273,21 @@
                 <ul class="share-buttons margin-top-40 margin-bottom-0">
                     <li>
                         <a class="fb-share" href="#">
-                            <i class="fa fa-facebook"></i> Share
-                        </a>
+                            <i class="fa fa-facebook"></i> Share</a>
                     </li>
                     <li>
                         <a class="twitter-share" href="#">
-                            <i class="fa fa-twitter"></i> Tweet
-                        </a>
+                            <i class="fa fa-twitter"></i> Tweet</a>
                     </li>
                     <li>
                         <a class="gplus-share" href="#">
-                            <i class="fa fa-google-plus"></i> Share
-                        </a>
+                            <i class="fa fa-google-plus"></i> Share</a>
                     </li>
+                    <!-- <li><a class="pinterest-share" href="#"><i class="fa fa-pinterest-p"></i> Pin</a></li> -->
                 </ul>
                 <div class="clearfix"></div>
             </div>
+
         </div>
     </div>
 </div>

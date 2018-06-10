@@ -18,6 +18,7 @@ import { HotelsListingComponent } from './components/hotels/hotels-listing/hotel
 import { RestaurantDetailComponent } from './components/restaurants/restaurant-detail/restaurant-detail.component';
 import { RestaurantDirectionsComponent } from './components/restaurants/restaurant-directions/restaurant-directions.component';
 import { ArticleDetailComponent } from './components/articles/article-detail/article-detail.component';
+import { HotelDetailComponent } from './components/hotels/hotel-detail/hotel-detail.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import { ArticleDetailComponent } from './components/articles/article-detail/art
         HotelsListingComponent,
         RestaurantDetailComponent,
         RestaurantDirectionsComponent,
-        ArticleDetailComponent
+        ArticleDetailComponent,
+        HotelDetailComponent
     ],
     imports: [
         BrowserModule,

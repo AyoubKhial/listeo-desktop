@@ -1,44 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
 import { DatabaseService } from '../../../services/database/database.service';
-import { ActivatedRoute } from '@angular/router';
 import { PagerService } from '../../../services/pager/pager.service';
 import 'rxjs/add/operator/takeUntil';
 
 @Component({
-    selector: 'app-article-detail',
-    templateUrl: './article-detail.component.html',
-    styleUrls: ['./article-detail.component.css']
+  selector: 'app-hotel-detail',
+  templateUrl: './hotel-detail.component.html',
+  styleUrls: ['./hotel-detail.component.css']
 })
-export class ArticleDetailComponent implements OnInit {
+export class HotelDetailComponent implements OnInit {
 
-    private articleId: number;
-    public article;
+    private hotelId: number;
+    public hotel;
     private unsubscribe = new Subject<void>();
     private comments: any[];
     public pager: any = {};
     public pagedComments: any[];
-
+    
     constructor(private activatedRoute: ActivatedRoute, private databaseService: DatabaseService, private pagerService: PagerService) {
     }
 
     ngOnInit() {
-        this.getArticleId();
-        this.getArticleDetails();
+        this.getHotelId();
+        this.getHotelDetails();
     }
 
-    getArticleId() {
-        this.activatedRoute.params.subscribe((params: ParameterDecorator) => {
-            this.articleId = params['id'];
+    getHotelId() {
+        this.activatedRoute.params.subscribe((params: Params) => {
+            this.hotelId = params['id'];
         });
     }
 
-    getArticleDetails() {
-        this.databaseService.getArticleDetails(this.articleId).takeUntil(this.unsubscribe).subscribe(response => {
+    getHotelDetails() {
+        this.databaseService.getHotelDetails(this.hotelId).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
-                this.article = response[0];
-                if(this.article.comments){
-                    this.comments = this.article.comments
+                this.hotel = response[0];
+                console.log(this.hotel);
+                if(this.hotel.comments){
+                    this.comments = this.hotel.comments
                     this.setPage(1);
                 }
             }
@@ -61,4 +62,5 @@ export class ArticleDetailComponent implements OnInit {
         this.unsubscribe.next();
         this.unsubscribe.complete();
     }
+
 }

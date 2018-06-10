@@ -24,7 +24,7 @@ export class AppComponent {
                     this.calljs.unsubscribe();
                     
                 });
-                if (event.url.includes('restaurants/')) {
+                if (event.url.includes('restaurants/') || event.url.includes('hotels/')) {
                     this.callMapScript = Observable.interval(500).subscribe((val) => {
                         var loadMap = document.getElementById('loadMap');
                         loadMap.click();

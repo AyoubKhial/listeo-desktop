@@ -63,9 +63,9 @@
             <div class="row" *ngIf="listingList && pagedHotels?.length > 0">
                 <div class="col-lg-12 col-md-12" *ngFor="let hotel of pagedHotels">
                     <div class="listing-item-container list-layout">
-                        <a href="listings-single-page.html" class="listing-item">
+                        <a [routerLink]="['/hotels', hotel.id]" class="listing-item">
                             <div class="listing-item-image">
-                                <img *ngIf="hotel.photo !== 'null'; else defaultPhoto" src="assets/images/{{hotel.photo}}" alt="">
+                                <img *ngIf="hotel.photo !== 'null'; else defaultPhoto" src="assets/images/hotels/{{hotel.photo}}" alt="">
                                 <ng-template #defaultPhoto>
                                     <img src="assets/images/listing-item-01.jpg" alt="">
                                 </ng-template>
@@ -95,7 +95,7 @@
                 <div class="col-lg-6 col-md-12" *ngFor="let hotel of pagedHotels">
                     <a href="listings-single-page.html" class="listing-item-container compact">
                         <div class="listing-item">
-                            <img *ngIf="hotel.photo !== 'null'; else defaultPhoto" src="assets/images/{{hotel.photo}}" alt="">
+                            <img *ngIf="hotel.photo !== 'null'; else defaultPhoto" src="assets/images/hotels/{{hotel.photo}}" alt="">
                             <ng-template #defaultPhoto>
                                 <img src="assets/images/listing-item-01.jpg" alt="">
                             </ng-template>
