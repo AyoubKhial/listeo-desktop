@@ -37,8 +37,36 @@
             </div>
             <div class="right-side">
                 <div class="header-widget">
-                    <a href="#sign-in-dialog" class="sign-in popup-with-zoom-anim">
-                        <i class="sl sl-icon-login"></i> Sign In</a>
+                    <a href="#sign-in-dialog" class="sign-in popup-with-zoom-anim" *ngIf="!isLoggedIn else connected">
+                        <i class="sl sl-icon-login"></i> Sign In
+                    </a>
+                    <ng-template #connected>
+                        <div class="user-menu">
+                            <div class="user-name">
+                                <span>
+                                    <img src="assets/images/users/{{userInformation.photo}}" alt="">
+                                </span>My Account</div>
+                            <ul>
+                                <li>
+                                    <a href="dashboard.html">
+                                        <i class="sl sl-icon-settings"></i> Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="dashboard-messages.html">
+                                        <i class="sl sl-icon-envelope-open"></i> Messages</a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <i class="fa fa-calendar-check-o"></i> Bookmarks</a>
+                                </li>
+                                <li>
+                                    <a (click)="logout()">
+                                        <i class="sl sl-icon-power"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </ng-template>
                     <a href="" class="button border with-icon">Add Listing
                         <i class="sl sl-icon-plus"></i>
                     </a>
@@ -94,7 +122,7 @@
                                         <i class="im im-icon-Male"></i>
                                         <input type="text" class="input-text" name="username" formControlName="registerFirstName" [ngClass]="{ 'has-success': registerFirstName.valid
                                         && (registerFirstName.dirty || registerFirstName.touched),'has-danger': registerFirstName.invalid
-                                        && (registerFirstName.dirty || registerFirstName.touched)}"/>
+                                        && (registerFirstName.dirty || registerFirstName.touched)}" />
                                     </label>
                                 </p>
                                 <span class="error" *ngIf="registerLastName.invalid && !!registerLastName.errors.required && (registerLastName.dirty || registerLastName.touched)">Last name is required.</span>
@@ -104,7 +132,7 @@
                                         <i class="im im-icon-Mail"></i>
                                         <input type="text" class="input-text" name="email" formControlName="registerLastName" [ngClass]="{ 'has-success': registerLastName.valid
                                         && (registerLastName.dirty || registerLastName.touched),'has-danger': registerLastName.invalid
-                                        && (registerLastName.dirty || registerLastName.touched)}"/>
+                                        && (registerLastName.dirty || registerLastName.touched)}" />
                                     </label>
                                 </p>
                                 <span class="error" *ngIf="registerEmail.invalid && !!registerEmail.errors.required && (registerEmail.dirty || registerEmail.touched)">Email is required.</span>
@@ -114,7 +142,7 @@
                                         <i class="im im-icon-Mail"></i>
                                         <input type="text" class="input-text" name="email" formControlName="registerEmail" [ngClass]="{ 'has-success': registerEmail.valid
                                         && (registerEmail.dirty || registerEmail.touched),'has-danger': registerEmail.invalid
-                                        && (registerEmail.dirty || registerEmail.touched)}"/>
+                                        && (registerEmail.dirty || registerEmail.touched)}" />
                                     </label>
                                 </p>
                                 <span class="error" *ngIf="registerPassword.invalid && !!registerPassword.errors.required && (registerPassword.dirty || registerPassword.touched)">Password is required.</span>
@@ -124,7 +152,7 @@
                                         <i class="im im-icon-Lock-2"></i>
                                         <input class="input-text" type="password" name="password1" formControlName="registerPassword" [ngClass]="{ 'has-success': registerPassword.valid
                                         && (registerPassword.dirty || registerPassword.touched),'has-danger': registerPassword.invalid
-                                        && (registerPassword.dirty || registerPassword.touched)}"/>
+                                        && (registerPassword.dirty || registerPassword.touched)}" />
                                     </label>
                                 </p>
                                 <span class="error" *ngIf="registerRepeatPassword.invalid && !!registerRepeatPassword.errors.required && (registerRepeatPassword.dirty || registerRepeatPassword.touched)">Password confirmation is required.</span>
@@ -132,7 +160,7 @@
                                 <p class="form-row form-row-wide">
                                     <label for="password2">Repeat Password:
                                         <i class="im im-icon-Lock-2"></i>
-                                        <input class="input-text" type="password" name="password2" formControlName="registerRepeatPassword"/>
+                                        <input class="input-text" type="password" name="password2" formControlName="registerRepeatPassword" />
                                     </label>
                                 </p>
                                 <p class="form-row form-row-wide">

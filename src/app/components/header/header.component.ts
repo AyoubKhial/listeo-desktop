@@ -28,11 +28,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public loginUnsuccess: boolean;
     public countries: Object;
     public passwordMismatch: boolean;
+    public isLoggedIn: boolean;
+    public userInformation;
     private unsubscribe = new Subject<void>();
-
-    constructor(private databaseService: DatabaseService, private session: SessionStorageService) { }
+    constructor(private databaseService: DatabaseService, private session: SessionStorageService) { 
+        this.isLoggedIn = false;
+    }
 
     ngOnInit() {
+        if(this.session.retrieve("login") != null){
+            this.isLoggedIn = true;
+            this.userInformation = this.session.retrieve("login");
+            console.log(this.userInformation);
+        }
         this.createLoginControls();
         this.createLoginForm();
         this.createRegisterControls();
@@ -58,7 +66,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
         if (this.loginForm.valid) {
             this.databaseService.checkLoginCredentials(this.loginForm.value).subscribe(response => {
                 if (response != "Error") {
-                    this.session.store('login', { 'id': response[0].id, 'first_name': response[0].first_name, 'last_name': response[0].last_name, 'email': response[0].email, 'type': 'log' })
+                    this.session.store(
+                        'login',
+                        {
+                            'id': response[0].id,
+                            'first_name': response[0].first_name,
+                            'last_name': response[0].last_name,
+                            'email': response[0].email,
+                            'photo': response[0].photo,
+                            'type': 'log'
+                        }
+                    );
+                    this.isLoggedIn = true;
                     window.location.reload();
                 }
                 else {
@@ -122,11 +141,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
                     .subscribe(response => {
                         this.isSuccess = response;
                         this.session.store('login', { 'id': response[0].id, 'first_name': response[0].first_name, 'last_name': response[0].last_name, 'email': response[0].email, 'type': 'log' })
+                        this.isLoggedIn = true;
                         window.location.reload();
                     });
             }
 
         }
+    }
+
+    logout(){
+        this.session.clear("login");
+        window.location.reload();
     }
 
     ngOnDestroy(): void {

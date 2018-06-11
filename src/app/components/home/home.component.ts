@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit {
                 response[i].texte = response[i].texte.replace(/(<([^>]+)>)/ig,"")
             }
             this.articles = response;
-            console.log(this.articles);
         });
         
     }
