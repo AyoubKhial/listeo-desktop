@@ -29,7 +29,7 @@
                             <a [routerLink]="['articles']" [routerLinkActive]="['current']">Articles</a>
                         </li>
                         <li>
-                            <a [routerLink]="['a']" [routerLinkActive]="['current']">Contact US</a>
+                            <a [routerLink]="['contact']" [routerLinkActive]="['current']">Contact US</a>
                         </li>
                     </ul>
                 </nav>
@@ -44,7 +44,7 @@
                         <div class="user-menu">
                             <div class="user-name">
                                 <span>
-                                    <img *ngIf="userInformation.type == 'google'" src="{{userInformation.photo}}" alt="">
+                                    <img *ngIf="userInformation.type != 'listeo'" src="{{userInformation.photo}}" alt="">
                                     <img *ngIf="userInformation.type == 'listeo'" src="assets/images/users/{{userInformation.photo}}" alt="">
                                 </span>
                                 My Account

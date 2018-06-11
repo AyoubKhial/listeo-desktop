@@ -24,11 +24,11 @@
             <div class="col-lg-9 col-md-8 padding-right-30" *ngIf="pagedArticles?.length > 0">
                 <div class="blog-post" *ngFor="let article of pagedArticles">
                     <a [routerLink]="['/articles', article.id]" class="post-img">
-                        <img src="assets/images/blog-post-01.jpg" alt="">
+                        <img src="assets/images/articles/{{article.photo}}" alt="">
                     </a>
                     <div class="post-content">
                         <h3>
-                            <a href="pages-blog-post.html">{{article.titre}}</a>
+                            <a [routerLink]="['/articles', article.id]">{{article.titre}}</a>
                         </h3>
                         <ul class="post-meta">
                             <li>{{article.inserted | date:'longDate'}}</li>
@@ -40,7 +40,7 @@
                             </li>
                         </ul>
                         <p [innerHTML]="(article.texte | slice:0:250) +'...'"></p>
-                        <a href="pages-blog-post.html" class="read-more">Read More
+                        <a [routerLink]="['/articles', article.id]" class="read-more">Read More
                             <i class="fa fa-angle-right"></i>
                         </a>
                     </div>
@@ -108,13 +108,13 @@
                             <li *ngFor="let article of popularArticles">
                                 <div class="widget-content">
                                     <div class="widget-thumb">
-                                        <a href="pages-blog-post.html">
+                                        <a [routerLink]="['/articles', article.id]">
                                             <img src="assets/images/blog-widget-03.jpg" alt="">
                                         </a>
                                     </div>
                                     <div class="widget-text">
                                         <h5>
-                                            <a href="pages-blog-post.html">{{article.titre}} </a>
+                                            <a [routerLink]="['/articles', article.id]">{{article.titre}} </a>
                                         </h5>
                                         <span>{{article.inserted | date:'longDate'}}</span>
                                     </div>

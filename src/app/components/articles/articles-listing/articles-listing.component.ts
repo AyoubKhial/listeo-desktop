@@ -42,6 +42,9 @@ export class ArticlesListingComponent implements OnInit, OnDestroy {
     getAllActivatedArticles() {
         this.databaseService.getAllActivatedArticles().takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
+                for(var i = 0 ; i< response.length ; i++){
+                    response[i].texte = response[i].texte.replace(/(<([^>]+)>)/ig,"")
+                }
                 this.articles = response;
                 this.setPage(1);
             }

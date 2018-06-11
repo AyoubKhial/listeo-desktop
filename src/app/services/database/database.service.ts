@@ -290,4 +290,18 @@ export class DatabaseService {
                 }
             });
     }
+
+    getSiteInformation(): Observable<any> {
+        return this.http.get('http://localhost/listeo-desktop/src/api/database/getSiteInformation.php')
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
+                    response = JSON.parse(response.text());
+                    return response;
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
 }

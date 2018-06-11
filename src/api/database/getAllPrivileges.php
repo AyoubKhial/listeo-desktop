@@ -7,7 +7,7 @@
         while($row = $result->fetch_assoc()) {
             $data[] = $row;
         }
-        echo json_encode($data);
+        echo json_encode(array_map('utf8_encode', $data));
     } else {
         echo "Not found";
     }

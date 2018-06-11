@@ -22,6 +22,7 @@ import { HotelDetailComponent } from './components/hotels/hotel-detail/hotel-det
 import { HotelDirectionsComponent } from './components/hotels/hotel-directions/hotel-directions.component';
 import { SocialLoginModule, AuthServiceConfig, LoginOpt } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+import { ContactComponent } from './components/contact/contact.component';
 
 let config = new AuthServiceConfig([
 	{
@@ -52,7 +53,8 @@ export function provideConfig() {
         RestaurantDirectionsComponent,
         ArticleDetailComponent,
         HotelDetailComponent,
-        HotelDirectionsComponent
+        HotelDirectionsComponent,
+        ContactComponent
     ],
     imports: [
         BrowserModule,
