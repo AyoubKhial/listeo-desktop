@@ -34,25 +34,32 @@
 		<div class="col-md-8">
 			<section id="contact">
 				<h4 class="headline margin-bottom-35">Contact Form</h4>
-				<div id="contact-message"></div> 
-					<form method="post" action="http://www.vasterad.com/themes/listeo/contact.php" name="contactform" id="contactform" autocomplete="on">
+				<div id="contact-message" *ngIf="isSuccess" >
+                    Your message has been sent.
+                </div> 
+					<form method="post" [formGroup]="contactUsForm" (ngSubmit)="contactUs()" name="contactform" id="contactform" autocomplete="on">
 					<div class="row">
 						<div class="col-md-6">
+                            <span class="error" *ngIf="contactUsName.invalid && !!contactUsName.errors.required && (contactUsName.dirty || contactUsName.touched)">Name is required.</span>
 							<div>
-								<input name="name" type="text" id="name" placeholder="Your Name" required="required" />
+								<input name="name" type="text" id="name" placeholder="Your Name" formControlName="contactUsName"/>
 							</div>
 						</div>
 						<div class="col-md-6">
-							<div>
-								<input name="email" type="email" id="email" placeholder="Email Address" pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$" required="required" />
+                            <span class="error" *ngIf="contactUsEmail.invalid && !!contactUsEmail.errors.required && (contactUsEmail.dirty || contactUsEmail.touched)">Email is required.</span>
+                            <span class="error" *ngIf="contactUsEmail.invalid && !!contactUsEmail.errors.pattern && (contactUsEmail.dirty || contactUsEmail.touched)">Invalid email.</span>
+                            <div>
+								<input name="email" type="email" id="email" placeholder="Email Address" formControlName="contactUsEmail"/>
 							</div>
 						</div>
 					</div>
 					<div>
-						<input name="subject" type="text" id="subject" placeholder="Subject" required="required" />
+                        <span class="error" *ngIf="contactUsSubject.invalid && !!contactUsSubject.errors.required && (contactUsSubject.dirty || contactUsSubject.touched)">Subject is required.</span>
+						<input name="subject" type="text" id="subject" placeholder="Subject" formControlName="contactUsSubject"/>
 					</div>
 					<div>
-						<textarea name="comments" cols="40" rows="3" id="comments" placeholder="Message" spellcheck="true" required="required"></textarea>
+                        <span class="error" *ngIf="contactUsMessage.invalid && !!contactUsMessage.errors.required && (contactUsMessage.dirty || contactUsMessage.touched)">Message is required.</span>
+						<textarea name="comments" cols="40" rows="3" id="comments" placeholder="Message" spellcheck="true" formControlName="contactUsMessage"></textarea>
 					</div>
 					<input type="submit" class="submit button" id="submit" value="Submit Message" />
 					</form>

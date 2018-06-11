@@ -802,7 +802,7 @@ function scriptCall(){
                     }
                 });
             });
-            $('#contactform').submit(function() {
+            /*$('#contactform').submit(function() {
                 if ($('#contact mark.error').size() > 0) {
                     if (shake == "Yes") {
                         $('#contact').effect('shake', {
@@ -812,7 +812,7 @@ function scriptCall(){
                     return false;
                 }
                 var action = $(this).attr('action');
-                $('#contact #submit').after('<img src="images/loader.gif" class="loader" />');
+                $('#contact #submit').after('<img src="assets/images/loader.gif" class="loader" />');
                 $('#submit').prop('disabled', true).addClass('disabled');
                 $.post(action, $('#contactform').serialize(), function(data) {
                     $('#contact-message').html(data);
@@ -823,7 +823,7 @@ function scriptCall(){
                     if (data.match('success') !== null) $('#contactform').slideUp('slow');
                 });
                 return false;
-            });
+            });*/
     
             function isEmail(emailAddress) {
                 var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
