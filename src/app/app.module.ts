@@ -20,6 +20,24 @@ import { RestaurantDirectionsComponent } from './components/restaurants/restaura
 import { ArticleDetailComponent } from './components/articles/article-detail/article-detail.component';
 import { HotelDetailComponent } from './components/hotels/hotel-detail/hotel-detail.component';
 import { HotelDirectionsComponent } from './components/hotels/hotel-directions/hotel-directions.component';
+import { SocialLoginModule, AuthServiceConfig, LoginOpt } from "angularx-social-login";
+import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+
+let config = new AuthServiceConfig([
+	{
+		id: GoogleLoginProvider.PROVIDER_ID,
+		provider: new GoogleLoginProvider("928528225593-4nc30fu37k8giiqnv8ff0tlgp4omkmvf.apps.googleusercontent.com")
+	},
+	{
+		id: FacebookLoginProvider.PROVIDER_ID,
+		provider: new FacebookLoginProvider("2164091820488016")
+	},
+
+]);
+
+export function provideConfig() {
+    return config;
+}
 
 @NgModule({
     declarations: [
@@ -42,12 +60,17 @@ import { HotelDirectionsComponent } from './components/hotels/hotel-directions/h
         ReactiveFormsModule,
         HttpModule,
         Ng2Webstorage,
-        FormsModule
+        FormsModule,
+        SocialLoginModule
     ],
     providers: [
         DatabaseService,
         MailerService,
-        PagerService
+        PagerService,
+        {
+            provide: AuthServiceConfig,
+            useFactory: provideConfig
+        }
     ],
     bootstrap: [AppComponent]
 })

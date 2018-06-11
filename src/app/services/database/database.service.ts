@@ -35,6 +35,7 @@ export class DatabaseService {
             .map(response => {
                 this.hasResult = response;
                 if (this.hasResult._body !== 'Error' && this.hasResult._body !== 'Already exists') {
+                    console.log(response.text());
                     return response.json();
                 }
                 else {

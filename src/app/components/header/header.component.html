@@ -3,7 +3,7 @@
         <div class="container">
             <div class="left-side">
                 <div id="logo">
-                    <a href="index-2.html">
+                    <a>
                         <img src="assets/images/logo.png" alt="">
                     </a>
                 </div>
@@ -44,11 +44,14 @@
                         <div class="user-menu">
                             <div class="user-name">
                                 <span>
-                                    <img src="assets/images/users/{{userInformation.photo}}" alt="">
-                                </span>My Account</div>
+                                    <img *ngIf="userInformation.type == 'google'" src="{{userInformation.photo}}" alt="">
+                                    <img *ngIf="userInformation.type == 'listeo'" src="assets/images/users/{{userInformation.photo}}" alt="">
+                                </span>
+                                My Account
+                            </div>
                             <ul>
                                 <li>
-                                    <a href="dashboard.html">
+                                    <a (click)="signInWithGoogle()">
                                         <i class="sl sl-icon-settings"></i> Dashboard</a>
                                 </li>
                                 <li>
@@ -89,6 +92,7 @@
                         <div class="tab-content" id="tab1" style="display: none;">
                             <form method="post" class="login" [formGroup]="loginForm" (ngSubmit)="checkLoginCredentials()">
                                 <p class="error" *ngIf="loginUnsuccess">The credentials that you've entered are incorrect.</p>
+                                <span *ngIf="isSuccess" class="error">Email already exists.</span>
                                 <p class="form-row form-row-wide">
                                     <label>Email:
                                         <i class="im im-icon-Male"></i>
@@ -111,12 +115,25 @@
                                         <label>Remember Me</label>
                                     </div>
                                 </div>
+                                <ul class="social-icons rounded">
+                                    <li>
+                                        <a class="facebook" (click)="signInWithFB()">
+                                            <i class="icon-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="gplus" (click)="signInWithGoogle()">
+                                            <i class="icon-gplus"></i>
+                                        </a>
+                                    </li>
+                                </ul>
                             </form>
                         </div>
                         <div class="tab-content" id="tab2" style="display: none;">
-                            <form method="post" class="register" [formGroup]="registerForm" (ngSubmit)=" registerWithForm()">
+                            <form method="post" class="register" [formGroup]="registerForm" (ngSubmit)=" registerWithForm($event)">
                                 <span class="error" *ngIf="registerFirstName.invalid && !!registerFirstName.errors.required && (registerFirstName.dirty || registerFirstName.touched)">First name is required.</span>
                                 <span class="error" *ngIf="registerFirstName.invalid && !!registerFirstName.errors.pattern && (registerFirstName.dirty || registerFirstName.touched)">Invalid first name.</span>
+                                <span *ngIf="isSuccess" class="error">Email already exists.</span>
                                 <p class="form-row form-row-wide">
                                     <label>First Name:
                                         <i class="im im-icon-Male"></i>
@@ -171,6 +188,18 @@
                                     </label>
                                 </p>
                                 <input type="submit" class="button border fw margin-top-10" name="register" value="Register" />
+                                <ul class="social-icons rounded">
+                                    <li>
+                                        <a class="facebook" (click)="signInWithFB()">
+                                            <i class="icon-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="gplus" (click)="signInWithGoogle()">
+                                            <i class="icon-gplus"></i>
+                                        </a>
+                                    </li>
+                                </ul>
                             </form>
                         </div>
                     </div>

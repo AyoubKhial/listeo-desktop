@@ -4,6 +4,11 @@ import { Subject } from 'rxjs';
 import 'rxjs/add/operator/takeUntil';
 import { DatabaseService } from '../../services/database/database.service';
 import { SessionStorageService } from 'ngx-webstorage';
+import { AuthService, SocialUser, FacebookLoginProvider } from 'angularx-social-login';
+import { GoogleLoginProvider } from "angularx-social-login";
+
+
+
 
 @Component({
     selector: 'app-header',
@@ -24,28 +29,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public registerVille: FormControl;
     @ViewChild('registerVille') registerCity;
     public loggedIn: boolean;
-    public isSuccess: string;
+    public isSuccess: boolean;
     public loginUnsuccess: boolean;
     public countries: Object;
     public passwordMismatch: boolean;
     public isLoggedIn: boolean;
     public userInformation;
     private unsubscribe = new Subject<void>();
-    constructor(private databaseService: DatabaseService, private session: SessionStorageService) { 
-        this.isLoggedIn = false;
+    private authUser: SocialUser;
+
+    constructor(private databaseService: DatabaseService, private session: SessionStorageService, private authService: AuthService) {
+        this.isSuccess = false;
     }
 
+
     ngOnInit() {
-        if(this.session.retrieve("login") != null){
+        if (this.session.retrieve("login") != null) {
             this.isLoggedIn = true;
             this.userInformation = this.session.retrieve("login");
-            console.log(this.userInformation);
         }
         this.createLoginControls();
         this.createLoginForm();
         this.createRegisterControls();
         this.createRegisterForm();
         this.getAllCountries();
+        this.authService.authState.subscribe((user) => {
+            this.authUser = user;
+        });
     }
 
     createLoginForm() {
@@ -130,28 +140,75 @@ export class HeaderComponent implements OnInit, OnDestroy {
         });
     }
 
-    registerWithForm() {
-        this.registerForm.value.registerVille = this.registerCity.nativeElement.value;
-        if (this.registerForm.valid) {
-            if (this.registerForm.value.registerPassword != this.registerForm.value.registerRepeatPassword) {
-                this.passwordMismatch = true;
+    registerWithForm(user) {
+        if (user.type != null) {
+            this.registerForm.value.registerVille = this.registerCity.nativeElement.value;
+            this.registerForm.value.provider = "LISTEO";
+            if (this.registerForm.valid) {
+                if (this.registerForm.value.registerPassword != this.registerForm.value.registerRepeatPassword) {
+                    this.passwordMismatch = true;
+                }
+                else {
+                    this.databaseService.registerWithForm(this.registerForm.value).takeUntil(this.unsubscribe)
+                        .subscribe(response => {
+                            if(response == "Already exists"){
+                                this.isSuccess = true;
+                            }
+                            else{
+                                this.session.store('login', { 'id': response[0].id, 'first_name': response[0].first_name, 'last_name': response[0].last_name, 'email': response[0].email, 'type': 'listeo' })
+                                this.isLoggedIn = true;
+                                window.location.reload();
+                            }
+                        });
+                }
             }
-            else {
-                this.databaseService.registerWithForm(this.registerForm.value).takeUntil(this.unsubscribe)
-                    .subscribe(response => {
-                        this.isSuccess = response;
-                        this.session.store('login', { 'id': response[0].id, 'first_name': response[0].first_name, 'last_name': response[0].last_name, 'email': response[0].email, 'type': 'log' })
-                        this.isLoggedIn = true;
-                        window.location.reload();
-                    });
-            }
-
+        }
+        if (user.provider != null) {
+            this.databaseService.registerWithForm(user).takeUntil(this.unsubscribe)
+                .subscribe(response => {
+                    if(user.provider == "GOOGLE"){
+                        if(response == 'Already exists'){
+                            this.isSuccess = true;
+                        }
+                        else{
+                            this.session.store('login', { 'id': response[0].id, 'first_name': response[0].first_name, 'last_name': response[0].last_name, 'email': response[0].email, 'photo': response[0].photo,'type': 'google' })
+                            this.isLoggedIn = true;
+                            window.location.reload();
+                        }
+                    }
+                    if(user.provider == "FACEBOOK"){
+                        if(response == 'Already exists'){
+                            this.isSuccess = true;
+                        }
+                        else{
+                            this.session.store('login', { 'id': response[0].id, 'first_name': response[0].first_name, 'last_name': response[0].last_name, 'email': response[0].email, 'photo': response[0].photo,'type': 'facebook' })
+                            this.isLoggedIn = true;
+                            window.location.reload();
+                        }
+                    }
+                });
         }
     }
 
-    logout(){
+    logout() {
         this.session.clear("login");
         window.location.reload();
+    }
+
+    signInWithGoogle(): void {
+        this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(response => {
+            this.registerWithForm(response)
+        });
+    }
+
+    signInWithFB(): void {
+        this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(response => {
+            this.registerWithForm(response)
+        });;
+    }
+
+    signOut(): void {
+        this.authService.signOut();
     }
 
     ngOnDestroy(): void {
