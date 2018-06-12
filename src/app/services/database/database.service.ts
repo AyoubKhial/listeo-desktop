@@ -317,4 +317,18 @@ export class DatabaseService {
                 }
             });
     }
+
+    addRestaurantComment(data, options) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/addRestaurantComment.php', data, options)
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Error') {
+                    return response.text();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
 }
