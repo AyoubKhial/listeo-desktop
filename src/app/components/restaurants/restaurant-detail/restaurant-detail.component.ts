@@ -54,7 +54,8 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
     ngOnInit() {
         if (this.session.retrieve("login") != null) {
 			this.isLoggedIn = true;
-		}
+        }
+        
         this.getRestaurantId();
         this.getRestaurantDetails();
         this.createCommentControls();

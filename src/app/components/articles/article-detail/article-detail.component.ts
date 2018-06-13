@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { DatabaseService } from '../../../services/database/database.service';
 import { ActivatedRoute } from '@angular/router';
 import { PagerService } from '../../../services/pager/pager.service';
 import 'rxjs/add/operator/takeUntil';
+import { SessionStorageService } from 'ngx-webstorage';
 
 @Component({
     selector: 'app-article-detail',
     templateUrl: './article-detail.component.html',
     styleUrls: ['./article-detail.component.css']
 })
+
 export class ArticleDetailComponent implements OnInit {
 
     private articleId: number;
@@ -18,11 +20,22 @@ export class ArticleDetailComponent implements OnInit {
     private comments: any[];
     public pager: any = {};
     public pagedComments: any[];
+    public isLoggedIn: boolean;
+    public isSuccess: boolean;
+    @ViewChild('commentTexte') commentTexte;
 
-    constructor(private activatedRoute: ActivatedRoute, private databaseService: DatabaseService, private pagerService: PagerService) {
+    constructor(private activatedRoute: ActivatedRoute,
+        private databaseService: DatabaseService,
+        private pagerService: PagerService,
+        private session: SessionStorageService) {
+            this.isLoggedIn = false;
+            this.isSuccess = true;
     }
 
     ngOnInit() {
+        if (this.session.retrieve("login") != null) {
+            this.isLoggedIn = true;
+		}
         this.getArticleId();
         this.getArticleDetails();
     }
@@ -43,6 +56,28 @@ export class ArticleDetailComponent implements OnInit {
                 }
             }
         });
+    }
+
+    addArticleComment(){
+        if(this.commentTexte.nativeElement.value != ""){
+            var comment = {
+                'user': this.session.retrieve("login").id,
+                'article': this.articleId,
+                'texte': this.commentTexte.nativeElement.value
+            }
+            this.databaseService.addArticleComment(comment).takeUntil(this.unsubscribe).subscribe(
+                response => {
+                    if(response == "Inserted"){
+                        this.getArticleDetails();
+                        this.isSuccess = true;
+                        this.commentTexte.nativeElement.value = "";
+                    }  
+                }
+            )
+        }
+        else{
+            this.isSuccess = false;
+        }
     }
 
     setPage(page: number) {

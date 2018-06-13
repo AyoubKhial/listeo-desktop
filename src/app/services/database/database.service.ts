@@ -343,4 +343,17 @@ export class DatabaseService {
                 }
             });
     }
+
+    addArticleComment(data) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/addArticleComment.php', data)
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Error') {
+                    return response.text();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
 }

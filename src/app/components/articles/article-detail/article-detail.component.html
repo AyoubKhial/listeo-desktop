@@ -90,7 +90,7 @@
                 <div class="clearfix"></div>
                 <h4 class="headline margin-top-25">Related Posts</h4>
                 <div class="row">
-                    <div class="col-md-6" *ngFor="let relatedPost of article?.related_posts" >
+                    <div class="col-md-6" *ngFor="let relatedPost of article?.related_posts">
                         <a href="#" class="blog-compact-item-container">
                             <div class="blog-compact-item">
                                 <img src="assets/images/articles/{{relatedPost[2]}}" alt="">
@@ -112,7 +112,7 @@
                         <span class="comments-amount">({{article?.number_comments}})</span>
                     </h4>
                     <ul>
-                        <li *ngFor="let comment of pagedComments" >
+                        <li *ngFor="let comment of pagedComments">
                             <div class="avatar">
                                 <img *ngIf="comment[3] !== null; else defaultPhoto" src="assets/images/users/{{comment[3]}}" alt="">
                                 <ng-template #defaultPhoto>
@@ -128,7 +128,7 @@
                                 </div>
                                 <p>{{comment[1]}}</p>
                             </div>
-                            <ul *ngFor="let reply of comment[5]" >
+                            <ul *ngFor="let reply of comment[5]">
                                 <li>
                                     <div class="avatar">
                                         <img *ngIf="reply[3] !== null; else defaultPhoto" src="assets/images/users/{{reply[3]}}" alt="">
@@ -155,51 +155,40 @@
                     <div class="col-md-12">
                         <div class="pagination-container margin-top-30">
                             <nav class="pagination">
-                                    <ul *ngIf="pager.pages && pager.pages.length">
-                                            <li [ngClass]="{disabled:pager.currentPage === 1}">
-                                                <a (click)="setPage(1)">First</a>
-                                            </li>
-                                            <li [ngClass]="{disabled:pager.currentPage === 1}">
-                                                <a (click)="setPage(pager.currentPage - 1)">Previous</a>
-                                            </li>
-                                            <li *ngFor="let page of pager.pages" [ngClass]="{'current-page':pager.currentPage === page}">
-                                                <a (click)="setPage(page)" [ngClass]="{'current-page':pager.currentPage === page}">{{page}}</a>
-                                            </li>
-                                            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                                                <a (click)="setPage(pager.currentPage + 1)">Next</a>
-                                            </li>
-                                            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                                                <a (click)="setPage(pager.totalPages)">Last</a>
-                                            </li>
-                                        </ul>
+                                <ul *ngIf="pager.pages && pager.pages.length">
+                                    <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                        <a (click)="setPage(1)">First</a>
+                                    </li>
+                                    <li [ngClass]="{disabled:pager.currentPage === 1}">
+                                        <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                                    </li>
+                                    <li *ngFor="let page of pager.pages" [ngClass]="{'current-page':pager.currentPage === page}">
+                                        <a (click)="setPage(page)" [ngClass]="{'current-page':pager.currentPage === page}">{{page}}</a>
+                                    </li>
+                                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                        <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                                    </li>
+                                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                                        <a (click)="setPage(pager.totalPages)">Last</a>
+                                    </li>
+                                </ul>
                             </nav>
                         </div>
                     </div>
                 </div>
-                <div id="add-review" class="add-review-box">
+                <div *ngIf="isLoggedIn"  id="add-review" class="add-review-box" method="post">
                     <h3 class="listing-desc-headline margin-bottom-35">Add Review</h3>
                     <form id="add-comment" class="add-comment">
                         <fieldset>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Name:</label>
-                                    <input type="text" value="" />
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Email:</label>
-                                    <input type="text" value="" />
-                                </div>
-                            </div>
                             <div>
                                 <label>Comment:</label>
-                                <textarea cols="40" rows="3"></textarea>
+                                <textarea cols="40" rows="3" #commentTexte></textarea>
                             </div>
-
                         </fieldset>
-
-                        <button class="button">Submit Comment</button>
+                        <button class="button" (click)="addArticleComment()">Submit Comment</button>
                         <div class="clearfix"></div>
                     </form>
+                    <span class="error" *ngIf="!isSuccess" >*You should fill the text field.</span>
                 </div>
             </div>
         </div>
