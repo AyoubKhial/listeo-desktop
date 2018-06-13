@@ -114,7 +114,7 @@
                                 <div class="arrow-comment"></div>
                                 <div class="comment-by"> {{comment[1]}}
                                     <span class="date">{{comment[2]}}</span>
-                                    <div class="star-rating">
+                                    <div *ngIf="comment[4] != null" class="star-rating">
                                         <span class="stars alignright">
                                             <span [ngStyle]="getStars(comment[4])"></span>
                                         </span>
@@ -165,57 +165,48 @@
                 </div>
                 <div class="clearfix"></div>
             </div>
-            <div id="add-review" class="add-review-box">
+            <div id="add-review" class="add-review-box" *ngIf="isLoggedIn">
                 <h3 class="listing-desc-headline margin-bottom-20">Add Review</h3>
-                <span class="leave-rating-title">Your rating for this listing</span>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="clearfix"></div>
-                        <div class="leave-rating margin-bottom-30">
-                            <input type="radio" name="rating" id="rating-1" value="1" />
-                            <label for="rating-1" class="fa fa-star"></label>
-                            <input type="radio" name="rating" id="rating-2" value="2" />
-                            <label for="rating-2" class="fa fa-star"></label>
-                            <input type="radio" name="rating" id="rating-3" value="3" />
-                            <label for="rating-3" class="fa fa-star"></label>
-                            <input type="radio" name="rating" id="rating-4" value="4" />
-                            <label for="rating-4" class="fa fa-star"></label>
-                            <input type="radio" name="rating" id="rating-5" value="5" />
-                            <label for="rating-5" class="fa fa-star"></label>
+                <span class="leave-rating-title">Your rating for this hotel</span>
+                <form id="add-comment" class="add-comment" method="post" [formGroup]="addHotelCommentForm" (ngSubmit)="addHotelComent()">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="clearfix"></div>
+                            <div class="leave-rating margin-bottom-30">
+                                <input type="radio" name="commentRating" id="rating-1" value="5" formControlName="commentRating" />
+                                <label for="rating-1" class="fa fa-star"></label>
+                                <input type="radio" name="commentRating" id="rating-2" value="4" formControlName="commentRating" />
+                                <label for="rating-2" class="fa fa-star"></label>
+                                <input type="radio" name="commentRating" id="rating-3" value="3" formControlName="commentRating" />
+                                <label for="rating-3" class="fa fa-star"></label>
+                                <input type="radio" name="commentRating" id="rating-4" value="2" formControlName="commentRating" />
+                                <label for="rating-4" class="fa fa-star"></label>
+                                <input type="radio" name="commentRating" id="rating-5" value="1" formControlName="commentRating" />
+                                <label for="rating-5" class="fa fa-star"></label>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="add-review-photos margin-bottom-30">
-                            <div class="photoUpload">
-                                <span>
-                                    <i class="sl sl-icon-arrow-up-circle"></i> Upload Photos</span>
-                                <input type="file" class="upload" />
+                        <div class="col-md-6">
+                            <div class="add-review-photos margin-bottom-30">
+                                <div class="photoUpload">
+                                    <span>
+                                        <i class="sl sl-icon-arrow-up-circle"></i> Upload Photos
+                                    </span>
+                                    <input type="file" class="upload" name="images[]" (change)="getCommentPhotos($event)" #image multiple/>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <form id="add-comment" class="add-comment">
                     <fieldset>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Name:</label>
-                                <input type="text" value="" />
-                            </div>
-                            <div class="col-md-6">
-                                <label>Email:</label>
-                                <input type="text" value="" />
-                            </div>
-                        </div>
                         <div>
                             <label>Review:</label>
-                            <textarea cols="40" rows="3"></textarea>
+                            <textarea cols="40" rows="3" formControlName="commentReview"></textarea>
                         </div>
                     </fieldset>
-                    <button class="button">Submit Review</button>
+                    <button class="button" type="submit">Submit Review</button>
                     <div class="clearfix"></div>
                 </form>
+                <span class="error" *ngIf="!isSuccess" >*You should fill at least one field.</span>
             </div>
         </div>
         <div class="col-lg-4 col-md-4 margin-top-75 sticky">

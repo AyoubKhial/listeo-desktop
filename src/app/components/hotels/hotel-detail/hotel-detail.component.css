@@ -18,3 +18,8 @@ span.stars span {
     font-size: 14px;
     font-weight: 600;
 }
+
+.error{
+    color: red;
+    font-size: 15px;
+}

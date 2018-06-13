@@ -8,6 +8,20 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { SessionStorageService } from 'ngx-webstorage';
 import { RequestOptions, Headers } from '@angular/http';
 
+
+export function AtLeastOneFieldValidator(group: FormGroup): { [key: string]: any } {
+    let isAtLeastOne = false;
+    if (group && group.controls) {
+        for (const control in group.controls) {
+            if (group.controls.hasOwnProperty(control) && group.controls[control].valid && group.controls[control].value) {
+                isAtLeastOne = true;
+                break;
+            }
+        }
+    }
+    return isAtLeastOne ? null : { 'required': true };
+}
+
 @Component({
     selector: 'app-restaurant-detail',
     templateUrl: './restaurant-detail.component.html',
@@ -27,12 +41,14 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
     public commentReview: FormControl;
     public commentPhotos= [];
     public isLoggedIn: boolean;
+    public isSuccess: boolean;
 
     constructor(private activatedRoute: ActivatedRoute,
         private databaseService: DatabaseService,
         private pagerService: PagerService,
         private session: SessionStorageService) {
         this.isLoggedIn = false;
+        this.isSuccess = true;
     }
 
     ngOnInit() {
@@ -63,20 +79,13 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
         });
     }
 
-    setPage(page: number) {
-        if (page < 1 || page > this.pager.totalPages) {
-            return;
-        }
-        this.pager = this.pagerService.getPager(this.comments.length, page, 4);
-        this.pagedComments = this.comments.slice(this.pager.startIndex, this.pager.endIndex + 1);
-    }
-
     createCommentForm() {
         this.addRestaurantComentForm = new FormGroup(
             {
                 commentRating: this.commentRating,
-                commentReview: this.commentReview,
-            }
+                commentReview: this.commentReview
+            },
+            AtLeastOneFieldValidator
         )
     }
 
@@ -92,34 +101,57 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
     }
 
     addRestaurantComent() {
-        var user = this.session.retrieve("login").id;
-        var restaurant = this.restaurantId;
-        var review = this.addRestaurantComentForm.value.commentReview;
-        var rating = this.addRestaurantComentForm.value.commentRating;
-		var formValues = {
-            'user': user,
-            'restaurant': restaurant,
-            'review': review,
-            'rating': rating,
-			'image': this.commentPhotos
-		};
+        if(this.addRestaurantComentForm.valid){
+            var user = this.session.retrieve("login").id;
+            var restaurant = this.restaurantId;
+            var review = this.addRestaurantComentForm.value.commentReview;
+            var rating = this.addRestaurantComentForm.value.commentRating;
+            var formValues = {
+                'user': user,
+                'restaurant': restaurant,
+                'review': review,
+                'rating': rating,
+                'image': this.commentPhotos
+            };
+    
+            var formData = new FormData();
+            for (var key in formValues) {
+                if (key == "image") {
+                    for (var e = 0; e < this.commentPhotos.length; e++) {
+                        formData.append("fileToUpload[]", this.commentPhotos[e]);
+                    }
+                }
+                formData.append(key, formValues[key]);
+            }
+    
+            const headers = new Headers();
+            headers.append('Accept', 'application/json');
+            let options = new RequestOptions({ headers: headers });
+            this.databaseService.addRestaurantComment(formData, options).takeUntil(this.unsubscribe).subscribe(
+                response => {
+                    if (response == "Inserted") {
+                        this.getRestaurantDetails();
+                        this.addRestaurantComentForm.reset();
+                        this.isSuccess = true;
+                    }
+                    else {
+                        this.isSuccess = false;
+                    }
+                });
+            this.addRestaurantComentForm.reset();
+            this.commentPhotos = [];
+        }
+        else{
+            this.isSuccess = false;
+        } 
+    }
 
-		var formData = new FormData();
-		for (var key in formValues) {
-			if (key == "image") {
-				for (var e = 0; e < this.commentPhotos.length; e++) {
-					formData.append("fileToUpload[]", this.commentPhotos[e]);
-				}
-			}
-			formData.append(key, formValues[key]);
-		}
-
-		const headers = new Headers();
-		headers.append('Accept', 'application/json');
-		let options = new RequestOptions({ headers: headers });
-		this.databaseService.addRestaurantComment(formData, options).takeUntil(this.unsubscribe).subscribe(res => console.log(res));
-		this.addRestaurantComentForm.reset();
-		this.commentPhotos = [];
+    setPage(page: number) {
+        if (page < 1 || page > this.pager.totalPages) {
+            return;
+        }
+        this.pager = this.pagerService.getPager(this.comments.length, page, 4);
+        this.pagedComments = this.comments.slice(this.pager.startIndex, this.pager.endIndex + 1);
     }
 
     getStars(rating) {

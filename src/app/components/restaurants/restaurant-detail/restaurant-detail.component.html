@@ -118,7 +118,7 @@
                                 <div class="arrow-comment"></div>
                                 <div class="comment-by"> {{comment[1]}}
                                     <span class="date">{{comment[2]}}</span>
-                                    <div class="star-rating">
+                                    <div *ngIf="comment[4] != null" class="star-rating">
                                         <span class="stars alignright">
                                             <span [ngStyle]="getStars(comment[4])"></span>
                                         </span>
@@ -201,7 +201,6 @@
                             </div>
                         </div>
                     </div>
-
                     <fieldset>
                         <div>
                             <label>Review:</label>
@@ -211,6 +210,7 @@
                     <button class="button" type="submit">Submit Review</button>
                     <div class="clearfix"></div>
                 </form>
+                <span class="error" *ngIf="!isSuccess" >*You should fill at least one field.</span>
             </div>
         </div>
         <div class="col-lg-4 col-md-4 margin-top-75 sticky">

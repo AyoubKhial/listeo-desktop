@@ -13,6 +13,7 @@
     else{
         $count = 0;
     }
+    
     if($_POST['review'] == "null"){
         $text = null;
     }
@@ -25,7 +26,7 @@
     else{
         $rating = $_POST['rating'];
     }
-    $id_item = $_POST['restaurant'];
+    $id_item = $_POST['hotel'];
     $id_utilisateur = $_POST['user'];
     $stmt = $conn->prepare("INSERT INTO commentaire_item(texte, rating, id_item, id_utilisateur) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("siii", $texte, $rating, $id_item, $id_utilisateur);
