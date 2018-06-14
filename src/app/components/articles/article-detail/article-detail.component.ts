@@ -58,7 +58,7 @@ export class ArticleDetailComponent implements OnInit {
         });
     }
 
-    addArticleComment(){
+    addArticleComment(target){
         if(this.commentTexte.nativeElement.value != ""){
             var comment = {
                 'user': this.session.retrieve("login").id,
@@ -69,6 +69,7 @@ export class ArticleDetailComponent implements OnInit {
                 response => {
                     if(response == "Inserted"){
                         this.getArticleDetails();
+                        target.scrollIntoView({behavior:"smooth"});
                         this.isSuccess = true;
                         this.commentTexte.nativeElement.value = "";
                     }  

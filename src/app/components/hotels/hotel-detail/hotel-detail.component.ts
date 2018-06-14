@@ -101,7 +101,7 @@ export class HotelDetailComponent implements OnInit {
         }
     }
 
-    addHotelComent() {
+    addHotelComent(target) {
         if (this.addHotelCommentForm.valid) {
             var user = this.session.retrieve("login").id;
             var hotel = this.hotelId;
@@ -133,6 +133,7 @@ export class HotelDetailComponent implements OnInit {
                 if (response == "Inserted") {
                     this.getHotelDetails();
                     this.addHotelCommentForm.reset();
+                    target.scrollIntoView({behavior:"smooth"});
                     this.isSuccess = true;
                 }
                 else {

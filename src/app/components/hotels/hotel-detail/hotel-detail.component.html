@@ -98,7 +98,7 @@
             </div>
             <div id="listing-reviews" class="listing-section">
                 <h3 class="listing-desc-headline margin-top-75 margin-bottom-20">Comments
-                    <span>({{hotel?.number_comments}})</span>
+                    <span #target>({{hotel?.number_comments}})</span>
                 </h3>
                 <div class="clearfix"></div>
                 <section class="comments listing-reviews">
@@ -134,7 +134,7 @@
                         </li>
                     </ul>
                     <ng-template #noCommentsFound>
-                        <span class="no-data">Be the first to comment ...</span>
+                        <span class="no-data" *ngIf="isLoggedIn">Be the first to comment ...</span>
                     </ng-template>
                 </section>
                 <div class="clearfix"></div>
@@ -168,7 +168,7 @@
             <div id="add-review" class="add-review-box" *ngIf="isLoggedIn">
                 <h3 class="listing-desc-headline margin-bottom-20">Add Review</h3>
                 <span class="leave-rating-title">Your rating for this hotel</span>
-                <form id="add-comment" class="add-comment" method="post" [formGroup]="addHotelCommentForm" (ngSubmit)="addHotelComent()">
+                <form id="add-comment" class="add-comment" method="post" [formGroup]="addHotelCommentForm" (ngSubmit)="addHotelComent(target)">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="clearfix"></div>
@@ -214,49 +214,51 @@
                 <i class="sl sl-icon-check"></i> Verified Listing
             </div>
             <div class="boxed-widget margin-top-35">
-                <div class="hosted-by-title">
-                    <h4>
-                        <span>Hosted by</span>
-                        <a href="pages-user-profile.html">Tom Perrin</a>
-                    </h4>
-                    <a href="pages-user-profile.html" class="hosted-by-avatar">
-                        <img src="images/dashboard-avatar.jpg" alt="">
+                    <div class="hosted-by-title">
+                        <h4>
+                            <span>Hosted by</span>
+                            <a href="pages-user-profile.html">{{hotel?.user[0].name}}</a>
+                        </h4>
+                        <a href="pages-user-profile.html" class="hosted-by-avatar">
+                            <img src="assets/images/{{hotel?.user[0].photo}}" alt="">
+                        </a>
+                    </div>
+                    <ul class="listing-details-sidebar">
+                        <li *ngIf="hotel?.user[0].phone" >
+                            <i class="sl sl-icon-phone"></i> {{hotel?.user[0].phone}}
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope-o"></i>
+                            <a href="#">
+                                <span class="__cf_email__" data-cfemail="c1b5aeac81a4b9a0acb1ada4efa2aeac">{{hotel?.user[0].email}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="listing-details-sidebar social-profiles">
+                        <li *ngIf="hotel?.user[0].facebook">
+                            <a href="{{hotel?.user[0].facebook}}" class="facebook-profile">
+                                <i class="fa fa-facebook-square"></i> Facebook
+                            </a>
+                        </li>
+                        <li *ngIf="hotel?.user[0].instagram">
+                            <a href="{{hotel?.user[0].instagram}}" class="instagram-profile">
+                                <i class="fa fa-instagram"></i> Instagram
+                            </a>
+                        </li>
+                    </ul>
+                    <div id="small-dialog" class="zoom-anim-dialog mfp-hide">
+                        <div class="small-dialog-header">
+                            <h3>Send Message</h3>
+                        </div>
+                        <div class="message-reply margin-top-0">
+                            <textarea cols="40" rows="3" placeholder="Your message to Tom"></textarea>
+                            <button class="button">Send Message</button>
+                        </div>
+                    </div>
+                    <a href="#small-dialog" class="send-message-to-owner button popup-with-zoom-anim">
+                        <i class="sl sl-icon-envelope-open"></i> Send Message
                     </a>
                 </div>
-                <ul class="listing-details-sidebar">
-                    <li>
-                        <i class="sl sl-icon-phone"></i> (123) 123-456</li>
-                    <li>
-                        <i class="fa fa-envelope-o"></i>
-                        <a href="#">
-                            <span class="__cf_email__" data-cfemail="c1b5aeac81a4b9a0acb1ada4efa2aeac">[email&#160;protected]</span>
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="listing-details-sidebar social-profiles">
-                    <li>
-                        <a href="#" class="facebook-profile">
-                            <i class="fa fa-facebook-square"></i> Facebook</a>
-                    </li>
-                    <li>
-                        <a href="#" class="twitter-profile">
-                            <i class="fa fa-twitter"></i> Twitter</a>
-                    </li>
-                </ul>
-                <div id="small-dialog" class="zoom-anim-dialog mfp-hide">
-                    <div class="small-dialog-header">
-                        <h3>Send Message</h3>
-                    </div>
-                    <div class="message-reply margin-top-0">
-                        <textarea cols="40" rows="3" placeholder="Your message to Tom"></textarea>
-                        <button class="button">Send Message</button>
-                    </div>
-                </div>
-
-                <a href="#small-dialog" class="send-message-to-owner button popup-with-zoom-anim">
-                    <i class="sl sl-icon-envelope-open"></i> Send Message</a>
-            </div>
             <div class="listing-share margin-top-40 margin-bottom-40 no-border">
                 <button class="like-button">
                     <span class="like-icon"></span> Bookmark this listing</button>

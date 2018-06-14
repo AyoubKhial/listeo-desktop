@@ -93,6 +93,8 @@
                             <form method="post" class="login" [formGroup]="loginForm" (ngSubmit)="checkLoginCredentials()">
                                 <p class="error" *ngIf="loginUnsuccess">The credentials that you've entered are incorrect.</p>
                                 <span *ngIf="isSuccess" class="error">Email already exists.</span>
+                                <span class="error" *ngIf="loginEmail.invalid && !!loginEmail.errors.required && (loginEmail.dirty || loginEmail.touched)">Email is required.</span>
+                                <span class="error" *ngIf="loginEmail.invalid && !!loginEmail.errors.pattern && (loginEmail.dirty || loginEmail.touched)">Invalid email.</span>
                                 <p class="form-row form-row-wide">
                                     <label>Email:
                                         <i class="im im-icon-Male"></i>

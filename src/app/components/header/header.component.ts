@@ -68,7 +68,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     createLoginControls() {
-        this.loginEmail = new FormControl();
+        this.loginEmail = new FormControl('', [
+            Validators.required,
+            Validators.pattern('^[a-zA-Z0-9][a-zA-Z0-9._-]*@[a-zA-Z0-9][a-zA-Z0-9._-]*\\.[a-zA-Z]{2,4}$')
+        ]);
         this.loginPassword = new FormControl();
     }
 

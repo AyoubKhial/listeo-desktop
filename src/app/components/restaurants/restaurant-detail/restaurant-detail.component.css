@@ -23,3 +23,7 @@ span.stars span {
     color: red;
     font-size: 15px;
 }
+
+.listing-details-sidebar li a.instagram-profile i, .listing-details-sidebar li a.instagram-profile {
+    color: #EC407A
+}

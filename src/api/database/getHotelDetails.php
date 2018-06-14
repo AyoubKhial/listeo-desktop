@@ -60,10 +60,6 @@
             $result7 = $conn->query($sql7);
             $data7= $result7->fetch_row();
             $row['number_comments'] = $data7[0];
-
-
-
-
             $y = 0;
             $sql8 = "SELECT ci.id, ci.texte, CONCAT(u.first_name, ' ', u.last_name) AS utilisateur, ci.inserted, u.photo, ci.rating
                     FROM utilisateur u INNER JOIN commentaire_item ci ON u.id = ci.id_utilisateur
@@ -94,9 +90,17 @@
         		}
         		$row['comments'] = $data8;
             }
-
-
-
+            $sql9 = "SELECT u.id, CONCAT(u.first_name, ' ', u.last_name) AS name, u.phone, u.email, photo, provider, u.facebook, u.instagram
+                        FROM utilisateur u INNER JOIN item i ON u.id = i.id_utilisateur
+                        Where i.id = $hotelId";
+            $result9 = $conn->query($sql9);
+            if ($result9->num_rows > 0) {
+        		$data11 = array();
+        		while($row9 = $result9->fetch_assoc()) {
+                    $data11[] = $row9;
+        		}
+        		$row['user'] = $data11;
+            }
             $data[] = $row;
         }
         echo json_encode($data);

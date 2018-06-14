@@ -132,7 +132,7 @@
         </div>
         <div class="row">
             <div class="col-md-4 testClass" *ngFor="let article of articles; let i = index">
-                <a href="pages-blog-post.html" class="blog-compact-item-container">
+                <a [routerLink]="['/articles', article.id]" class="blog-compact-item-container">
                     <div class="blog-compact-item">
                         <img src="assets/images/articles/{{article.photo}}" alt="">
 

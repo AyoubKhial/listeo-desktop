@@ -101,7 +101,7 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
 		}
     }
 
-    addRestaurantComent() {
+    addRestaurantComent(target) {
         if(this.addRestaurantComentForm.valid){
             var user = this.session.retrieve("login").id;
             var restaurant = this.restaurantId;
@@ -133,6 +133,7 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
                     if (response == "Inserted") {
                         this.getRestaurantDetails();
                         this.addRestaurantComentForm.reset();
+                        target.scrollIntoView({behavior:"smooth"});
                         this.isSuccess = true;
                     }
                     else {

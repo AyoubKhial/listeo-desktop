@@ -79,7 +79,7 @@
                     <ng-template #defaultPhoto>
                         <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
                     </ng-template>
-                    <div class="about-description">
+                    <div class="about-description" [ngClass]="{'activities-null': article?.activities == null}">
                         <h4>{{article?.user_name}}</h4>
                         <a href="#">
                             <span class="__cf_email__" data-cfemail="a4d0cbc9e4c1dcc5c9d4c8c18ac7cbc9">{{article?.email}}</span>
@@ -88,8 +88,8 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                <h4 class="headline margin-top-25">Related Posts</h4>
-                <div class="row">
+                <h4 *ngIf="article?.related_posts" class="headline margin-top-25">Related Posts</h4>
+                <div class="row" *ngIf="article?.related_posts">
                     <div class="col-md-6" *ngFor="let relatedPost of article?.related_posts">
                         <a href="#" class="blog-compact-item-container">
                             <div class="blog-compact-item">
@@ -109,9 +109,9 @@
                 <div class="margin-top-50"></div>
                 <section class="comments">
                     <h4 class="headline margin-bottom-35">Comments
-                        <span class="comments-amount">({{article?.number_comments}})</span>
+                        <span class="comments-amount" #target>({{article?.number_comments}})</span>
                     </h4>
-                    <ul>
+                    <ul *ngIf="article.comments; else noCommentsFound">
                         <li *ngFor="let comment of pagedComments">
                             <div class="avatar">
                                 <img *ngIf="comment[3] !== null; else defaultPhoto" src="assets/images/users/{{comment[3]}}" alt="">
@@ -122,7 +122,7 @@
                             <div class="comment-content">
                                 <div class="arrow-comment"></div>
                                 <div class="comment-by">{{comment[2]}}
-                                    <span class="date">{{comment[4] | date:'longDate'}}</span>
+                                    <span class="date">{{comment[4]}}</span>
                                     <a href="#" class="reply">
                                         <i class="fa fa-reply"></i> Reply</a>
                                 </div>
@@ -149,6 +149,9 @@
                             </ul>
                         </li>
                     </ul>
+                    <ng-template #noCommentsFound>
+                        <span class="no-data" *ngIf="isLoggedIn">Be the first to comment ...</span>
+                    </ng-template>
                 </section>
                 <div class="clearfix"></div>
                 <div class="row" *ngIf="article?.comments">
@@ -176,7 +179,7 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="isLoggedIn"  id="add-review" class="add-review-box" method="post">
+                <div *ngIf="isLoggedIn" id="add-review" class="add-review-box" method="post">
                     <h3 class="listing-desc-headline margin-bottom-35">Add Review</h3>
                     <form id="add-comment" class="add-comment">
                         <fieldset>
@@ -185,10 +188,10 @@
                                 <textarea cols="40" rows="3" #commentTexte></textarea>
                             </div>
                         </fieldset>
-                        <button class="button" (click)="addArticleComment()">Submit Comment</button>
+                        <button class="button" (click)="addArticleComment(target)">Submit Comment</button>
                         <div class="clearfix"></div>
                     </form>
-                    <span class="error" *ngIf="!isSuccess" >*You should fill the text field.</span>
+                    <span class="error" *ngIf="!isSuccess">*You should fill the text field.</span>
                 </div>
             </div>
         </div>

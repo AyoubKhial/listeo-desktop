@@ -35,8 +35,8 @@
             $x = 0;
             $y = 0;
             $sql5 = "SELECT DISTINCT(cp.id), cp.name AS category_plat
-                    FROM item i INNER JOIN plat_restaurant pr ON i.id = pr.id_item INNER JOIN categorie_plat cp ON cp.id = pr.id_category_plat
-                    WHERE i.id = $restaurantId";
+                    FROM plat_restaurant pr INNER JOIN categorie_plat cp ON cp.id = pr.id_category_plat
+                    WHERE pr.id_item = $restaurantId";
             $result5 = $conn->query($sql5);
             if ($result5->num_rows > 0) {
                 $data8 = array();
@@ -46,8 +46,8 @@
                     $categoryPlatId = $row5["id"];
                     $categoryPlatName = $row5["category_plat"];
                     $sql6 = "SELECT pr.name as plat_restaurant, pr.price
-                            FROM item i INNER JOIN plat_restaurant pr ON i.id = pr.id_item INNER JOIN categorie_plat cp ON cp.id = pr.id_category_plat
-                            WHERE i.id = $restaurantId AND cp.id = $categoryPlatId";
+                            FROM plat_restaurant pr INNER JOIN categorie_plat cp ON cp.id = pr.id_category_plat
+                            WHERE pr.id_item = $restaurantId AND cp.id = $categoryPlatId";
                     $result6 = $conn->query($sql6);
                     if ($result6->num_rows > 0) {
                         $data6 = array();
@@ -101,9 +101,7 @@
         		$row['comments'] = $data12;
             }
             $f = 0;
-            $sql13 = "SELECT day, opening_hours, closing_hours, closed
-                    FROM horaire h INNER JOIN item i ON i.id = h.id_item
-                    WHERE i.id = $restaurantId";
+            $sql13 = "SELECT day, opening_hours, closing_hours, closed FROM horaire h WHERE h.id_item = $restaurantId";
             $result13 = $conn->query($sql13);
             if ($result13->num_rows > 0) {
                 $data15 = array();
@@ -125,6 +123,17 @@
             }
             else{
                 $row['open'] = false;
+            }
+            $sql15 = "SELECT u.id, CONCAT(u.first_name, ' ', u.last_name) AS name, u.phone, u.email, photo, provider, u.facebook, u.instagram
+                        FROM utilisateur u INNER JOIN item i ON u.id = i.id_utilisateur
+                        Where i.id = $restaurantId";
+            $result15 = $conn->query($sql15);
+            if ($result15->num_rows > 0) {
+        		$data16 = array();
+        		while($row15 = $result15->fetch_assoc()) {
+                    $data16[] = $row15;
+        		}
+        		$row['user'] = $data16;
             }
             $data[] = $row;
         }

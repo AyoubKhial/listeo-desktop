@@ -9,20 +9,16 @@
     $ids = "'".$array."'";
     $b = false;
     if($data[0] == "Highest Price"){
-        $sql = "SELECT i.id,i.name,type,adresse,i.rating,active,cr.name AS category_name, v.name AS ville_name
-                FROM ville v, item i, categorie_restaurant cr, plat_restaurant pr
-                WHERE i.id_ville = v.id AND i.id_categorie_restaurant = cr.id AND pr.id_item = i.id
-                AND i.active = 1 AND i.type = 'restaurant'
-                AND pr.price = (SELECT MIN(price) FROM plat_restaurant pr2 WHERE pr.id_item = pr2.id_item) AND i.id IN($ids)
-                ORDER BY pr.price DESC";
+        $sql = "SELECT DISTINCT(i.id),i.name,type,adresse,i.rating,active, cr.name AS category_name, v.name AS ville_name, (SELECT MIN(price) FROM plat_restaurant pr2 WHERE pr.id_item = pr2.id_item) as price
+                FROM ville v INNER JOIN item i ON v.id = i.id_ville LEFT JOIN plat_restaurant pr ON pr.id_item = i.id INNER JOIN categorie_restaurant cr ON i.id_categorie_restaurant = cr.id
+                WHERE i.id IN($ids)
+                ORDER BY price DESC";
     }
     elseif($data[0] == "Lowest Price"){
-        $sql = "SELECT i.id,i.name,type,adresse,i.rating,active,cr.name AS category_name, v.name AS ville_name
-                FROM ville v, item i, categorie_restaurant cr, plat_restaurant pr
-                WHERE i.id_ville = v.id AND i.id_categorie_restaurant = cr.id AND pr.id_item = i.id
-                AND i.active = 1 AND i.type = 'restaurant'
-                AND pr.price = (SELECT MIN(price) FROM plat_restaurant pr2 WHERE pr.id_item = pr2.id_item) AND i.id IN($ids)
-                ORDER BY pr.price";
+        $sql = "SELECT DISTINCT(i.id),i.name,type,adresse,i.rating,active, cr.name AS category_name, v.name AS ville_name, (SELECT MIN(price) FROM plat_restaurant pr2 WHERE pr.id_item = pr2.id_item) as price
+                FROM ville v INNER JOIN item i ON v.id = i.id_ville LEFT JOIN plat_restaurant pr ON pr.id_item = i.id INNER JOIN categorie_restaurant cr ON i.id_categorie_restaurant = cr.id
+                WHERE i.id IN($ids)
+                ORDER BY price";
     }
     elseif($data[0] == "Highest Rated"){
         $sql = "SELECT i.id,i.name,type,adresse,i.rating,active,cr.name AS category_name, v.name AS ville_name
@@ -43,13 +39,13 @@
         $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, c.name AS category_name, v.name AS ville_name, i.updated
                 FROM ville v INNER JOIN item i ON v.id = i.id_ville INNER JOIN categorie_restaurant c ON c.id = i.id_categorie_restaurant
                 WHERE i.type = 'restaurant' AND i.active = 1 AND i.id IN($ids)
-                ORDER BY i.inserted DESC";
+                ORDER BY i.inserted DESC, i.id DESC";
     }
     elseif($data[0] == "Oldest Listings"){
         $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, c.name AS category_name, v.name AS ville_name, i.updated
                 FROM ville v INNER JOIN item i ON v.id = i.id_ville INNER JOIN categorie_restaurant c ON c.id = i.id_categorie_restaurant
                 WHERE i.type = 'restaurant' AND i.active = 1 AND i.id IN($ids)
-                ORDER BY i.inserted ";
+                ORDER BY i.inserted, i.id";
     }
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
