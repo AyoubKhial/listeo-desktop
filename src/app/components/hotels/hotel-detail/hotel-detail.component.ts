@@ -8,8 +8,6 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { SessionStorageService } from 'ngx-webstorage';
 import { RequestOptions, Headers } from '@angular/http';
 
-
-
 export function AtLeastOneFieldValidator(group: FormGroup): { [key: string]: any } {
     let isAtLeastOne = false;
     if (group && group.controls) {
@@ -43,6 +41,7 @@ export class HotelDetailComponent implements OnInit {
     public commentReview: FormControl;
     public isLoggedIn: boolean;
     public isSuccess: boolean;
+    private userId: number;
 
     constructor(private activatedRoute: ActivatedRoute,
         private databaseService: DatabaseService,
@@ -50,11 +49,13 @@ export class HotelDetailComponent implements OnInit {
         private session: SessionStorageService) {
         this.isLoggedIn = false;
         this.isSuccess = true;
+        this.userId = 0;
     }
 
     ngOnInit() {
         if (this.session.retrieve("login") != null) {
             this.isLoggedIn = true;
+            this.userId = this.session.retrieve("login").id;
         }
         this.getHotelId();
         this.getHotelDetails();
@@ -69,7 +70,14 @@ export class HotelDetailComponent implements OnInit {
     }
 
     getHotelDetails() {
-        this.databaseService.getHotelDetails(this.hotelId).takeUntil(this.unsubscribe).subscribe(response => {
+        var data = {
+            'hotel': this.hotelId,
+            'user': null
+        }
+        if(this.isLoggedIn){
+            data.user = this.session.retrieve("login").id;
+        }
+        this.databaseService.getHotelDetails(data).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
                 this.hotel = response[0];
                 if (this.hotel.comments) {
@@ -145,6 +153,24 @@ export class HotelDetailComponent implements OnInit {
         }
         else{
             this.isSuccess = false;
+        }
+    }
+
+    addOrRemoveFromFavoris(event) {
+        if (this.userId != 0) {
+            var data = {
+                item: this.hotelId,
+                user: this.userId,
+                action: null
+            }
+            if (event.target.classList.length == 2) {
+                data.action = "remove";
+                this.databaseService.addToFavoris(data).takeUntil(this.unsubscribe).subscribe();
+            }
+            else {
+                data.action = "add";
+                this.databaseService.addToFavoris(data).takeUntil(this.unsubscribe).subscribe();
+            }
         }
     }
 

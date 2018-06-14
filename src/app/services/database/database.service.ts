@@ -187,8 +187,8 @@ export class DatabaseService {
             });
     }
 
-    getRestaurantDetails(restaurantId) {
-        return this.http.post('http://localhost/listeo-desktop/src/api/database/getRestaurantDetails.php', restaurantId)
+    getRestaurantDetails(data) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/getRestaurantDetails.php', data)
             .map(response => {
                 this.hasResult = response;
                 if (this.hasResult._body !== 'Not found') {
@@ -226,8 +226,8 @@ export class DatabaseService {
             });
     }
 
-    getHotelDetails(hotelId) {
-        return this.http.post('http://localhost/listeo-desktop/src/api/database/getHotelDetails.php', hotelId)
+    getHotelDetails(data) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/getHotelDetails.php', data)
             .map(response => {
                 this.hasResult = response;
                 if (this.hasResult._body !== 'Not found') {
@@ -265,8 +265,8 @@ export class DatabaseService {
             });
     }
 
-    getTopRatedLocations(): Observable<any> {
-        return this.http.get('http://localhost/listeo-desktop/src/api/database/getTopRatedLocations.php')
+    getTopRatedLocations(user): Observable<any> {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/getTopRatedLocations.php', user)
             .map(response => {
                 this.hasResult = response;
                 if (this.hasResult._body !== 'Not found') {

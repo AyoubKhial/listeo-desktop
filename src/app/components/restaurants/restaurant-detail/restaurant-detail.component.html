@@ -288,8 +288,9 @@
                 </a>
             </div>
             <div class="listing-share margin-top-40 margin-bottom-40 no-border">
-                <button class="like-button">
-                    <span class="like-icon"></span> Bookmark this listing</button>
+                <button class="like-button" [ngClass]="{'liked': restaurant?.liked}" (click)="addOrRemoveFromFavoris($event)">
+                    <span class="like-icon" [ngClass]="{'liked': restaurant?.liked}"></span> Bookmark this listing
+                </button>
                 <span>159 people bookmarked this place</span>
                 <ul class="share-buttons margin-top-40 margin-bottom-0">
                     <li>

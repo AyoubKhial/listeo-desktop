@@ -1,5 +1,6 @@
 <?php
     include "./connection.php";
+    $userId = json_decode(file_get_contents("php://input"));
     $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating FROM item i WHERE i.active = 1 ORDER BY i.rating DESC LIMIT 6";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
@@ -24,6 +25,16 @@
             }
             else{
                 $row['photo'] = null;
+            }
+            if($userId != null){
+                $sql16 = "SELECT * FROM favoris WHERE id_item = $row[id] AND id_utilisateur = $userId";
+                $result16 = $conn->query($sql16);
+                if ($result16->num_rows > 0) {
+                    $row['liked'] = true;
+                }
+                else{
+                    $row['liked'] = false;
+                }
             }
             $data[] = $row;
         }

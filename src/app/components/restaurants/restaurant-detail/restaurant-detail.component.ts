@@ -42,6 +42,7 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
     public commentPhotos= [];
     public isLoggedIn: boolean;
     public isSuccess: boolean;
+    private userId: number;
 
     constructor(private activatedRoute: ActivatedRoute,
         private databaseService: DatabaseService,
@@ -49,13 +50,14 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
         private session: SessionStorageService) {
         this.isLoggedIn = false;
         this.isSuccess = true;
+        this.userId = 0;
     }
 
     ngOnInit() {
         if (this.session.retrieve("login") != null) {
-			this.isLoggedIn = true;
+            this.isLoggedIn = true;
+            this.userId = this.session.retrieve("login").id;
         }
-        
         this.getRestaurantId();
         this.getRestaurantDetails();
         this.createCommentControls();
@@ -69,9 +71,17 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
     }
 
     getRestaurantDetails() {
-        this.databaseService.getRestaurantDetails(this.restaurantId).takeUntil(this.unsubscribe).subscribe(response => {
+        var data = {
+            'restaurant': this.restaurantId,
+            'user': null
+        }
+        if(this.isLoggedIn){
+            data.user = this.session.retrieve("login").id;
+        }
+        this.databaseService.getRestaurantDetails(data).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
                 this.restaurant = response[0];
+                console.log(this.restaurant);
                 if (this.restaurant.comments) {
                     this.comments = this.restaurant.comments
                     this.setPage(1);
@@ -146,6 +156,24 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
         else{
             this.isSuccess = false;
         } 
+    }
+
+    addOrRemoveFromFavoris(event) {
+        if (this.userId != 0) {
+            var data = {
+                item: this.restaurantId,
+                user: this.userId,
+                action: null
+            }
+            if (event.target.classList.length == 2) {
+                data.action = "remove";
+                this.databaseService.addToFavoris(data).takeUntil(this.unsubscribe).subscribe();
+            }
+            else {
+                data.action = "add";
+                this.databaseService.addToFavoris(data).takeUntil(this.unsubscribe).subscribe();
+            }
+        }
     }
 
     setPage(page: number) {

@@ -180,20 +180,19 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
     }
 
     addOrRemoveFromFavoris(event, id) {
-        console.log(event)
         if (this.userId != 0) {
-            var dt = {
+            var data = {
                 item: id,
                 user: this.userId,
                 action: null
             }
             if (event.target.classList.length == 2) {
-                dt.action = "remove";
-                this.databaseService.addToFavoris(dt).takeUntil(this.unsubscribe).subscribe();
+                data.action = "remove";
+                this.databaseService.addToFavoris(data).takeUntil(this.unsubscribe).subscribe();
             }
             else {
-                dt.action = "add";
-                this.databaseService.addToFavoris(dt).takeUntil(this.unsubscribe).subscribe();
+                data.action = "add";
+                this.databaseService.addToFavoris(data).takeUntil(this.unsubscribe).subscribe();
             }
         }
     }

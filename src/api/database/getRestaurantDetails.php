@@ -1,6 +1,8 @@
 <?php
     include "./connection.php";
-    $restaurantId = json_decode(file_get_contents("php://input"));
+    $data = json_decode(file_get_contents("php://input"));
+    $restaurantId = $data->restaurant;
+    $userId = $data->user;
     $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, i.longitude, i.latitude, i.description, c.name AS category_name, v.name AS ville_name
             FROM ville v INNER JOIN item i ON v.id = i.id_ville INNER JOIN categorie_restaurant c ON c.id = i.id_categorie_restaurant
             WHERE i.type = 'restaurant' AND i.active = 1 AND i.id = $restaurantId";
@@ -134,6 +136,16 @@
                     $data16[] = $row15;
         		}
         		$row['user'] = $data16;
+            }
+            if($userId != null){
+                $sql16 = "SELECT * FROM favoris WHERE id_item = $restaurantId AND id_utilisateur = $userId";
+                $result16 = $conn->query($sql16);
+                if ($result16->num_rows > 0) {
+                    $row['liked'] = true;
+                }
+                else{
+                    $row['liked'] = false;
+                }
             }
             $data[] = $row;
         }

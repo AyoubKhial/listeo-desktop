@@ -93,8 +93,8 @@
         <!-- Listing Item -->
         <div class="fw-carousel-item" *ngFor="let location of locations">
             <div>
-                <a [routerLink]="location.type == 'restaurant' ? ['/restaurants', location.id] : ['/hotels', location.id]" class="listing-item-container compact">
-                    <div class="listing-item">
+                <a class="listing-item-container compact">
+                    <div class="listing-item" [routerLink]="location.type == 'restaurant' ? ['/restaurants', location.id] : ['/hotels', location.id]">
                         <div *ngIf="location.photo; else noPhotoFound">
                             <img *ngIf="location.type == 'restaurant'" src="assets/images/restaurants/{{location.photo}}" alt="">
                             <img *ngIf="location.type == 'hotel'" src="assets/images/hotels/{{location.photo}}" alt="">
@@ -114,8 +114,8 @@
                             <h3>{{location.name}}</h3>
                             <span>{{location.adresse}}</span>
                         </div>
-                        <span class="like-icon"></span>
                     </div>
+                    <span class="like-icon" [ngClass]="{'liked': location?.liked}" (click)="addOrRemoveFromFavoris($event, location?.id)"></span>
                 </a>
             </div>
         </div>

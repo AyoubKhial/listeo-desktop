@@ -1,6 +1,8 @@
 <?php
     include "./connection.php";
-    $hotelId = json_decode(file_get_contents("php://input"));
+    $data = json_decode(file_get_contents("php://input"));
+    $hotelId = $data->hotel;
+    $userId = $data->user;
     $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, i.longitude, i.latitude, i.description, v.name AS ville_name
             FROM ville v INNER JOIN item i ON v.id = i.id_ville
             WHERE i.type = 'hotel' AND i.active = 1 AND i.id = $hotelId";
@@ -100,6 +102,16 @@
                     $data11[] = $row9;
         		}
         		$row['user'] = $data11;
+            }
+            if($userId != null){
+                $sql10 = "SELECT * FROM favoris WHERE id_item = $hotelId AND id_utilisateur = $userId";
+                $result10 = $conn->query($sql10);
+                if ($result10->num_rows > 0) {
+                    $row['liked'] = true;
+                }
+                else{
+                    $row['liked'] = false;
+                }
             }
             $data[] = $row;
         }
