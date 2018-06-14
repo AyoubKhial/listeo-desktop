@@ -100,7 +100,7 @@
                     <a [routerLink]="['directions']" id="streetView">Go to this restaurant</a>
                 </div>
             </div>
-            <div id="listing-reviews" class="listing-section" >
+            <div id="listing-reviews" class="listing-section">
                 <h3 class="listing-desc-headline margin-top-75 margin-bottom-20">Comments
                     <span #target>({{restaurant.number_comments}})</span>
                 </h3>
@@ -109,7 +109,7 @@
                     <ul *ngIf="restaurant.comments; else noCommentsFound">
                         <li *ngFor="let comment of pagedComments">
                             <div class="avatar">
-                                <img *ngIf="comment[3] !== 'null'; else defaultPhoto" src="assets/images/users/{{comment[3]}}" alt="">
+                                <img *ngIf="comment[3] != null; else defaultPhoto" src="assets/images/users/{{comment[3]}}" alt="">
                                 <ng-template #defaultPhoto>
                                     <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
                                 </ng-template>
@@ -171,21 +171,21 @@
             </div>
             <div id="add-review" class="add-review-box" *ngIf="isLoggedIn">
                 <h3 class="listing-desc-headline margin-bottom-20">Add Review</h3>
-                <span class="leave-rating-title">Your rating for this listing</span>
+                <span class="leave-rating-title" *ngIf="!restaurant?.rated">Your rating for this listing</span>
                 <form id="add-comment" class="add-comment" method="post" [formGroup]="addRestaurantComentForm" (ngSubmit)="addRestaurantComent(target)">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="clearfix"></div>
-                            <div class="leave-rating margin-bottom-30">
-                                <input type="radio" name="commentRating" id="rating-1" value="5" formControlName="commentRating"/>
+                            <div class="leave-rating margin-bottom-30" *ngIf="!restaurant?.rated">
+                                <input type="radio" name="commentRating" id="rating-1" value="5" formControlName="commentRating" />
                                 <label for="rating-1" class="fa fa-star"></label>
-                                <input type="radio" name="commentRating" id="rating-2" value="4" formControlName="commentRating"/>
+                                <input type="radio" name="commentRating" id="rating-2" value="4" formControlName="commentRating" />
                                 <label for="rating-2" class="fa fa-star"></label>
-                                <input type="radio" name="commentRating" id="rating-3" value="3" formControlName="commentRating"/>
+                                <input type="radio" name="commentRating" id="rating-3" value="3" formControlName="commentRating" />
                                 <label for="rating-3" class="fa fa-star"></label>
-                                <input type="radio" name="commentRating" id="rating-4" value="2" formControlName="commentRating"/>
+                                <input type="radio" name="commentRating" id="rating-4" value="2" formControlName="commentRating" />
                                 <label for="rating-4" class="fa fa-star"></label>
-                                <input type="radio" name="commentRating" id="rating-5" value="1" formControlName="commentRating"/>
+                                <input type="radio" name="commentRating" id="rating-5" value="1" formControlName="commentRating" />
                                 <label for="rating-5" class="fa fa-star"></label>
                             </div>
                             <div class="clearfix"></div>
@@ -210,7 +210,7 @@
                     <button class="button" type="submit">Submit Review</button>
                     <div class="clearfix"></div>
                 </form>
-                <span class="error" *ngIf="!isSuccess" >*You should fill at least one field.</span>
+                <span class="error" *ngIf="!successCommentAdd">*You should fill at least one field.</span>
             </div>
         </div>
         <div class="col-lg-4 col-md-4 margin-top-75 sticky">
@@ -252,7 +252,7 @@
                     </a>
                 </div>
                 <ul class="listing-details-sidebar">
-                    <li *ngIf="restaurant?.user[0].phone" >
+                    <li *ngIf="restaurant?.user[0].phone">
                         <i class="sl sl-icon-phone"></i> {{restaurant?.user[0].phone}}
                     </li>
                     <li>
@@ -279,11 +279,17 @@
                         <h3>Send Message</h3>
                     </div>
                     <div class="message-reply margin-top-0">
-                        <textarea cols="40" rows="3" placeholder="Your message to Tom"></textarea>
-                        <button class="button">Send Message</button>
+                        <span *ngIf="successMessageSent" class="success"> Your message has been sent successfully.</span>
+                        <form method="post" [formGroup]="messageForm" (ngSubmit)="sendMessageToHost(restaurant?.user[0].id)">
+                            <span class="error" *ngIf="messageTitle.invalid && !!messageTitle.errors.required && (messageTitle.dirty || messageTitle.touched)">Title is required.</span>
+                            <input type="text" class="input-text" placeholder="The title of your message" formControlName="messageTitle" />
+                            <span class="error" *ngIf="messageText.invalid && !!messageText.errors.required && (messageText.dirty || messageText.touched)">Text is required.</span>
+                            <textarea cols="40" rows="3" placeholder="Your message to {{restaurant?.user[0].name}}" formControlName="messageText"></textarea>
+                            <button class="button">Send Message</button>
+                        </form>
                     </div>
                 </div>
-                <a href="#small-dialog" class="send-message-to-owner button popup-with-zoom-anim">
+                <a href="#small-dialog" class="send-message-to-owner button popup-with-zoom-anim" *ngIf="isLoggedIn">
                     <i class="sl sl-icon-envelope-open"></i> Send Message
                 </a>
             </div>

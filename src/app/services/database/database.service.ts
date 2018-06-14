@@ -356,4 +356,10 @@ export class DatabaseService {
                 }
             });
     }
+    sendMessageToHost(data) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/sendMessageToHost.php', data)
+            .map(response => {
+                return response.text();
+            });
+    }
 }

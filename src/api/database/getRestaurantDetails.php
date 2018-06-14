@@ -147,6 +147,16 @@
                     $row['liked'] = false;
                 }
             }
+            if($userId != null){
+                $sql17 = "SELECT * FROM commentaire_item WHERE id_item = $restaurantId AND id_utilisateur = $userId AND rating IS NOT NULL";
+                $result17 = $conn->query($sql17);
+                if ($result17->num_rows > 0) {
+                    $row['rated'] = true;
+                }
+                else{
+                    $row['rated'] = false;
+                }
+            }
             $data[] = $row;
         }
         echo json_encode($data);

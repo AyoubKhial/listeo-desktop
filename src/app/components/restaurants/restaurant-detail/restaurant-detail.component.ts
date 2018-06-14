@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { DatabaseService } from '../../../services/database/database.service';
 import { PagerService } from '../../../services/pager/pager.service';
 import 'rxjs/add/operator/takeUntil';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SessionStorageService } from 'ngx-webstorage';
 import { RequestOptions, Headers } from '@angular/http';
 
@@ -39,18 +39,23 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
     public addRestaurantComentForm: FormGroup;
     public commentRating: FormControl;
     public commentReview: FormControl;
-    public commentPhotos= [];
+    public commentPhotos = [];
     public isLoggedIn: boolean;
-    public isSuccess: boolean;
+    public successCommentAdd: boolean;
     private userId: number;
+    public messageForm: FormGroup;
+    public messageTitle: FormControl;
+    public messageText: FormControl;
+    public successMessageSent: boolean;
 
     constructor(private activatedRoute: ActivatedRoute,
         private databaseService: DatabaseService,
         private pagerService: PagerService,
         private session: SessionStorageService) {
         this.isLoggedIn = false;
-        this.isSuccess = true;
+        this.successCommentAdd = true;
         this.userId = 0;
+        this.successMessageSent = false;
     }
 
     ngOnInit() {
@@ -62,6 +67,8 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
         this.getRestaurantDetails();
         this.createCommentControls();
         this.createCommentForm();
+        this.createMessageControls();
+        this.createMessageForm();
     }
 
     getRestaurantId() {
@@ -75,13 +82,12 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
             'restaurant': this.restaurantId,
             'user': null
         }
-        if(this.isLoggedIn){
+        if (this.isLoggedIn) {
             data.user = this.session.retrieve("login").id;
         }
         this.databaseService.getRestaurantDetails(data).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
                 this.restaurant = response[0];
-                console.log(this.restaurant);
                 if (this.restaurant.comments) {
                     this.comments = this.restaurant.comments
                     this.setPage(1);
@@ -106,13 +112,13 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
     }
 
     getCommentPhotos(event) {
-		for (var i = 0; i < event.target.files.length; i++) {
+        for (var i = 0; i < event.target.files.length; i++) {
             this.commentPhotos.push(event.target.files[i]);
-		}
+        }
     }
 
     addRestaurantComent(target) {
-        if(this.addRestaurantComentForm.valid){
+        if (this.addRestaurantComentForm.valid) {
             var user = this.session.retrieve("login").id;
             var restaurant = this.restaurantId;
             var review = this.addRestaurantComentForm.value.commentReview;
@@ -124,7 +130,7 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
                 'rating': rating,
                 'image': this.commentPhotos
             };
-    
+
             var formData = new FormData();
             for (var key in formValues) {
                 if (key == "image") {
@@ -134,7 +140,7 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
                 }
                 formData.append(key, formValues[key]);
             }
-    
+
             const headers = new Headers();
             headers.append('Accept', 'application/json');
             let options = new RequestOptions({ headers: headers });
@@ -143,19 +149,19 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
                     if (response == "Inserted") {
                         this.getRestaurantDetails();
                         this.addRestaurantComentForm.reset();
-                        target.scrollIntoView({behavior:"smooth"});
-                        this.isSuccess = true;
+                        target.scrollIntoView({ behavior: "smooth" });
+                        this.successCommentAdd = true;
                     }
                     else {
-                        this.isSuccess = false;
+                        this.successCommentAdd = false;
                     }
                 });
             this.addRestaurantComentForm.reset();
             this.commentPhotos = [];
         }
-        else{
-            this.isSuccess = false;
-        } 
+        else {
+            this.successCommentAdd = false;
+        }
     }
 
     addOrRemoveFromFavoris(event) {
@@ -173,6 +179,43 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
                 data.action = "add";
                 this.databaseService.addToFavoris(data).takeUntil(this.unsubscribe).subscribe();
             }
+        }
+    }
+
+    createMessageForm() {
+        this.messageForm = new FormGroup(
+            {
+                messageTitle: this.messageTitle,
+                messageText: this.messageText
+            }
+        )
+    }
+
+    createMessageControls() {
+        this.messageTitle = new FormControl('', [
+            Validators.required
+        ]);
+        this.messageText = new FormControl('', [
+            Validators.required
+        ]);
+    }
+
+    sendMessageToHost(receiverId) {
+        if(this.messageForm.valid){
+            var data = {
+                sender: this.userId,
+                receiver: receiverId,
+                message: this.messageForm.value.messageText,
+                title: this.messageForm.value.messageTitle
+            }
+            this.databaseService.sendMessageToHost(data).takeUntil(this.unsubscribe).subscribe(response => {
+                if(response != "Inserted"){
+                    this.successMessageSent = false;
+                }
+                else{
+                    this.successMessageSent = true;
+                }
+            });
         }
     }
 

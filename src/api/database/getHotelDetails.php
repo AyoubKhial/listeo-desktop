@@ -113,6 +113,16 @@
                     $row['liked'] = false;
                 }
             }
+            if($userId != null){
+                $sql11 = "SELECT * FROM commentaire_item WHERE id_item = $hotelId AND id_utilisateur = $userId AND rating IS NOT NULL";
+                $result11 = $conn->query($sql11);
+                if ($result11->num_rows > 0) {
+                    $row['rated'] = true;
+                }
+                else{
+                    $row['rated'] = false;
+                }
+            }
             $data[] = $row;
         }
         echo json_encode($data);

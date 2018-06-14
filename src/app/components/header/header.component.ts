@@ -87,7 +87,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                             'last_name': response[0].last_name,
                             'email': response[0].email,
                             'photo': response[0].photo,
-                            'type': 'log'
+                            'type': response[0].provider
                         }
                     );
                     this.isLoggedIn = true;
