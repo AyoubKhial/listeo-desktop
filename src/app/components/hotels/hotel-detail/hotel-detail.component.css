@@ -23,3 +23,12 @@ span.stars span {
     color: red;
     font-size: 15px;
 }
+
+.success{
+    color: green;
+    font-size: 15px
+}
+
+.share-buttons{
+    cursor: pointer;
+}

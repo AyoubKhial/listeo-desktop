@@ -23,6 +23,8 @@ import { HotelDirectionsComponent } from './components/hotels/hotel-directions/h
 import { SocialLoginModule, AuthServiceConfig, LoginOpt } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
 import { ContactComponent } from './components/contact/contact.component';
+import { ShareModule } from '@ngx-share/core';
+import { HttpClientModule } from '@angular/common/http';
 
 let config = new AuthServiceConfig([
 	{
@@ -31,7 +33,7 @@ let config = new AuthServiceConfig([
 	},
 	{
 		id: FacebookLoginProvider.PROVIDER_ID,
-		provider: new FacebookLoginProvider("2164091820488016")
+        provider: new FacebookLoginProvider("2164091820488016")
 	},
 
 ]);
@@ -63,7 +65,9 @@ export function provideConfig() {
         HttpModule,
         Ng2Webstorage,
         FormsModule,
-        SocialLoginModule
+        SocialLoginModule,
+        ShareModule.forRoot(),
+        HttpClientModule
     ],
     providers: [
         DatabaseService,

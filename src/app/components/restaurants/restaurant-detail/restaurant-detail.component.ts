@@ -7,6 +7,7 @@ import 'rxjs/add/operator/takeUntil';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SessionStorageService } from 'ngx-webstorage';
 import { RequestOptions, Headers } from '@angular/http';
+import { ShareButtons } from '@ngx-share/core';
 
 
 export function AtLeastOneFieldValidator(group: FormGroup): { [key: string]: any } {
@@ -42,7 +43,7 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
     public commentPhotos = [];
     public isLoggedIn: boolean;
     public successCommentAdd: boolean;
-    private userId: number;
+    public userId: number;
     public messageForm: FormGroup;
     public messageTitle: FormControl;
     public messageText: FormControl;
@@ -51,7 +52,8 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
     constructor(private activatedRoute: ActivatedRoute,
         private databaseService: DatabaseService,
         private pagerService: PagerService,
-        private session: SessionStorageService) {
+        private session: SessionStorageService,
+        public share: ShareButtons) {
         this.isLoggedIn = false;
         this.successCommentAdd = true;
         this.userId = 0;
@@ -83,7 +85,7 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
             'user': null
         }
         if (this.isLoggedIn) {
-            data.user = this.session.retrieve("login").id;
+            data.user = this.userId;
         }
         this.databaseService.getRestaurantDetails(data).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
@@ -119,7 +121,7 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
 
     addRestaurantComent(target) {
         if (this.addRestaurantComentForm.valid) {
-            var user = this.session.retrieve("login").id;
+            var user = this.userId;
             var restaurant = this.restaurantId;
             var review = this.addRestaurantComentForm.value.commentReview;
             var rating = this.addRestaurantComentForm.value.commentRating;

@@ -248,7 +248,10 @@
                         <a href="pages-user-profile.html">{{restaurant?.user[0].name}}</a>
                     </h4>
                     <a href="pages-user-profile.html" class="hosted-by-avatar">
-                        <img src="assets/images/{{restaurant?.user[0].photo}}" alt="">
+                        <img *ngIf="restaurant?.user[0].provider != 'listeo'" src="{{restaurant?.user[0].photo}}" alt="">
+                        <img *ngIf="restaurant?.user[0].provider == 'listeo' && restaurant?.user[0].photo" src="assets/images/users/{{restaurant?.user[0].photo}}"
+                            alt="">
+                        <img *ngIf="restaurant?.user[0].provider == 'listeo' && !restaurant?.user[0].photo" src="assets/images/users/user.png" alt="">
                     </a>
                 </div>
                 <ul class="listing-details-sidebar">
@@ -289,7 +292,7 @@
                         </form>
                     </div>
                 </div>
-                <a href="#small-dialog" class="send-message-to-owner button popup-with-zoom-anim" *ngIf="isLoggedIn">
+                <a href="#small-dialog" class="send-message-to-owner button popup-with-zoom-anim" *ngIf="isLoggedIn && userId != restaurant?.user[0].id">
                     <i class="sl sl-icon-envelope-open"></i> Send Message
                 </a>
             </div>
@@ -300,17 +303,17 @@
                 <span>159 people bookmarked this place</span>
                 <ul class="share-buttons margin-top-40 margin-bottom-0">
                     <li>
-                        <a class="fb-share" href="#">
+                        <a class="fb-share" shareButton="facebook">
                             <i class="fa fa-facebook"></i> Share
                         </a>
                     </li>
                     <li>
-                        <a class="twitter-share" href="#">
+                        <a class="twitter-share" shareButton="twitter">
                             <i class="fa fa-twitter"></i> Tweet
                         </a>
                     </li>
                     <li>
-                        <a class="gplus-share" href="#">
+                        <a class="gplus-share" shareButton="google">
                             <i class="fa fa-google-plus"></i> Share
                         </a>
                     </li>

@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PagerService } from '../../../services/pager/pager.service';
 import 'rxjs/add/operator/takeUntil';
 import { SessionStorageService } from 'ngx-webstorage';
+import { ShareButtons } from '@ngx-share/core';
 
 @Component({
     selector: 'app-article-detail',
@@ -27,7 +28,8 @@ export class ArticleDetailComponent implements OnInit {
     constructor(private activatedRoute: ActivatedRoute,
         private databaseService: DatabaseService,
         private pagerService: PagerService,
-        private session: SessionStorageService) {
+        private session: SessionStorageService,
+        public share: ShareButtons) {
             this.isLoggedIn = false;
             this.isSuccess = true;
     }

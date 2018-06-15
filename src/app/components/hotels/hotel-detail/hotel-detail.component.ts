@@ -4,9 +4,10 @@ import { Subject } from 'rxjs/Subject';
 import { DatabaseService } from '../../../services/database/database.service';
 import { PagerService } from '../../../services/pager/pager.service';
 import 'rxjs/add/operator/takeUntil';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SessionStorageService } from 'ngx-webstorage';
 import { RequestOptions, Headers } from '@angular/http';
+import { ShareButtons } from '@ngx-share/core';
 
 export function AtLeastOneFieldValidator(group: FormGroup): { [key: string]: any } {
     let isAtLeastOne = false;
@@ -41,15 +42,21 @@ export class HotelDetailComponent implements OnInit {
     public commentReview: FormControl;
     public isLoggedIn: boolean;
     public isSuccess: boolean;
-    private userId: number;
+    public userId: number;
+    public messageForm: FormGroup;
+    public messageTitle: FormControl;
+    public messageText: FormControl;
+    public successMessageSent: boolean;
 
     constructor(private activatedRoute: ActivatedRoute,
         private databaseService: DatabaseService,
         private pagerService: PagerService,
-        private session: SessionStorageService) {
+        private session: SessionStorageService,
+        public share: ShareButtons) {
         this.isLoggedIn = false;
         this.isSuccess = true;
         this.userId = 0;
+        this.successMessageSent = false;
     }
 
     ngOnInit() {
@@ -61,6 +68,8 @@ export class HotelDetailComponent implements OnInit {
         this.getHotelDetails();
         this.createCommentControls();
         this.createCommentForm();
+        this.createMessageControls();
+        this.createMessageForm();
     }
 
     getHotelId() {
@@ -75,7 +84,7 @@ export class HotelDetailComponent implements OnInit {
             'user': null
         }
         if(this.isLoggedIn){
-            data.user = this.session.retrieve("login").id;
+            data.user = this.userId;
         }
         this.databaseService.getHotelDetails(data).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
@@ -111,7 +120,7 @@ export class HotelDetailComponent implements OnInit {
 
     addHotelComent(target) {
         if (this.addHotelCommentForm.valid) {
-            var user = this.session.retrieve("login").id;
+            var user = this.userId;
             var hotel = this.hotelId;
             var review = this.addHotelCommentForm.value.commentReview;
             var rating = this.addHotelCommentForm.value.commentRating;
@@ -171,6 +180,43 @@ export class HotelDetailComponent implements OnInit {
                 data.action = "add";
                 this.databaseService.addToFavoris(data).takeUntil(this.unsubscribe).subscribe();
             }
+        }
+    }
+
+    createMessageForm() {
+        this.messageForm = new FormGroup(
+            {
+                messageTitle: this.messageTitle,
+                messageText: this.messageText
+            }
+        )
+    }
+
+    createMessageControls() {
+        this.messageTitle = new FormControl('', [
+            Validators.required
+        ]);
+        this.messageText = new FormControl('', [
+            Validators.required
+        ]);
+    }
+
+    sendMessageToHost(receiverId) {
+        if(this.messageForm.valid){
+            var data = {
+                sender: this.userId,
+                receiver: receiverId,
+                message: this.messageForm.value.messageText,
+                title: this.messageForm.value.messageTitle
+            }
+            this.databaseService.sendMessageToHost(data).takeUntil(this.unsubscribe).subscribe(response => {
+                if(response != "Inserted"){
+                    this.successMessageSent = false;
+                }
+                else{
+                    this.successMessageSent = true;
+                }
+            });
         }
     }
 

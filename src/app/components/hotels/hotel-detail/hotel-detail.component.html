@@ -206,7 +206,7 @@
                     <button class="button" type="submit">Submit Review</button>
                     <div class="clearfix"></div>
                 </form>
-                <span class="error" *ngIf="!isSuccess" >*You should fill at least one field.</span>
+                <span class="error" *ngIf="!isSuccess">*You should fill at least one field.</span>
             </div>
         </div>
         <div class="col-lg-4 col-md-4 margin-top-75 sticky">
@@ -214,51 +214,59 @@
                 <i class="sl sl-icon-check"></i> Verified Listing
             </div>
             <div class="boxed-widget margin-top-35">
-                    <div class="hosted-by-title">
-                        <h4>
-                            <span>Hosted by</span>
-                            <a href="pages-user-profile.html">{{hotel?.user[0].name}}</a>
-                        </h4>
-                        <a href="pages-user-profile.html" class="hosted-by-avatar">
-                            <img src="assets/images/{{hotel?.user[0].photo}}" alt="">
-                        </a>
-                    </div>
-                    <ul class="listing-details-sidebar">
-                        <li *ngIf="hotel?.user[0].phone" >
-                            <i class="sl sl-icon-phone"></i> {{hotel?.user[0].phone}}
-                        </li>
-                        <li>
-                            <i class="fa fa-envelope-o"></i>
-                            <a href="#">
-                                <span class="__cf_email__" data-cfemail="c1b5aeac81a4b9a0acb1ada4efa2aeac">{{hotel?.user[0].email}}</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="listing-details-sidebar social-profiles">
-                        <li *ngIf="hotel?.user[0].facebook">
-                            <a href="{{hotel?.user[0].facebook}}" class="facebook-profile">
-                                <i class="fa fa-facebook-square"></i> Facebook
-                            </a>
-                        </li>
-                        <li *ngIf="hotel?.user[0].instagram">
-                            <a href="{{hotel?.user[0].instagram}}" class="instagram-profile">
-                                <i class="fa fa-instagram"></i> Instagram
-                            </a>
-                        </li>
-                    </ul>
-                    <div id="small-dialog" class="zoom-anim-dialog mfp-hide">
-                        <div class="small-dialog-header">
-                            <h3>Send Message</h3>
-                        </div>
-                        <div class="message-reply margin-top-0">
-                            <textarea cols="40" rows="3" placeholder="Your message to Tom"></textarea>
-                            <button class="button">Send Message</button>
-                        </div>
-                    </div>
-                    <a href="#small-dialog" class="send-message-to-owner button popup-with-zoom-anim">
-                        <i class="sl sl-icon-envelope-open"></i> Send Message
+                <div class="hosted-by-title">
+                    <h4>
+                        <span>Hosted by</span>
+                        <a href="pages-user-profile.html">{{hotel?.user[0].name}}</a>
+                    </h4>
+                    <a href="pages-user-profile.html" class="hosted-by-avatar">
+                        <img *ngIf="hotel?.user[0].provider != 'listeo'" src="{{hotel?.user[0].photo}}">
+                        <img *ngIf="hotel?.user[0].provider == 'listeo' && hotel?.user[0].photo" src="assets/images/users/{{hotel?.user[0].photo}}">
+                        <img *ngIf="hotel?.user[0].provider == 'listeo' && !hotel?.user[0].photo" src="assets/images/users/user.png">
                     </a>
                 </div>
+                <ul class="listing-details-sidebar">
+                    <li *ngIf="hotel?.user[0].phone">
+                        <i class="sl sl-icon-phone"></i> {{hotel?.user[0].phone}}
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope-o"></i>
+                        <a href="#">
+                            <span class="__cf_email__" data-cfemail="c1b5aeac81a4b9a0acb1ada4efa2aeac">{{hotel?.user[0].email}}</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="listing-details-sidebar social-profiles">
+                    <li *ngIf="hotel?.user[0].facebook">
+                        <a href="{{hotel?.user[0].facebook}}" class="facebook-profile">
+                            <i class="fa fa-facebook-square"></i> Facebook
+                        </a>
+                    </li>
+                    <li *ngIf="hotel?.user[0].instagram">
+                        <a href="{{hotel?.user[0].instagram}}" class="instagram-profile">
+                            <i class="fa fa-instagram"></i> Instagram
+                        </a>
+                    </li>
+                </ul>
+                <div id="small-dialog" class="zoom-anim-dialog mfp-hide">
+                    <div class="small-dialog-header">
+                        <h3>Send Message</h3>
+                    </div>
+                    <div class="message-reply margin-top-0">
+                        <span *ngIf="successMessageSent" class="success"> Your message has been sent successfully.</span>
+                        <form method="post" [formGroup]="messageForm" (ngSubmit)="sendMessageToHost(hotel?.user[0].id)">
+                            <span class="error" *ngIf="messageTitle.invalid && !!messageTitle.errors.required && (messageTitle.dirty || messageTitle.touched)">Title is required.</span>
+                            <input type="text" class="input-text" placeholder="The title of your message" formControlName="messageTitle" />
+                            <span class="error" *ngIf="messageText.invalid && !!messageText.errors.required && (messageText.dirty || messageText.touched)">Text is required.</span>
+                            <textarea cols="40" rows="3" placeholder="Your message to {{hotel?.user[0].name}}" formControlName="messageText"></textarea>
+                            <button class="button">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+                <a href="#small-dialog" class="send-message-to-owner button popup-with-zoom-anim" *ngIf="isLoggedIn && userId != hotel?.user[0].id">
+                    <i class="sl sl-icon-envelope-open"></i> Send Message
+                </a>
+            </div>
             <div class="listing-share margin-top-40 margin-bottom-40 no-border">
                 <button class="like-button" [ngClass]="{'liked': hotel?.liked}" (click)="addOrRemoveFromFavoris($event)">
                     <span class="like-icon" [ngClass]="{'liked': hotel?.liked}"></span> Bookmark this listing
@@ -266,18 +274,20 @@
                 <span>159 people bookmarked this place</span>
                 <ul class="share-buttons margin-top-40 margin-bottom-0">
                     <li>
-                        <a class="fb-share" href="#">
-                            <i class="fa fa-facebook"></i> Share</a>
+                        <a class="fb-share" shareButton="facebook">
+                            <i class="fa fa-facebook"></i> Share
+                        </a>
                     </li>
                     <li>
-                        <a class="twitter-share" href="#">
-                            <i class="fa fa-twitter"></i> Tweet</a>
+                        <a class="twitter-share" shareButton="twitter">
+                            <i class="fa fa-twitter"></i> Tweet
+                        </a>
                     </li>
                     <li>
-                        <a class="gplus-share" href="#">
-                            <i class="fa fa-google-plus"></i> Share</a>
+                        <a class="gplus-share" shareButton="google">
+                            <i class="fa fa-google-plus"></i> Share
+                        </a>
                     </li>
-                    <!-- <li><a class="pinterest-share" href="#"><i class="fa fa-pinterest-p"></i> Pin</a></li> -->
                 </ul>
                 <div class="clearfix"></div>
             </div>
