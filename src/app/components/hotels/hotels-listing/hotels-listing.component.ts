@@ -190,12 +190,14 @@ export class HotelsListingComponent implements OnInit, OnDestroy {
         }
     }
 
-    setPage(page: number) {
+    setPage(page: number, target?) {
         if (page < 1 || page > this.pager.totalPages) {
             return;
         }
         this.pager = this.pagerService.getPager(this.hotels.length, page, 6);
         this.pagedHotels = this.hotels.slice(this.pager.startIndex, this.pager.endIndex + 1);
+        if(target)
+        target.scrollIntoView({ behavior: "smooth" });
     }
 
     getStars(rating) {

@@ -11,6 +11,8 @@ import { ArticleDetailComponent } from './components/articles/article-detail/art
 import { HotelDetailComponent } from './components/hotels/hotel-detail/hotel-detail.component';
 import { HotelDirectionsComponent } from './components/hotels/hotel-directions/hotel-directions.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { MessagesComponent } from './components/profile/messages/messages.component';
+import { AuthGuardService } from './services/auth/auth-guard.service';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -24,6 +26,7 @@ const appRoutes: Routes = [
     { path: 'hotels/:id', component: HotelDetailComponent },
     { path: 'hotels/:id/directions', component: HotelDirectionsComponent },
     { path: 'contact', component: ContactComponent },
+    { path: 'profile/messages', component: MessagesComponent, canActivate: [AuthGuardService] }
 ];
 
 export const Routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

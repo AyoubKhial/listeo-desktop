@@ -362,4 +362,18 @@ export class DatabaseService {
                 return response.text();
             });
     }
+
+    getMessages(receiverId) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/getMessages.php', receiverId)
+        .map(response => {
+            this.hasResult = response;
+            if (this.hasResult._body !== 'Not found') {
+                console.log(response.text())
+                return response.json();
+            }
+            else {
+                return response.text();
+            }
+        });
+    }
 }

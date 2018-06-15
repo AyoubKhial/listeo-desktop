@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { DatabaseService } from '../../../services/database/database.service';
 import { Subject } from 'rxjs/Subject';
 import { PagerService } from '../../../services/pager/pager.service';
@@ -197,12 +197,14 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
         }
     }
 
-    setPage(page: number) {
+    setPage(page: number, target?) {
         if (page < 1 || page > this.pager.totalPages) {
             return;
         }
         this.pager = this.pagerService.getPager(this.restaurants.length, page, 6);
         this.pagedRestaurants = this.restaurants.slice(this.pager.startIndex, this.pager.endIndex + 1);
+        if(target)
+        target.scrollIntoView({ behavior: "smooth" });
     }
 
     getStars(rating) {

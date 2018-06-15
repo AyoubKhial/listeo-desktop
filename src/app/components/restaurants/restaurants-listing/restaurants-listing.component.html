@@ -98,8 +98,8 @@
             </div>
             <div class="row" *ngIf="listingGrid && pagedRestaurants?.length > 0">
                 <div class="col-lg-6 col-md-12" *ngFor="let restaurant of pagedRestaurants">
-                    <a [routerLink]="['/restaurants', restaurant.id]" class="listing-item-container compact">
-                        <div class="listing-item">
+                    <a class="listing-item-container compact">
+                        <div [routerLink]="['/restaurants', restaurant.id]" class="listing-item">
                             <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/restaurants/{{restaurant.photo}}" alt="">
                             <ng-template #defaultPhoto>
                                 <img src="assets/images/listing-item-01.jpg" alt="">
@@ -118,8 +118,8 @@
                                 <span>{{restaurant.adresse}}, {{restaurant.ville_name}}</span>
                             </div>
                         </div>
+                        <span class="like-icon" [ngClass]="{'liked': restaurant?.liked}" (click)="addOrRemoveFromFavoris($event, restaurant?.id)"></span>
                     </a>
-                    <span class="like-icon" [ngClass]="{'liked': restaurant?.liked}" (click)="addOrRemoveFromFavoris($event, restaurant?.id)"></span>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -129,19 +129,19 @@
                         <nav class="pagination">
                             <ul *ngIf="pager.pages && pager.pages.length">
                                 <li [ngClass]="{disabled:pager.currentPage === 1}">
-                                    <a (click)="setPage(1)">First</a>
+                                    <a (click)="setPage(1, target)">First</a>
                                 </li>
                                 <li [ngClass]="{disabled:pager.currentPage === 1}">
-                                    <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                                    <a (click)="setPage(pager.currentPage - 1, target)">Previous</a>
                                 </li>
                                 <li *ngFor="let page of pager.pages" [ngClass]="{'current-page':pager.currentPage === page}">
-                                    <a (click)="setPage(page)" [ngClass]="{'current-page':pager.currentPage === page}">{{page}}</a>
+                                    <a (click)="setPage(page, target)" [ngClass]="{'current-page':pager.currentPage === page}">{{page}}</a>
                                 </li>
                                 <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                                    <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                                    <a (click)="setPage(pager.currentPage + 1, target)">Next</a>
                                 </li>
                                 <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                                    <a (click)="setPage(pager.totalPages)">Last</a>
+                                    <a (click)="setPage(pager.totalPages, target)">Last</a>
                                 </li>
                             </ul>
                         </nav>

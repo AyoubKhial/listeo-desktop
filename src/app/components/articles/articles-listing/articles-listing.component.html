@@ -1,5 +1,5 @@
 <button onclick="scriptCall()" id="scriptCall" style="display: none"></button>
-<div id="titlebar" class="gradient">
+<div id="titlebar" class="gradient" #target>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -52,19 +52,19 @@
                             <nav class="pagination">
                                 <ul *ngIf="pager.pages && pager.pages.length">
                                     <li [ngClass]="{disabled:pager.currentPage === 1}">
-                                        <a (click)="setPage(1)">First</a>
+                                        <a (click)="setPage(1, target)">First</a>
                                     </li>
                                     <li [ngClass]="{disabled:pager.currentPage === 1}">
-                                        <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                                        <a (click)="setPage(pager.currentPage - 1, target)">Previous</a>
                                     </li>
                                     <li *ngFor="let page of pager.pages" [ngClass]="{'current-page':pager.currentPage === page}">
-                                        <a (click)="setPage(page)" [ngClass]="{'current-page':pager.currentPage === page}">{{page}}</a>
+                                        <a (click)="setPage(page, target)" [ngClass]="{'current-page':pager.currentPage === page}">{{page}}</a>
                                     </li>
                                     <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                                        <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                                        <a (click)="setPage(pager.currentPage + 1, target)">Next</a>
                                     </li>
                                     <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                                        <a (click)="setPage(pager.totalPages)">Last</a>
+                                        <a (click)="setPage(pager.totalPages, target)">Last</a>
                                     </li>
                                 </ul>
                             </nav>

@@ -31,6 +31,12 @@ export class AppComponent {
                         this.callMapScript.unsubscribe();
                     });
                 }
+                if (event.url.includes('profile/')) {
+                    for(var i = 0 ; i < document.getElementsByClassName("x").length; i++){
+                        document.getElementsByClassName("x")[i].classList.add("something");
+                    }
+                    
+                }
             }
             // NavigationEnd
             // NavigationCancel

@@ -288,7 +288,7 @@ function scriptCall(){
                 preloader: false,
                 fixedContentPos: false
             });
-            $('.fullwidth-slick-carousel').slick({
+            $('.fullwidth-slick-carousel').not('.slick-initialized').slick({
                 centerMode: true,
                 centerPadding: '15%',
                 slidesToShow: 3,
@@ -314,7 +314,7 @@ function scriptCall(){
                     }
                 }]
             });
-            $('.testimonial-carousel').slick({
+            $('.testimonial-carousel').not('.slick-initialized').slick({
                 centerMode: true,
                 centerPadding: '34%',
                 slidesToShow: 1,
@@ -334,7 +334,7 @@ function scriptCall(){
                     }
                 }]
             });
-            $('.listing-slider').slick({
+            $('.listing-slider').not('.slick-initialized').slick({
                 centerMode: true,
                 centerPadding: '20%',
                 slidesToShow: 2,
@@ -356,7 +356,7 @@ function scriptCall(){
                     }
                 }]
             });
-            $('.simple-slick-carousel').slick({
+            $('.simple-slick-carousel').not('.slick-initialized').slick({
                 infinite: true,
                 slidesToShow: 3,
                 slidesToScroll: 3,
@@ -376,7 +376,7 @@ function scriptCall(){
                     }
                 }]
             });
-            $('.simple-fw-slick-carousel').slick({
+            $('.simple-fw-slick-carousel').not('.slick-initialized').slick({
                 infinite: true,
                 slidesToShow: 5,
                 slidesToScroll: 1,
@@ -404,7 +404,7 @@ function scriptCall(){
                     }
                 }]
             });
-            $('.logo-slick-carousel').slick({
+            $('.logo-slick-carousel').not('.slick-initialized').slick({
                 infinite: true,
                 slidesToShow: 5,
                 slidesToScroll: 4,

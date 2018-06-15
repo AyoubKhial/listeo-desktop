@@ -96,12 +96,14 @@ export class ArticlesListingComponent implements OnInit, OnDestroy {
         });
     }
 
-    setPage(page: number) {
+    setPage(page: number, target?) {
         if (page < 1 || page > this.pager.totalPages) {
             return;
         }
         this.pager = this.pagerService.getPager(this.articles.length, page, 3);
         this.pagedArticles = this.articles.slice(this.pager.startIndex, this.pager.endIndex + 1);
+        if(target)
+        target.scrollIntoView({ behavior: "smooth" });
     }
 
     ngOnDestroy(): void {

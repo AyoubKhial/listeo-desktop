@@ -25,6 +25,9 @@ import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-logi
 import { ContactComponent } from './components/contact/contact.component';
 import { ShareModule } from '@ngx-share/core';
 import { HttpClientModule } from '@angular/common/http';
+import { MessagesComponent } from './components/profile/messages/messages.component';
+import { NavigationComponent } from './components/profile/navigation/navigation.component';
+import { AuthGuardService } from './services/auth/auth-guard.service';
 
 let config = new AuthServiceConfig([
 	{
@@ -56,7 +59,9 @@ export function provideConfig() {
         ArticleDetailComponent,
         HotelDetailComponent,
         HotelDirectionsComponent,
-        ContactComponent
+        ContactComponent,
+        MessagesComponent,
+        NavigationComponent
     ],
     imports: [
         BrowserModule,
@@ -73,6 +78,7 @@ export function provideConfig() {
         DatabaseService,
         MailerService,
         PagerService,
+        AuthGuardService,
         {
             provide: AuthServiceConfig,
             useFactory: provideConfig
