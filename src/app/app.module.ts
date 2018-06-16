@@ -28,6 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MessagesComponent } from './components/profile/messages/messages.component';
 import { NavigationComponent } from './components/profile/navigation/navigation.component';
 import { AuthGuardService } from './services/auth/auth-guard.service';
+import { BookmarksComponent } from './components/profile/bookmarks/bookmarks.component';
 
 let config = new AuthServiceConfig([
 	{
@@ -61,7 +62,8 @@ export function provideConfig() {
         HotelDirectionsComponent,
         ContactComponent,
         MessagesComponent,
-        NavigationComponent
+        NavigationComponent,
+        BookmarksComponent
     ],
     imports: [
         BrowserModule,
