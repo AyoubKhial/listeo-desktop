@@ -26,9 +26,9 @@ import { ContactComponent } from './components/contact/contact.component';
 import { ShareModule } from '@ngx-share/core';
 import { HttpClientModule } from '@angular/common/http';
 import { MessagesComponent } from './components/profile/messages/messages.component';
-import { NavigationComponent } from './components/profile/navigation/navigation.component';
 import { AuthGuardService } from './services/auth/auth-guard.service';
 import { BookmarksComponent } from './components/profile/bookmarks/bookmarks.component';
+import { AddRestaurantComponent } from './components/profile/add-restaurant/add-restaurant.component';
 
 let config = new AuthServiceConfig([
 	{
@@ -62,8 +62,8 @@ export function provideConfig() {
         HotelDirectionsComponent,
         ContactComponent,
         MessagesComponent,
-        NavigationComponent,
-        BookmarksComponent
+        BookmarksComponent,
+        AddRestaurantComponent
     ],
     imports: [
         BrowserModule,

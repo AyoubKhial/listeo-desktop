@@ -388,4 +388,24 @@ export class DatabaseService {
             }
         });
     }
+
+    getAllCategories() {
+        return this.http.get('http://localhost/listeo-desktop/src/api/database/getAllCategories.php')
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Error') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
+    addRestaurant(data, options) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/addRestaurant.php', data, options)
+            .map(response => {
+                return response.text();
+            });
+    }
 }

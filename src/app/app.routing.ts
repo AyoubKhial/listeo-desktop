@@ -14,6 +14,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { MessagesComponent } from './components/profile/messages/messages.component';
 import { AuthGuardService } from './services/auth/auth-guard.service';
 import { BookmarksComponent } from './components/profile/bookmarks/bookmarks.component';
+import { AddRestaurantComponent } from './components/profile/add-restaurant/add-restaurant.component';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -28,7 +29,8 @@ const appRoutes: Routes = [
     { path: 'hotels/:id/directions', component: HotelDirectionsComponent },
     { path: 'contact', component: ContactComponent },
     { path: 'profile/messages', component: MessagesComponent, canActivate: [AuthGuardService] },
-    { path: 'profile/bookmarks', component: BookmarksComponent, canActivate: [AuthGuardService] }
+    { path: 'profile/bookmarks', component: BookmarksComponent, canActivate: [AuthGuardService] },
+    { path: 'profile/restaurants/add', component: AddRestaurantComponent, canActivate: [AuthGuardService] }
 ];
 
 export const Routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

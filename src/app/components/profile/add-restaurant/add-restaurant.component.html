@@ -1,0 +1,500 @@
+<button onclick="scriptCall()" id="scriptCall" style="display: none"></button>
+<button onclick="addMap()" id="loadMap" style="display: none"></button>
+<div id="wrapper">
+    <header id="header-container" class="fixed fullwidth dashboard">
+        <div id="header" class="not-sticky">
+            <div class="container">
+                <div class="left-side">
+                    <div id="logo">
+                        <a href="index-2.html"><img src="assets/images/logo.png" alt=""></a>
+                        <a href="index-2.html" class="dashboard-logo"><img src="assets/images/logo2.png" alt=""></a>
+                    </div>
+                    <div class="mmenu-trigger">
+                        <button class="hamburger hamburger--collapse" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                        </button>
+                    </div>
+                    <nav id="navigation" class="style-1">
+                        <ul id="responsive">
+                            <li><a href="#">Home</a>
+                                <ul>
+                                    <li><a href="index-2.html">Home 1</a></li>
+                                    <li><a href="index-3.html">Home 2</a></li>
+                                    <li><a href="index-4.html">Home 3</a></li>
+                                    <li><a href="index-5.html">Home 4</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Listings</a>
+                                <ul>
+                                    <li><a href="#">List Layout</a>
+                                        <ul>
+                                            <li><a href="listings-list-with-sidebar.html">With Sidebar</a></li>
+                                            <li><a href="listings-list-full-width.html">Full Width</a></li>
+                                            <li><a href="listings-list-full-width-with-map.html">Full Width + Map</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Grid Layout</a>
+                                        <ul>
+                                            <li><a href="listings-grid-with-sidebar-1.html">With Sidebar 1</a></li>
+                                            <li><a href="listings-grid-with-sidebar-2.html">With Sidebar 2</a></li>
+                                            <li><a href="listings-grid-full-width.html">Full Width</a></li>
+                                            <li><a href="listings-grid-full-width-with-map.html">Full Width + Map</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Half Screen Map</a>
+                                        <ul>
+                                            <li><a href="listings-half-screen-map-list.html">List Layout</a></li>
+                                            <li><a href="listings-half-screen-map-grid-1.html">Grid Layout 1</a></li>
+                                            <li><a href="listings-half-screen-map-grid-2.html">Grid Layout 2</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="listings-single-page.html">Single Listing</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="current" href="#">User Panel</a>
+                                <ul>
+                                    <li><a href="dashboard.html">Dashboard</a></li>
+                                    <li><a href="dashboard-messages.html">Messages</a></li>
+                                    <li><a href="dashboard-bookings.html">Bookings</a></li>
+                                    <li><a href="dashboard-my-listings.html">My Listings</a></li>
+                                    <li><a href="dashboard-reviews.html">Reviews</a></li>
+                                    <li><a href="dashboard-bookmarks.html">Bookmarks</a></li>
+                                    <li><a href="dashboard-add-listing.html">Add Listing</a></li>
+                                    <li><a href="dashboard-my-profile.html">My Profile</a></li>
+                                    <li><a href="dashboard-invoice.html">Invoice</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Pages</a>
+                                <ul>
+                                    <li><a href="pages-user-profile.html">User Profile</a></li>
+                                    <li><a href="pages-booking.html">Booking Page</a></li>
+                                    <li><a href="pages-add-listing.html">Add Listing</a></li>
+                                    <li><a href="pages-blog.html">Blog</a>
+                                        <ul>
+                                            <li><a href="pages-blog.html">Blog</a></li>
+                                            <li><a href="pages-blog-post.html">Blog Post</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="pages-contact.html">Contact</a></li>
+                                    <li><a href="pages-coming-soon.html">Coming Soon</a></li>
+                                    <li><a href="pages-elements.html">Elements</a></li>
+                                    <li><a href="pages-pricing-tables.html">Pricing Tables</a></li>
+                                    <li><a href="pages-typography.html">Typography</a></li>
+                                    <li><a href="pages-masonry-filtering.html">Masonry Filtering</a></li>
+                                    <li><a href="pages-404.html">404 Page</a></li>
+                                    <li><a href="pages-icons.html">Icons</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="right-side">
+                    <div class="header-widget">
+                        <div class="user-menu">
+                            <div class="user-name"><span><img src="images/dashboard-avatar.jpg" alt=""></span>My Account</div>
+                            <ul>
+                                <li><a href="dashboard.html"><i class="sl sl-icon-settings"></i> Dashboard</a></li>
+                                <li><a href="dashboard-messages.html"><i class="sl sl-icon-envelope-open"></i> Messages</a></li>
+                                <li><a href="dashboard-bookings.html"><i class="fa fa-calendar-check-o"></i> Bookings</a></li>
+                                <li><a href="index-2.html"><i class="sl sl-icon-power"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                        <a href="dashboard-add-listing.html" class="button border with-icon">Add Listing <i class="sl sl-icon-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </header>
+    <div class="clearfix"></div>
+    <div id="dashboard">
+        <a href="#" class="dashboard-responsive-nav-trigger"><i class="fa fa-reorder"></i> Dashboard Navigation</a>
+        <div class="dashboard-nav">
+            <div class="dashboard-nav-inner">
+                <ul data-submenu-title="Main">
+                    <li><a href="dashboard.html"><i class="sl sl-icon-settings"></i> Dashboard</a></li>
+                    <li><a href="dashboard-messages.html"><i class="sl sl-icon-envelope-open"></i> Messages <span class="nav-tag messages">2</span></a></li>
+                    <li><a href="dashboard-bookings.html"><i class="fa fa-calendar-check-o"></i> Bookings</a></li>
+                </ul>
+                <ul data-submenu-title="Listings">
+                    <li><a><i class="sl sl-icon-layers"></i> My Listings</a>
+                        <ul>
+                            <li><a href="dashboard-my-listings.html">Active <span class="nav-tag green">6</span></a></li>
+                            <li><a href="dashboard-my-listings.html">Pending <span class="nav-tag yellow">1</span></a></li>
+                            <li><a href="dashboard-my-listings.html">Expired <span class="nav-tag red">2</span></a></li>
+                        </ul>	
+                    </li>
+                    <li><a href="dashboard-reviews.html"><i class="sl sl-icon-star"></i> Reviews</a></li>
+                    <li><a href="dashboard-bookmarks.html"><i class="sl sl-icon-heart"></i> Bookmarks</a></li>
+                    <li class="active"><a href="dashboard-add-listing.html"><i class="sl sl-icon-plus"></i> Add Listing</a></li>
+                </ul>	
+    
+                <ul data-submenu-title="Account">
+                    <li><a href="dashboard-my-profile.html"><i class="sl sl-icon-user"></i> My Profile</a></li>
+                    <li><a href="index-2.html"><i class="sl sl-icon-power"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="dashboard-content">
+            <div id="titlebar" #target>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Add Listing</h2>
+                        <nav id="breadcrumbs">
+                            <ul>
+                                <li>
+                                    <a href="#">Home</a>
+                                </li>
+                                <li>
+                                    <a href="#">Dashboard</a>
+                                </li>
+                                <li>Add Listing</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <span *ngIf="isSuccess" class="success">Your restaurant is successfully added. it will appear in the listing after the approval of the manager.</span>
+                    <div id="add-listing">
+                        <form (ngSubmit)="addRestaurant(target)" [formGroup]="addRestaurantForm" novalidate>
+                            <div class="add-listing-section">
+                                <div class="add-listing-headline">
+                                    <h3>
+                                        <i class="sl sl-icon-doc"></i> Basic Informations
+                                    </h3>
+                                </div>
+                                <div class="row with-forms">
+                                    <div class="col-md-12">
+                                        <h5>Restaurant Name
+                                            <i class="tip" data-tip-content="Name of the restaurant"></i>
+                                        </h5>
+                                        <span *ngIf="restaurantName.invalid && !!restaurantName.errors.maxlength" class="error"> Restaurant name required with max 100 character. </span>
+                                        <span class="error" *ngIf="restaurantName.invalid && !!restaurantName.errors.required && (restaurantName.dirty || restaurantName.touched)">Restaurant name is required</span>
+                                        <input class="search-field" type="text" formControlName="restaurantName" />
+                                    </div>
+                                </div>
+                                <div class="row with-forms">
+                                    <div class="col-md-12">
+                                        <h5>Category
+                                            <i class="tip" data-tip-content="Category of the restaurant"></i>
+                                        </h5>
+                                        <select class="chosen-select-no-single" formControlName="restaurantCategory" #restaurantCat>
+                                            <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add-listing-section margin-top-45">
+                                <div class="add-listing-headline">
+                                    <h3>
+                                        <i class="sl sl-icon-location"></i> Location
+                                    </h3>
+                                </div>
+                                <div class="submit-section">
+                                    <div class="row with-forms">
+                                        <div class="col-md-6">
+                                            <h5>City
+                                                <i class="tip" data-tip-content="Name of the restaurant. Choose one to refresh the map !"></i>
+                                            </h5>
+                                            <select class="chosen-select-no-single" formControlName="restaurantCity" #restaurantCit onchange="changeMap(this.options[this.selectedIndex].text)">
+                                                <option label="blank" disabled>Select City</option>
+                                                <option *ngFor="let country of countries" value="{{country.id}}">{{country.name}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5>Address
+                                                <i class="tip" data-tip-content="Address of the restaurant. If you don't know it, please click on the map"></i>
+                                            </h5>
+                                            <span class="error" *ngIf="restaurantAddr.value=='' && restaurantAddress.invalid && !!restaurantAddress.errors.required && (restaurantAddress.dirty || restaurantAddress.touched)">Restaurant address is required. If you don't know it, please click on the map</span>
+                                            <input type="text" placeholder="e.g. 964 School Street" #restaurantAddr onchange="changeMap(this.value)" id="listing-address" formControlName="restaurantAddress">
+                                        </div>
+                                        <input type="hidden" id="longitude" formControlName="restaurantLongitude" #restaurantLng>
+                                        <input type="hidden" id="latitude" formControlName="restaurantLatitude" #restaurantLat>
+                                        <div class="col-md-12">
+                                            <div id="map"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add-listing-section margin-top-45">
+                                <div class="add-listing-headline">
+                                    <h3>
+                                        <i class="sl sl-icon-picture"></i> Gallery
+                                    </h3>
+                                </div>
+                                <div class="submit-section">
+                                    <div class="add-review-photos" style="float: left">
+                                        <div class="photoUpload">
+                                            <span>
+                                                <i class="sl sl-icon-arrow-up-circle"></i> Upload Photos
+                                            </span>
+                                                <input type="file" class="upload" (change)="uploadImages($event)" #image multiple>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="error margin-bottom-30" *ngIf="images == null">You have to choose at least one image.</span>
+                            </div>
+                            <div class="add-listing-section margin-top-45">
+                                <div class="add-listing-headline">
+                                    <h3>
+                                        <i class="sl sl-icon-docs"></i> Details
+                                    </h3>
+                                </div>
+                                <div class="form">
+                                    <h5>Description
+                                        <i class="tip" data-tip-content="Describe the restaurant.where it is? what it looks like inside and outside? what kinds of foods they serve? ..."></i>
+                                    </h5>
+                                    <textarea class="WYSIWYG" cols="40" rows="3" spellcheck="true" formControlName="restaurantDescription"></textarea>
+                                </div>
+                                <div class="row with-forms">
+                                    <div class="col-md-4">
+                                        <h5>Phone
+                                            <span>(optional)</span>
+                                        </h5>
+                                        <span *ngIf="restaurantPhone.invalid && !!restaurantPhone.errors.pattern" class="error"> The phone is invalid.</span>
+                                        <input type="text" formControlName="restaurantPhone">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5>Website
+                                            <span>(optional)</span>
+                                        </h5>
+                                        <span *ngIf="restaurantWebsite.invalid && !!restaurantWebsite.errors.pattern" class="error"> The website is invalid.</span>
+                                        <input type="text" formControlName="restaurantWebsite">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5>E-mail
+                                            <span>(optional)</span>
+                                        </h5>
+                                        <span *ngIf="restaurantEmail.invalid && !!restaurantEmail.errors.pattern" class="error"> The email is invalid.</span>
+                                        <input type="text" formControlName="restaurantEmail">
+                                    </div>
+                                </div>
+                                <div class="row with-forms">
+                                    <div class="col-md-4">
+                                        <h5 class="fb-input">
+                                            <i class="fa fa-facebook-square"></i> Facebook
+                                            <span>(optional)</span>
+                                        </h5>
+                                        <input type="text" placeholder="https://www.facebook.com/" formControlName="restaurantFacebook">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5 class="twitter-input">
+                                            <i class="fa fa-twitter"></i> Twitter
+                                            <span>(optional)</span>
+                                        </h5>
+                                        <input type="text" placeholder="https://www.twitter.com/" formControlName="restaurantTwitter">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5 class="gplus-input">
+                                            <i class="fa fa-instagram"></i> Instagram
+                                            <span>(optional)</span>
+                                        </h5>
+                                        <input type="text" placeholder="https://www.instagram.com/" formControlName="restaurantInstagram">
+                                    </div>
+                                </div>
+                                <h5 class="margin-top-30 margin-bottom-10">Amenities
+                                    <span>(optional)</span>
+                                </h5>
+                                <div class="checkboxes in-row margin-bottom-20">
+                                    <div *ngFor="let privilege of privileges; let i = index" id="privileges-container">
+                                        <input class="privilege" id="check-{{i}}" type="checkbox" value="{{privilege.id}}">
+                                        <label for="check-{{i}}">{{privilege.name}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add-listing-section margin-top-45">
+                                <div class="add-listing-headline">
+                                    <h3>
+                                        <i class="sl sl-icon-clock"></i> Opening Hours
+                                    </h3>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="switcher-content">
+                                    <div class="row opening-day">
+                                        <div class="col-md-2">
+                                            <h5>Monday</h5>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Opening Time" #mondayOpeningTime>
+                                                <option label="Opening Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Closing Time" #mondayClosingTime>
+                                                <option label="Closing Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row opening-day js-demo-hours">
+                                        <div class="col-md-2">
+                                            <h5>Tuesday</h5>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Opening Time" #tuesdayOpeningTime>
+                                                <option label="Opening Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+    
+                                            </select>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Closing Time" #tuesdayClosingTime>
+                                                <option label="Closing Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row opening-day js-demo-hours">
+                                        <div class="col-md-2">
+                                            <h5>Wednesday</h5>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Opening Time" #wednesdayOpeningTime>
+                                                <option label="Opening Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+    
+                                            </select>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Closing Time" #wednesdayClosingTime>
+                                                <option label="Closing Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row opening-day js-demo-hours">
+                                        <div class="col-md-2">
+                                            <h5>Thursday</h5>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Opening Time" #thursdayOpeningTime>
+                                                <option label="Opening Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Closing Time" #thursdayClosingTime>
+                                                <option label="Closing Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row opening-day js-demo-hours">
+                                        <div class="col-md-2">
+                                            <h5>Friday</h5>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Opening Time" #fridayOpeningTime>
+                                                <option label="Opening Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Closing Time" #fridayClosingTime>
+                                                <option label="Closing Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row opening-day js-demo-hours">
+                                        <div class="col-md-2">
+                                            <h5>Saturday</h5>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Opening Time" #saturdayOpeningTime>
+                                                <option label="Opening Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+    
+                                            </select>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Closing Time" #saturdayClosingTime>
+                                                <option label="Closing Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row opening-day js-demo-hours">
+                                        <div class="col-md-2">
+                                            <h5>Sunday</h5>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Opening Time" #sundayOpeningTime>
+                                                <option label="Opening Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <select class="chosen-select" data-placeholder="Closing Time" #sundayClosingTime>
+                                                <option label="Closing Time"></option>
+                                                <option>Closed</option>
+                                                <option *ngFor="let hour of hours">{{hour}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add-listing-section margin-top-45">
+                                <div class="add-listing-headline">
+                                    <h3>
+                                        <i class="sl sl-icon-book-open"></i> Pricing
+                                    </h3>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="switcher-content">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table id="pricing-list-container">
+                                                <tr class="pricing-list-item pricing-submenu">
+                                                    <td>
+                                                        <div class="fm-input">
+                                                            <input type="text" placeholder="Category Title" class="titleC 0"/>
+                                                        </div>
+                                                         <div class="fm-close">
+                                                             
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <button class="button add-pricing-list-item" type="submit">Add Item</button>
+                                            <button class="button add-pricing-submenu" type="submit">Add Category</button>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            <button class="button preview margin-top-25" type="submit">Add Restaurant</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="copyrights">© 2017 Listeo. All Rights Reserved.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

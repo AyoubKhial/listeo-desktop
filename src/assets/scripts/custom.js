@@ -1,4 +1,6 @@
 function scriptCall(){
+    var category = 1;
+    var item = 0;
     (function($) {
         "use strict";
         $(document).ready(function() {
@@ -582,30 +584,60 @@ function scriptCall(){
             });
     
             function newMenuItem() {
-                var newElem = $('tr.pricing-list-item.pattern').first().clone();
-                newElem.find('input').val('');
+            
+                var newElem = $('' +
+                        '<tr class="pricing-list-item patern">' +
+                        '<td>' +
+                        '<div class="fm-input pricing-name"><input type="text" placeholder="Title" class="titleI cat'+category+' '+item+'"/></div>' +
+                        '<div class="fm-input pricing-price"><input type="text" placeholder="Price" class="priceI pr'+category+' '+item+'" data-unit="USD" /></div>' +
+                        '<div class="fm-close"><a class="deleteCategory" href="#"><i class="fa fa-remove"></i></a></div>' +
+                        '</td>' +
+                        '</tr>');
                 newElem.appendTo('table#pricing-list-container');
+                item += 1;
             }
+            
             if ($("table#pricing-list-container").is('*')) {
+                $('.add-pricing-list-chambre').on('click', function(e) {
+                    e.preventDefault();
+                    
+                    var newElem = $('' +
+                        '<tr class="pricing-list-item patern">' +
+                        '<td>' +
+                        '<div class="fm-input pricing-name"><input type="text" placeholder="Title" class="titleI cat'+item+'"/></div>' +
+                        '<div class="fm-input pricing-price"><input type="text" placeholder="Price" class="priceI pr'+item+'" data-unit="USD" /></div>' +
+                        '<div class="fm-close"><a class="deleteCategory" href="#"><i class="fa fa-remove"></i></a></div>' +
+                        '</td>' +
+                        '</tr>');
+                    newElem.appendTo('table#pricing-list-container');
+                    item += 1;
+                });
                 $('.add-pricing-list-item').on('click', function(e) {
                     e.preventDefault();
                     newMenuItem();
                 });
-                $(document).on("click", "#pricing-list-container .delete", function(e) {
+                $(document).on("click", "#pricing-list-container .deleteCategory", function(e) {
                     e.preventDefault();
                     $(this).parent().parent().remove();
+                    item -= 1;
                 });
                 $('.add-pricing-submenu').on('click', function(e) {
                     e.preventDefault();
+                    
                     var newElem = $('' +
                         '<tr class="pricing-list-item pricing-submenu">' +
                         '<td>' +
-                        '<div class="fm-move"><i class="sl sl-icon-cursor-move"></i></div>' +
-                        '<div class="fm-input"><input type="text" placeholder="Category Title" /></div>' +
-                        '<div class="fm-close"><a class="delete" href="#"><i class="fa fa-remove"></i></a></div>' +
+                        '<div class="fm-input"><input type="text" placeholder="Category Title" class="titleC '+category+'"/></div>' +
+                        '<div class="fm-close"><a class="deleteItem" href="#"><i class="fa fa-remove"></i></a></div>' +
                         '</td>' +
                         '</tr>');
                     newElem.appendTo('table#pricing-list-container');
+                    category += 1;
+                });
+                $(document).on("click", "#pricing-list-container .deleteItem", function(e) {
+                    e.preventDefault();
+                    $(this).parent().parent().remove();
+                    category -= 1;
                 });
                 $('table#pricing-list-container tbody').sortable({
                     forcePlaceholderSize: true,
