@@ -4,7 +4,7 @@
     $stmt = $conn->prepare("SELECT m.titre, m.texte, m.inserted, CONCAT(u.first_name, ' ', u.last_name) AS name, u.photo, u.provider
                             FROM message m INNER JOIN utilisateur u ON m.id_sender = u.id
                             WHERE id_receiver = ?
-                            ORDER BY m.inserted DESC");
+                            AND m.id = (SELECT m2.id FROM message m2 WHERE m.id_sender = m2.id_sender ORDER BY m2.inserted DESC LIMIT 1)");
     $stmt->bind_param("i",$receiverId);
     $stmt->execute();
     $result = $stmt->get_result();

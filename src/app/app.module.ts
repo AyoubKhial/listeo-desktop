@@ -29,6 +29,8 @@ import { MessagesComponent } from './components/profile/messages/messages.compon
 import { AuthGuardService } from './services/auth/auth-guard.service';
 import { BookmarksComponent } from './components/profile/bookmarks/bookmarks.component';
 import { AddRestaurantComponent } from './components/profile/add-restaurant/add-restaurant.component';
+import { LeftNavigationComponent } from './components/profile/left-navigation/left-navigation.component';
+import { AddHotelComponent } from './components/profile/add-hotel/add-hotel.component';
 
 let config = new AuthServiceConfig([
 	{
@@ -63,7 +65,9 @@ export function provideConfig() {
         ContactComponent,
         MessagesComponent,
         BookmarksComponent,
-        AddRestaurantComponent
+        AddRestaurantComponent,
+        LeftNavigationComponent,
+        AddHotelComponent
     ],
     imports: [
         BrowserModule,

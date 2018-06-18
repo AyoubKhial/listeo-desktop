@@ -1,0 +1,24 @@
+#map {
+    width: 100%;
+    height: 400px;
+    z-index:0;
+}
+
+#privileges-container{
+	display: inline-block
+}
+
+.has-success:focus{
+    border-color: green
+}
+.has-danger:focus{
+    border-color: red
+}
+.error{
+    color: red;
+    font-size: 14px;
+}
+.success{
+    color: green;
+    font-size: 14px
+}

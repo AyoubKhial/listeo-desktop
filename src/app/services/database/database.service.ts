@@ -408,4 +408,11 @@ export class DatabaseService {
                 return response.text();
             });
     }
+
+    addHotel(data, options) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/addHotel.php', data, options)
+            .map(response => {
+                return response.text();
+            });
+    }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd, RoutesRecognized } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -10,9 +10,12 @@ import { Observable, Subscription } from 'rxjs';
 export class AppComponent {
 
     private callMapScript: Subscription;
-
     private calljs: Subscription;
-    constructor(private router: Router) { }
+    public profile: boolean;
+
+    constructor(private router: Router) {
+        this.profile = false;
+    }
 
     ngOnInit() {
         this.router.events.forEach((event) => {
@@ -22,7 +25,6 @@ export class AppComponent {
                     var scriptCall = document.getElementById('scriptCall');
                     scriptCall.click();
                     this.calljs.unsubscribe();
-                    
                 });
                 if (event.url.includes('restaurants/') || event.url.includes('hotels/') || event.url.includes('contact')) {
                     this.callMapScript = Observable.interval(500).subscribe((val) => {
@@ -32,17 +34,20 @@ export class AppComponent {
                     });
                 }
                 if (event.url.includes('profile/')) {
-                    for(var i = 0 ; i < document.getElementsByClassName("x").length; i++){
-                        document.getElementsByClassName("x")[i].classList.add("something");
-                    }
-                    
+                    document.getElementById("header-container").classList.add("fixed", "fullwidth", "dashboard");
+                    document.getElementById("header").classList.add("not-sticky");
+                    document.getElementById("logo").getElementsByTagName("a")[0].classList.add("dashboard-logo");
+                    document.getElementById("logo").getElementsByTagName("img")[0].src = "assets/images/logo2.png";
+                    this.profile = true;
+                }
+                if (!event.url.includes('profile/')) {
+                    document.getElementById("header-container").classList.remove("fixed", "fullwidth", "dashboard");
+                    document.getElementById("header").classList.remove("not-sticky");
+                    document.getElementById("logo").getElementsByTagName("a")[0].classList.remove("dashboard-logo");
+                    document.getElementById("logo").getElementsByTagName("img")[0].src = "assets/images/logo.png";
+                    this.profile = false;
                 }
             }
-            // NavigationEnd
-            // NavigationCancel
-            // NavigationError
-            // RoutesRecognized
         });
-
     }
 }

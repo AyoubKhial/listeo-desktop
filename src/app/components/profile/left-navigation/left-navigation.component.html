@@ -1,0 +1,87 @@
+<a href="#" class="dashboard-responsive-nav-trigger">
+    <i class="fa fa-reorder"></i> Dashboard Navigation
+</a>
+<div class="dashboard-nav">
+    <div class="dashboard-nav-inner">
+        <ul data-submenu-title="Main">
+            <li>
+                <a>
+                    <i class="sl sl-icon-settings"></i> Dashboard
+                </a>
+            </li>
+            <li [routerLink]="['profile/messages']" [routerLinkActive]="['active']">
+                <a>
+                    <i class="sl sl-icon-envelope-open"></i> Messages
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="fa fa-calendar-check-o"></i> Bookings
+                </a>
+            </li>
+        </ul>
+        <ul data-submenu-title="Listings">
+            <li>
+                <a>
+                    <i class="sl sl-icon-layers"></i> My Listings
+                </a>
+                <ul>
+                    <li>
+                        <a>Active
+                            <span class="nav-tag green">6</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>Pending
+                            <span class="nav-tag yellow">1</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>Expired
+                            <span class="nav-tag red">2</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a>
+                    <i class="sl sl-icon-star"></i> Reviews
+                </a>
+            </li>
+            <li [routerLink]="['profile/bookmarks']" [routerLinkActive]="['active']">
+                <a>
+                    <i class="sl sl-icon-heart"></i> Bookmarks
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="sl sl-icon-plus"></i> Add Listing
+                </a>
+                <ul>
+                    <li [routerLink]="['profile/restaurants/add']" [routerLinkActive]="['active']">
+                        <a>
+                            <i class="im im-icon-Hamburger"></i> Add restaurant
+                        </a>
+                    </li>
+                    <li [routerLink]="['profile/hotels/add']" [routerLinkActive]="['active']">
+                        <a>
+                            <i class="fa fa-hotel"></i> Add hotel
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <ul data-submenu-title="Account">
+            <li>
+                <a>
+                    <i class="sl sl-icon-user"></i> My Profile
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="sl sl-icon-power"></i> Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

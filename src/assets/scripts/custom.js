@@ -604,7 +604,7 @@ function scriptCall(){
                     var newElem = $('' +
                         '<tr class="pricing-list-item patern">' +
                         '<td>' +
-                        '<div class="fm-input pricing-name"><input type="text" placeholder="Title" class="titleI cat'+item+'"/></div>' +
+                        '<div class="fm-input pricing-name"><input type="text" placeholder="Chambre Name" class="titleI cat'+item+'"/></div>' +
                         '<div class="fm-input pricing-price"><input type="text" placeholder="Price" class="priceI pr'+item+'" data-unit="USD" /></div>' +
                         '<div class="fm-close"><a class="deleteCategory" href="#"><i class="fa fa-remove"></i></a></div>' +
                         '</td>' +

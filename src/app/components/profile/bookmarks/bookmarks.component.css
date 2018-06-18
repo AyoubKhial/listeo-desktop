@@ -12,3 +12,11 @@ span.stars span {
 .alignright {
     float:left
 }
+
+.list-box-listing-img{
+    max-height: 100px
+}
+
+.not-found{
+    color: red
+}

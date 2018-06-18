@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { DatabaseService } from '../../../services/database/database.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
@@ -84,7 +84,7 @@ export class AddRestaurantComponent implements OnInit, OnDestroy {
     createFormControls() {
         this.restaurantName = new FormControl('', [
             Validators.required,
-            Validators.maxLength(100)
+            Validators.maxLength(200)
         ]);
         this.restaurantCategory = new FormControl('', [
             Validators.required
@@ -261,14 +261,14 @@ export class AddRestaurantComponent implements OnInit, OnDestroy {
             const headers = new Headers();
             headers.append('Accept', 'application/json');
             let options = new RequestOptions({ headers: headers });
-            this.databaseService.addRestaurant(formData, options).takeUntil(this.unsubscribe).subscribe( response => {
-                    if(response == "Inserted"){
-                        this.isSuccess = true;
-                        target.scrollIntoView({behavior:"smooth"});
-                    }
-                    else{
-                        this.isSuccess = false;
-                    }
+            this.databaseService.addRestaurant(formData, options).takeUntil(this.unsubscribe).subscribe(response => {
+                if (response == "Inserted") {
+                    this.isSuccess = true;
+                    target.scrollIntoView({ behavior: "smooth" });
+                }
+                else {
+                    this.isSuccess = false;
+                }
             });
         }
     }
@@ -283,6 +283,4 @@ export class AddRestaurantComponent implements OnInit, OnDestroy {
         this.unsubscribe.next();
         this.unsubscribe.complete();
     }
-
-
 }

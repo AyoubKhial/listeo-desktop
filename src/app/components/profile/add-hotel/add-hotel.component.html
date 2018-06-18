@@ -1,0 +1,191 @@
+<button onclick="scriptCall()" id="scriptCall" style="display: none"></button>
+<button onclick="addMap()" id="loadMap" style="display: none"></button>
+<div class="dashboard-content">
+    <div id="titlebar" #target>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Add Hotel</h2>
+                <nav id="breadcrumbs">
+                    <ul>
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li>Add Listing</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <span *ngIf="isSuccess" class="success">Your hotel is successfully added. it will appear in the listing after the approval of the manager.</span>
+            <div id="add-listing">
+                <form (ngSubmit)="addHotel(target)" [formGroup]="addHotelForm" novalidate>
+                    <div class="add-listing-section">
+                        <div class="add-listing-headline">
+                            <h3>
+                                <i class="sl sl-icon-doc"></i> Basic Informations
+                            </h3>
+                        </div>
+                        <div class="row with-forms">
+                            <div class="col-md-12">
+                                <h5>Hotel Name
+                                    <i class="tip" data-tip-content="Name of the restaurant"></i>
+                                </h5>
+                                <span *ngIf="hotelName.invalid && !!hotelName.errors.maxlength" class="error"> Hotel name required with max 100 character. </span>
+                                <span class="error" *ngIf="hotelName.invalid && !!hotelName.errors.required && (hotelName.dirty || hotelName.touched)">Hotel name is required</span>
+                                <input class="search-field" type="text" formControlName="hotelName" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="add-listing-section margin-top-45">
+                        <div class="add-listing-headline">
+                            <h3>
+                                <i class="sl sl-icon-location"></i> Location
+                            </h3>
+                        </div>
+                        <div class="submit-section">
+                            <div class="row with-forms">
+                                <div class="col-md-6">
+                                    <h5>City
+                                        <i class="tip" data-tip-content="Name of the Hotel. Choose one to refresh the map !"></i>
+                                    </h5>
+                                    <select class="chosen-select-no-single" formControlName="hotelCity" #hotelCit onchange="changeMap(this.options[this.selectedIndex].text)">
+                                        <option label="blank" disabled>Select City</option>
+                                        <option *ngFor="let country of countries" value="{{country.id}}">{{country.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Address
+                                        <i class="tip" data-tip-content="Address of the hotel. If you don't know it, please click on the map"></i>
+                                    </h5>
+                                    <span class="error" *ngIf="hotelAddress.value=='' && hotelAddress.invalid && !!hotelAddress.errors.required && (hotelAddress.dirty || hotelAddress.touched)">Hotel address is required. If you don't know it, please click on the map</span>
+                                    <input type="text" placeholder="e.g. 964 School Street" #hotelAddr onchange="changeMap(this.value)" id="listing-address"
+                                        formControlName="hotelAddress">
+                                </div>
+                                <input type="hidden" id="longitude" formControlName="hotelLongitude" #hotelLng>
+                                <input type="hidden" id="latitude" formControlName="hotelLatitude" #hotelLat>
+                                <div class="col-md-12">
+                                    <div id="map"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="add-listing-section margin-top-45">
+                        <div class="add-listing-headline">
+                            <h3>
+                                <i class="sl sl-icon-picture"></i> Gallery
+                            </h3>
+                        </div>
+                        <div class="submit-section">
+                            <div class="add-review-photos" style="float: left">
+                                <div class="photoUpload">
+                                    <span>
+                                        <i class="sl sl-icon-arrow-up-circle"></i> Upload Photos
+                                    </span>
+                                    <input type="file" class="upload" (change)="uploadImages($event)" #image multiple>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="error margin-bottom-30" *ngIf="images == null">You have to choose at least one image.</span>
+                    </div>
+                    <div class="add-listing-section margin-top-45">
+                        <div class="add-listing-headline">
+                            <h3>
+                                <i class="sl sl-icon-docs"></i> Details
+                            </h3>
+                        </div>
+                        <div class="form">
+                            <h5>Description
+                                <i class="tip" data-tip-content="Describe the hotel. Where it is? what it looks like inside and outside? what kinds of foods they serve? ..."></i>
+                            </h5>
+                            <textarea class="WYSIWYG" cols="40" rows="3" spellcheck="true" formControlName="hotelDescription"></textarea>
+                        </div>
+                        <div class="row with-forms">
+                            <div class="col-md-4">
+                                <h5>Phone
+                                    <span>(optional)</span>
+                                </h5>
+                                <span *ngIf="hotelPhone.invalid && !!hotelPhone.errors.pattern" class="error"> The phone is invalid.</span>
+                                <input type="text" formControlName="hotelPhone">
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Website
+                                    <span>(optional)</span>
+                                </h5>
+                                <span *ngIf="hotelWebsite.invalid && !!hotelWebsite.errors.pattern" class="error"> The website is invalid.</span>
+                                <input type="text" formControlName="hotelWebsite">
+                            </div>
+                            <div class="col-md-4">
+                                <h5>E-mail
+                                    <span>(optional)</span>
+                                </h5>
+                                <span *ngIf="hotelEmail.invalid && !!hotelEmail.errors.pattern" class="error"> The email is invalid.</span>
+                                <input type="text" formControlName="hotelEmail">
+                            </div>
+                        </div>
+                        <div class="row with-forms">
+                            <div class="col-md-4">
+                                <h5 class="fb-input">
+                                    <i class="fa fa-facebook-square"></i> Facebook
+                                    <span>(optional)</span>
+                                </h5>
+                                <input type="text" placeholder="https://www.facebook.com/" formControlName="hotelFacebook">
+                            </div>
+                            <div class="col-md-4">
+                                <h5 class="twitter-input">
+                                    <i class="fa fa-twitter"></i> Twitter
+                                    <span>(optional)</span>
+                                </h5>
+                                <input type="text" placeholder="https://www.twitter.com/" formControlName="hotelTwitter">
+                            </div>
+                            <div class="col-md-4">
+                                <h5 class="gplus-input">
+                                    <i class="fa fa-instagram"></i> Instagram
+                                    <span>(optional)</span>
+                                </h5>
+                                <input type="text" placeholder="https://www.instagram.com/" formControlName="hotelInstagram">
+                            </div>
+                        </div>
+                        <h5 class="margin-top-30 margin-bottom-10">Amenities
+                            <span>(optional)</span>
+                        </h5>
+                        <div class="checkboxes in-row margin-bottom-20">
+                            <div *ngFor="let privilege of privileges; let i = index" id="privileges-container">
+                                <input class="privilege" id="check-{{i}}" type="checkbox" value="{{privilege.id}}">
+                                <label for="check-{{i}}">{{privilege.name}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="add-listing-section margin-top-45">
+                        <div class="add-listing-headline">
+                            <h3>
+                                <i class="sl sl-icon-book-open"></i> Pricing
+                            </h3>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="switcher-content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="pricing-list-container">
+                                    </table>
+                                    <button class="button add-pricing-list-chambre" type="submit">Add Item</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="button preview margin-top-25" type="submit">Add Hotel</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="copyrights">© 2017 Listeo. All Rights Reserved.</div>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 <?php
     include "./connection.php";
     $userId = json_decode(file_get_contents("php://input"));
-    $stmt = $conn->prepare("SELECT i.id, f.inserted, i.name, i.adresse, i.rating, v.name AS ville
+    $stmt = $conn->prepare("SELECT i.id, f.inserted, i.name, i.adresse, i.rating, i.type, v.name AS ville
                             FROM favoris f INNER JOIN item i ON f.id_item = i.id INNER JOIN ville v ON i.id_ville = v.id
                             WHERE f.id_utilisateur = ?");
     $stmt->bind_param("i",$userId);
