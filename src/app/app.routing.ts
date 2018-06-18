@@ -17,6 +17,7 @@ import { BookmarksComponent } from './components/profile/bookmarks/bookmarks.com
 import { AddRestaurantComponent } from './components/profile/add-restaurant/add-restaurant.component';
 import { AddHotelComponent } from './components/profile/add-hotel/add-hotel.component';
 import { AddArticleComponent } from './components/profile/add-article/add-article.component';
+import { MyProfileComponent } from './components/profile/my-profile/my-profile.component';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     { path: 'profile/bookmarks', component: BookmarksComponent, canActivate: [AuthGuardService] },
     { path: 'profile/restaurants/add', component: AddRestaurantComponent, canActivate: [AuthGuardService] },
     { path: 'profile/hotels/add', component: AddHotelComponent, canActivate: [AuthGuardService] },
-    { path: 'profile/articles/add', component: AddArticleComponent, canActivate: [AuthGuardService] }
+    { path: 'profile/articles/add', component: AddArticleComponent, canActivate: [AuthGuardService] },
+    { path: 'profile/my-profile', component: MyProfileComponent, canActivate: [AuthGuardService] }
 ];
 
 export const Routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

@@ -1,0 +1,81 @@
+<button onclick="scriptCall()" id="scriptCall" style="display: none"></button>
+<div class="dashboard-content">
+    <div id="titlebar" #target>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>My Profile</h2>
+                <nav id="breadcrumbs">
+                    <ul>
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li>My Profile</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <div class="dashboard-list-box margin-top-0">
+                <h4 class="gray">Profile Details</h4>
+                <div class="dashboard-list-box-static">
+                    <p *ngIf="isSuccess" class="success">Your information successfully modified.</p>
+                    <div class="edit-profile-photo">
+                        <img src="assets/images/users/{{user?.photo}}" alt="">
+                        <div class="change-photo-btn">
+                            <div class="photoUpload">
+                                <span>
+                                    <i class="fa fa-upload"></i> Upload Photo</span>
+                                <input type="file" class="upload" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-profile">
+                        <label>First Name</label>
+                        <input value="{{user?.first_name}}" type="text" #firstName>
+                        <label>Last Name</label>
+                        <input value="{{user?.last_name}}" type="text" #lastName>
+                        <label>Phone</label>
+                        <input type="text" value="{{user?.phone}}" #phone>
+                        <label>Email</label>
+                        <input value="{{user?.email}}" type="text" #email>
+                        <label>Activities</label>
+                        <textarea name="notes" id="notes" cols="30" rows="10" #activities>{{user?.activities}}</textarea>
+                        <label>
+                            <i class="fa fa-instagram"></i> Instagram
+                        </label>
+                        <input value="{{user?.instagram}}" type="text" #instagram>
+                        <label>
+                            <i class="fa fa-facebook-square"></i> Facebook
+                        </label>
+                        <input value="{{user?.facebook}}" type="text" #facebook>
+                    </div>
+                    <button class="button margin-top-15" (click)="changeInformation(target)">Save Changes</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="dashboard-list-box margin-top-0">
+                <h4 class="gray">Change Password</h4>
+                <div class="dashboard-list-box-static">
+                    <div class="my-profile">
+                        <label class="margin-top-0">Current Password</label>
+                        <input type="password">
+                        <label>New Password</label>
+                        <input type="password">
+                        <label>Confirm New Password</label>
+                        <input type="password">
+                        <button class="button margin-top-15">Change Password</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="copyrights">© 2017 Listeo. All Rights Reserved.</div>
+        </div>
+    </div>
+</div>

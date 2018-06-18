@@ -33,6 +33,7 @@ import { LeftNavigationComponent } from './components/profile/left-navigation/le
 import { AddHotelComponent } from './components/profile/add-hotel/add-hotel.component';
 import { AddArticleComponent } from './components/profile/add-article/add-article.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { MyProfileComponent } from './components/profile/my-profile/my-profile.component';
 
 
 let config = new AuthServiceConfig([
@@ -71,7 +72,8 @@ export function provideConfig() {
         AddRestaurantComponent,
         LeftNavigationComponent,
         AddHotelComponent,
-        AddArticleComponent
+        AddArticleComponent,
+        MyProfileComponent
     ],
     imports: [
         BrowserModule,
