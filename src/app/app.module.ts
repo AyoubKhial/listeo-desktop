@@ -31,6 +31,9 @@ import { BookmarksComponent } from './components/profile/bookmarks/bookmarks.com
 import { AddRestaurantComponent } from './components/profile/add-restaurant/add-restaurant.component';
 import { LeftNavigationComponent } from './components/profile/left-navigation/left-navigation.component';
 import { AddHotelComponent } from './components/profile/add-hotel/add-hotel.component';
+import { AddArticleComponent } from './components/profile/add-article/add-article.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
+
 
 let config = new AuthServiceConfig([
 	{
@@ -67,7 +70,8 @@ export function provideConfig() {
         BookmarksComponent,
         AddRestaurantComponent,
         LeftNavigationComponent,
-        AddHotelComponent
+        AddHotelComponent,
+        AddArticleComponent
     ],
     imports: [
         BrowserModule,
@@ -78,7 +82,8 @@ export function provideConfig() {
         FormsModule,
         SocialLoginModule,
         ShareModule.forRoot(),
-        HttpClientModule
+        HttpClientModule,
+        EditorModule
     ],
     providers: [
         DatabaseService,

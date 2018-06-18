@@ -415,4 +415,24 @@ export class DatabaseService {
                 return response.text();
             });
     }
+
+    getAllTags(): Observable<any> {
+        return this.http.get('http://localhost/listeo-desktop/src/api/database/getAllTags.php')
+            .map(response => {
+                this.hasResult = response;
+                if (this.hasResult._body !== 'Not found') {
+                    return response.json();
+                }
+                else {
+                    return response.text();
+                }
+            });
+    }
+
+    addArticle(data) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/addArticle.php', data)
+            .map(response => {
+                return response.text();
+            });
+    }
 }

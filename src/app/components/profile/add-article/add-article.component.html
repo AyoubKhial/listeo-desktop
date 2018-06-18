@@ -1,0 +1,91 @@
+<button onclick="scriptCall()" id="scriptCall" style="display: none"></button>
+<div class="dashboard-content">
+    <div id="titlebar" #target>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Add Article</h2>
+                <nav id="breadcrumbs">
+                    <ul>
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li>Add Article</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="notification notice large margin-bottom-55" *ngIf="success && !error">
+                <h4>Your article has been successfully added 🙂</h4>
+                <p>we will be sending you a private message to your email when it is approved.</p>
+            </div>
+            <div class="notification error large margin-bottom-55" *ngIf="error && !success">
+                <p> Sorry! an error has occurred please try again later</p>
+            </div>
+            <div id="add-listing">
+                <form (ngSubmit)="addArticle(target)" [formGroup]="addArticleForm" novalidate>
+                    <!-- Section -->
+                    <div class="add-listing-section">
+                        <!-- Headline -->
+                        <div class="add-listing-headline">
+                            <h3>
+                                <i class="sl sl-icon-doc"></i> Basic Informations
+                            </h3>
+                        </div>
+                        <!-- Title -->
+                        <div class="row with-forms">
+                            <div class="col-md-12">
+                                <h5>Article Title
+                                    <i class="tip" data-tip-content="Title of your article"></i>
+                                </h5>
+                                <span class="error" *ngIf="articleTitle.invalid && !!articleTitle.errors.required && (articleTitle.dirty || articleTitle.touched)">Title is required.</span>
+                                <input class="search-field" type="text" formControlName="articleTitle" />
+                            </div>
+                        </div>
+                        <div class="row with-forms">
+                            <div class="col-md-12">
+                                <h5>Article Tags
+                                    <i class="tip" data-tip-content="A tag help people to find your article quicly, please choose the convenient one"></i>
+                                </h5>
+                                <select data-placeholder="Please choose at least one tag." class="chosen-select" #articleTag formControlName="articleTags" multiple>
+                                    <option *ngFor="let tag of tags" value="{{tag.id}}">{{tag.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row with-forms">
+                            <h5>Article Content
+                            </h5>
+                            <span class="error" *ngIf="articleContent.invalid && !!articleContent.errors.required && (articleContent.dirty || articleContent.touched)">Title is required.</span>
+                            <editor apiKey="7emj4fqz42fycwr6x7ules2mg9nt7djpgieix4685lkufokz" [init]="tinymceInit" formControlName="articleContent"></editor>
+                        </div>
+                        <div class="row with-forms margin-top-50">
+                            <div class="submit-section">
+                                <div class="add-review-photos" style="float: left">
+                                    <div class="photoUpload">
+                                        <span>
+                                            <i class="sl sl-icon-arrow-up-circle"></i> Upload Photos
+                                        </span>
+                                        <input type="file" class="upload" (change)="getImages($event)">
+                                    </div>
+                                </div>
+                                <span class="image-message">choose a picture for your article.</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Section / End -->
+                    <button class="button preview margin-top-25" type="submit">Add Article</button>
+                </form>
+            </div>
+        </div>
+        <!-- Copyrights -->
+        <div class="col-md-12">
+            <div class="copyrights">© 2017 Listeo. All Rights Reserved.</div>
+        </div>
+    </div>
+</div>
