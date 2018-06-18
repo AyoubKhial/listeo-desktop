@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { DatabaseService } from '../../../services/database/database.service';
 import 'rxjs/add/operator/takeUntil';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SessionStorageService } from 'ngx-webstorage';
 
 @Component({
@@ -22,15 +22,27 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     @ViewChild("activities") activities;
     @ViewChild("instagram") instagram;
     @ViewChild("facebook") facebook;
-    public isSuccess;
+    public isSuccess: boolean;
+    public changePasswordForm: FormGroup;
+    public currentPassword: FormControl;
+    public newPassword: FormControl;
+    public confirmNewPassword: FormControl;
+    public passwordMismatch: boolean;
+    public wrongPassword: boolean;
+    public success: boolean;
     
     constructor(private databaseService: DatabaseService, private session: SessionStorageService) {
         this.isSuccess = false;
+        this.passwordMismatch = false;
+        this.wrongPassword = false;
+        this.success = false;
      }
 
     ngOnInit() {
         this.userId = this.session.retrieve("login").id;
         this.getUserInformation();
+        this.createChangePasswordControls();
+        this.createChangePasswordForm();
     }
 
     getUserInformation(){
@@ -57,6 +69,55 @@ export class MyProfileComponent implements OnInit, OnDestroy {
                 target.scrollIntoView({ behavior: "smooth" });
             }
         });
+    }
+
+    createChangePasswordForm() {
+        this.changePasswordForm = new FormGroup(
+            {
+                currentPassword: this.currentPassword,
+                newPassword: this.newPassword,
+                confirmNewPassword: this.confirmNewPassword,
+            }
+        )
+    }
+
+    createChangePasswordControls() {
+        this.currentPassword = new FormControl('', [
+            Validators.required
+        ]);
+        this.newPassword = new FormControl('', [
+            Validators.required
+        ]);
+        this.confirmNewPassword = new FormControl('', [
+            Validators.required
+        ]);
+    }
+
+    changePassword(){
+        if (this.changePasswordForm.valid) {
+            if (this.changePasswordForm.value.newPassword != this.changePasswordForm.value.confirmNewPassword) {
+                this.passwordMismatch = true;
+            }
+            else {
+                this.passwordMismatch = false;
+                var user_information = {
+                    'user' : this.userId,
+                    'current_password' : this.changePasswordForm.value.currentPassword,
+                    'new_password' : this.changePasswordForm.value.newPassword
+                }
+                this.databaseService.changePassword(user_information).takeUntil(this.unsubscribe)
+                    .subscribe(response => {
+                        if(response == "Wrong password"){
+                            this.wrongPassword = true;
+                            this.success = false;
+                        }
+                        if(response == "Inserted"){
+                            this.wrongPassword = false;
+                            this.success = true;
+                        }
+                    });
+            }
+        }
     }
 
     ngOnDestroy(): void {

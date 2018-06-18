@@ -63,13 +63,18 @@
                 <h4 class="gray">Change Password</h4>
                 <div class="dashboard-list-box-static">
                     <div class="my-profile">
-                        <label class="margin-top-0">Current Password</label>
-                        <input type="password">
-                        <label>New Password</label>
-                        <input type="password">
-                        <label>Confirm New Password</label>
-                        <input type="password">
-                        <button class="button margin-top-15">Change Password</button>
+                        <span class="success" *ngIf="success">Your password is successfully changed.</span>
+                        <span class="error" *ngIf="wrongPassword">Your password is incorrect.</span>
+                        <form [formGroup]="changePasswordForm" (ngSubmit)=" changePassword()">
+                            <label class="margin-top-0">Current Password</label>
+                            <input type="password" formControlName="currentPassword">
+                            <label>New Password</label>
+                            <input type="password" formControlName="newPassword">
+                            <span class="error" *ngIf="passwordMismatch">Password confirmation should match the password above.</span>
+                            <label>Confirm New Password</label>
+                            <input type="password" formControlName="confirmNewPassword">
+                            <button class="button margin-top-15">Change Password</button>
+                        </form>
                     </div>
                 </div>
             </div>

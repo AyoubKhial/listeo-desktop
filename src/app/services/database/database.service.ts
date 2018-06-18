@@ -455,4 +455,11 @@ export class DatabaseService {
                 return response.text();
             });
     }
+
+    changePassword(data) {
+        return this.http.post('http://localhost/listeo-desktop/src/api/database/changePassword.php', data)
+            .map(response => {
+                return response.text();
+            });
+    }
 }
