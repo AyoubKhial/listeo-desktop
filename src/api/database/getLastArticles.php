@@ -9,7 +9,7 @@
         }
         echo json_encode($data);
     } else {
-        echo "0";
+        echo "Not found";
     }
     $conn->close();
 ?>

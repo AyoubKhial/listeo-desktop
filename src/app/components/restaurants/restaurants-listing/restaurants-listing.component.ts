@@ -201,7 +201,7 @@ export class RestaurantsListingComponent implements OnInit, OnDestroy {
         if (page < 1 || page > this.pager.totalPages) {
             return;
         }
-        this.pager = this.pagerService.getPager(this.restaurants.length, page, 6);
+        this.pager = this.pagerService.getPager(this.restaurants.length, page, 5);
         this.pagedRestaurants = this.restaurants.slice(this.pager.startIndex, this.pager.endIndex + 1);
         if(target)
         target.scrollIntoView({ behavior: "smooth" });

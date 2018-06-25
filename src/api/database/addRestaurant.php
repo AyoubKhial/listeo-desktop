@@ -102,7 +102,7 @@
                 }
                 else{
                     $sql4 = "INSERT INTO horaire (day, opening_hours, closing_hours, id_item, closed)
-                    VALUES ('monday',NULL, NULL,$last_id, 1);";
+                    VALUES ('tuesday',NULL, NULL,$last_id, 1);";
                     $result = $conn->query($sql4);
                 }
             }
@@ -116,7 +116,7 @@
                 }
                 else{
                     $sql4 = "INSERT INTO horaire (day, opening_hours, closing_hours, id_item, closed)
-                    VALUES ('monday',NULL, NULL,$last_id, 1);";
+                    VALUES ('wednesday',NULL, NULL,$last_id, 1);";
                     $result = $conn->query($sql4);
                 }
             }
@@ -130,7 +130,7 @@
                 }
                 else{
                     $sql4 = "INSERT INTO horaire (day, opening_hours, closing_hours, id_item, closed)
-                    VALUES ('monday',NULL, NULL,$last_id, 1);";
+                    VALUES ('thursday',NULL, NULL,$last_id, 1);";
                     $result = $conn->query($sql4);
                 }
             }
@@ -144,7 +144,7 @@
                 }
                 else{
                     $sql4 = "INSERT INTO horaire (day, opening_hours, closing_hours, id_item, closed)
-                    VALUES ('monday',NULL, NULL,$last_id, 1);";
+                    VALUES ('friday',NULL, NULL,$last_id, 1);";
                     $result = $conn->query($sql4);
                 }
             }
@@ -159,7 +159,7 @@
                 }
                 else{
                     $sql4 = "INSERT INTO horaire (day, opening_hours, closing_hours, id_item, closed)
-                    VALUES ('monday',NULL, NULL,$last_id, 1);";
+                    VALUES ('saturday',NULL, NULL,$last_id, 1);";
                     $result = $conn->query($sql4);
                 }
             }
@@ -173,7 +173,7 @@
                 }
                 else{
                     $sql4 = "INSERT INTO horaire (day, opening_hours, closing_hours, id_item, closed)
-                    VALUES ('monday',NULL, NULL,$last_id, 1);";
+                    VALUES ('sunday',NULL, NULL,$last_id, 1);";
                     $result = $conn->query($sql4);
                 }
             }

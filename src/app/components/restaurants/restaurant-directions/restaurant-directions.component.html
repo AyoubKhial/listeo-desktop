@@ -3,7 +3,6 @@
 <div class="container">
     <div class="row sticky-wrapper">
         <div class="col-lg-8 col-md-8 padding-right-30">
-            <!-- Titlebar -->
             <div id="titlebar" class="listing-titlebar">
                 <div class="listing-titlebar-title">
                     <h2>{{restaurant?.name}}
@@ -16,13 +15,13 @@
                         </a>
                     </span>
                     <div class="star-rating">
-                            <div class="rating-counter">
-                                ({{restaurant?.number_reviews}} reviews)
-                            </div>
-                            <span class="stars alignright">
-                                <span [ngStyle]="getStars(restaurant?.rating)"></span>
-                            </span>
+                        <div class="rating-counter">
+                            ({{restaurant?.number_reviews}} reviews)
                         </div>
+                        <span class="stars alignright">
+                            <span [ngStyle]="getStars(restaurant?.rating)"></span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -31,21 +30,31 @@
                 <div id="singleListingMap" [attr.data-latitude]="restaurant?.latitude" [attr.data-longitude]="restaurant?.longitude" data-map-icon="im im-icon-Hamburger"></div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="style-1">
-                <ul class="tabs-nav">
-                    <li class="active walking">
-                        <a href="#tab1b">
-                            <i class="im im-icon-Footprint-3"></i> Walking</a>
-                    </li>
-                    <li class="driving">
-                        <a href="#tab2b">
-                            <i class="im im-icon-Car-2"></i> Driving</a>
-                    </li>
-                </ul>
-                <div class="tabs-container">
-                    <div class="tab-content" id="tab1b"></div>
-                    <div class="tab-content" id="tab2b"></div>
+        <div class="row" style="margin: 30px 0">
+            <div class="col-md-6">
+                <div class="directions-information">
+                    <div style="float: left; margin-right: 20px; padding-top: 25px">
+                        <span class="map-icon map-icon-walking"></span>
+                    </div>
+                    <div class="information">
+                        <span class="distance" id="walking-distance">
+                        </span>
+                        <span class="duration" id="walking-duration">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="directions-information">
+                    <div style="float: left; margin-right: 30px; padding-top: 35px">
+                        <span class="im im-icon-Car-2"></span>
+                    </div>
+                    <div class="information">
+                        <span class="distance" id="driving-distance">
+                        </span>
+                        <span class="duration" id="driving-duration">
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

@@ -264,12 +264,11 @@ function directionsMap() {
                             var distance_walking = response2.routes[0].legs[0].distance.text;
                             var duration_walking = response2.routes[0].legs[0].duration.text;
                             walkingDirectionsDisplay.setDirections(response2);
-
-
-                            document.getElementById('tab1b').innerHTML = "<i class='im im-icon-Road-3' style='font-size: 18px;vertical-align: sub;font-weight: 800'></i> " + distance_walking + " <i class='fa fa-clock-o'></i> " + duration_walking;
-                            document.getElementById('tab2b').innerHTML = "<i class='im im-icon-Road-3'></i> " + distance_driving + " <i class='fa fa-clock-o'></i> " + duration_driving;
+                            document.getElementById('walking-distance').innerHTML = "<i class='im im-icon-Road-3' style='margin-right: 5px'></i> Total distance : <span style='font-weight: 600'>" + distance_walking + "</span>"
+                            document.getElementById('walking-duration').innerHTML = "<i class='fa fa-clock-o' style='margin-right: 5px'></i> Duarion : <span style='font-weight: 600'>" + duration_walking + "</span>"
+                            document.getElementById('driving-distance').innerHTML = "<i class='im im-icon-Road-3' style='margin-right: 5px'></i> Total distance : <span style='font-weight: 600'>" + distance_driving + "</span>"
+                            document.getElementById('driving-duration').innerHTML = "<i class='fa fa-clock-o' style='margin-right: 5px'></i> Duarion : <span style='font-weight: 600'>" + duration_driving + "</span>"
                         }
-
                     });
                 }
             });

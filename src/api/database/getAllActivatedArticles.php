@@ -1,6 +1,8 @@
 <?php
     include "./connection.php";
-    $sql = "SELECT id, titre, texte, photo, inserted FROM article WHERE active = 1 ORDER BY inserted DESC";
+    $sql = "SELECT a.id, titre, texte, a.photo, a.inserted, CONCAT(u.first_name, ' ', u.last_name) AS user_name
+            FROM article a INNER JOIN utilisateur u ON a.id_utilisateur = u.id
+            WHERE a.active = 1 ORDER BY a.inserted DESC";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         $data = array() ;

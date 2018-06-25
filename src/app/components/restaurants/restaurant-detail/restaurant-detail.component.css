@@ -36,3 +36,7 @@ span.stars span {
 .share-buttons{
     cursor: pointer;
 }
+
+.listing-details-sidebar.social-profiles{
+    margin-top: 10px
+}

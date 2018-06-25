@@ -1,7 +1,7 @@
 <?php
     include "./connection.php";
     $userId = json_decode(file_get_contents("php://input"));
-    $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, v.name AS ville_name FROM item i INNER JOIN ville v ON i.id_ville = v.id WHERE i.active = 1 ORDER BY i.rating DESC LIMIT 6";
+    $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, v.name AS ville_name FROM item i INNER JOIN ville v ON i.id_ville = v.id WHERE i.active = 1 ORDER BY i.inserted DESC LIMIT 6";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         $data = array() ;

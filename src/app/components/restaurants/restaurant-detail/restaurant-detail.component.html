@@ -63,7 +63,7 @@
                 <p>
                     {{restaurant?.description}}
                 </p>
-                <h3 class="listing-desc-headline">Privileges</h3>
+                <h3 class="listing-desc-headline">Features </h3>
                 <ul class="listing-features checkboxes margin-top-0" *ngIf="restaurant.privileges; else noPrivilegesFound">
                     <li *ngFor="let privilege of restaurant.privileges">{{privilege}}</li>
                 </ul>
@@ -80,7 +80,7 @@
                             <ul>
                                 <li *ngFor="let plat of restaurant.categories[i].plats; let j = index">
                                     <h5>{{plat}}</h5>
-                                    <span>${{restaurant.categories[i].prices[j]}}</span>
+                                    <span>{{restaurant.categories[i].prices[j]}} DH</span>
                                 </li>
                             </ul>
                         </div>
@@ -89,9 +89,9 @@
                 <ng-template #noPricesFound>
                     <span class="no-data">This restaurant has no prices informations.</span>
                 </ng-template>
-                <!--<a href="#" class="show-more-button" data-more-title="Show More" data-less-title="Show Less" *ngIf="restaurant.categories">
+                <a href="" class="show-more-button" data-more-title="Show More" data-less-title="Show Less" *ngIf="restaurant.categories">
                     <i class="fa fa-angle-down"></i>
-                </a>-->
+                </a>
             </div>
             <div id="listing-location" class="listing-section">
                 <h3 class="listing-desc-headline margin-top-60 margin-bottom-30">Location</h3>
@@ -130,10 +130,6 @@
                                         <img src="assets/images/comments/{{photo}}" alt="">
                                     </a>
                                 </div>
-                                <a href="#" class="rate-review">
-                                    <i class="sl sl-icon-like"></i> Helpful Review
-                                    <span>4</span>
-                                </a>
                             </div>
                         </li>
                     </ul>
@@ -171,7 +167,7 @@
             </div>
             <div id="add-review" class="add-review-box" *ngIf="isLoggedIn">
                 <h3 class="listing-desc-headline margin-bottom-20">Add Review</h3>
-                <span class="leave-rating-title" *ngIf="!restaurant?.rated">Your rating for this listing</span>
+                <span class="leave-rating-title" *ngIf="!restaurant?.rated">Your rating for this restaurant</span>
                 <form id="add-comment" class="add-comment" method="post" [formGroup]="addRestaurantComentForm" (ngSubmit)="addRestaurantComent(target)">
                     <div class="row">
                         <div class="col-md-6">
@@ -214,9 +210,6 @@
             </div>
         </div>
         <div class="col-lg-4 col-md-4 margin-top-75 sticky">
-            <div class="verified-badge with-tip" data-tip-content="Listing has been verified and belongs the business owner or manager.">
-                <i class="sl sl-icon-check"></i> Verified Listing
-            </div>
             <div class="boxed-widget opening-hours margin-top-35">
                 <div *ngIf="restaurant.open; else closed" class="listing-badge now-open">Now Open</div>
                 <ng-template #closed>
@@ -296,11 +289,44 @@
                     <i class="sl sl-icon-envelope-open"></i> Send Message
                 </a>
             </div>
+            <div class="boxed-widget margin-top-35">
+                <h3>
+                    <i class="sl sl-icon-info"></i> Restaurant Information
+                </h3>
+                <ul class="listing-details-sidebar">
+                    <li *ngIf="restaurant?.phone">
+                        <i class="sl sl-icon-phone"></i> {{restaurant?.phone}}
+                    </li>
+                    <li *ngIf="restaurant?.email">
+                        <i class="fa fa-envelope-o"></i>
+                        <a href="#">
+                            <span class="__cf_email__" data-cfemail="c1b5aeac81a4b9a0acb1ada4efa2aeac">{{restaurant?.email}}</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="listing-details-sidebar social-profiles">
+                    <li *ngIf="restaurant?.facebook">
+                        <a href="{{restaurant?.facebook}}" class="facebook-profile">
+                            <i class="fa fa-facebook-square"></i> Facebook
+                        </a>
+                    </li>
+                    <li *ngIf="restaurant?.instagram">
+                        <a href="{{restaurant?.instagram}}" class="instagram-profile">
+                            <i class="fa fa-instagram"></i> Instagram
+                        </a>
+                    </li>
+                    <li *ngIf="restaurant?.twitter">
+                        <a href="{{restaurant?.twitter}}" class="twitter-profile">
+                            <i class="fa fa-twitter"></i> Twitter
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <div class="listing-share margin-top-40 margin-bottom-40 no-border">
                 <button class="like-button" [ngClass]="{'liked': restaurant?.liked}" (click)="addOrRemoveFromFavoris($event)">
-                    <span class="like-icon" [ngClass]="{'liked': restaurant?.liked}"></span> Bookmark this listing
+                    <span class="like-icon" [ngClass]="{'liked': restaurant?.liked}"></span> Bookmark this restaurant
                 </button>
-                <span>159 people bookmarked this place</span>
+                <span>{{restaurant?.number_bookmarks}} people bookmarked this restaurant</span>
                 <ul class="share-buttons margin-top-40 margin-bottom-0">
                     <li>
                         <a class="fb-share" shareButton="facebook">

@@ -3,7 +3,9 @@
     $data = json_decode(file_get_contents("php://input"));
     if(!empty($data->loginEmail) && !empty($data->loginPassword)) {
         $cryptedPassword = md5($data->loginPassword);
-        $stmt = $conn->prepare("SELECT id, first_name, last_name, email, photo, provider FROM utilisateur WHERE email = ? AND password= ? AND active = 1");
+        $stmt = $conn->prepare("SELECT u.id, u.first_name, u.last_name, u.email, u.photo, u.provider, v.name
+                                FROM utilisateur u INNER JOIN ville v ON u.id_ville = v.id
+                                WHERE u.email = ? AND password= ? AND u.active = 1");
         $stmt->bind_param("ss", $data->loginEmail, $cryptedPassword);
         $stmt->execute();
         $result = $stmt->get_result();
