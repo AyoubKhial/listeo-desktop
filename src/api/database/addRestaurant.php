@@ -61,7 +61,7 @@
         }
         $checkMainImage = 0;
         for ($i = 0; $i < $count; $i++) {
-            $newfilename = uploadImage($_FILES['fileToUpload'], "../../assets/images/restaurants/", $i);
+            $newfilename = uploadImage($_FILES['fileToUpload'], "../../assets/images/items/", $i);
             $description = "comment " . $last_id . " - photo " . $newfilename;
             if($checkMainImage == 0){
                 $stmt2 = $conn->prepare("INSERT INTO photo_item (url, description, main, id_item) VALUES (?, ?, 1, ?)");
@@ -72,7 +72,7 @@
             $stmt2->bind_param("ssi", $newfilename, $description, $last_id);
             $stmt2->execute();
             if ($conn->affected_rows > 0) {
-                uploadImage($_FILES['fileToUpload'], "../../assets/images/restaurants/", $i);
+                uploadImage($_FILES['fileToUpload'], "../../assets/images/items/", $i);
             }
             $checkMainImage++;
             $stmt2->close();

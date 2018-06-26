@@ -40,3 +40,11 @@ span.stars span {
 .listing-details-sidebar.social-profiles{
     margin-top: 10px
 }
+
+.review-images{
+    height: 120px;
+}
+
+.review-images img{
+    height: 100%;
+}

@@ -92,14 +92,9 @@
             <div>
                 <a class="listing-item-container compact">
                     <div class="listing-item" [routerLink]="location.type == 'restaurant' ? ['/restaurants', location.id] : ['/hotels', location.id]">
-                        <div *ngIf="location.photo; else noPhotoFound">
-                            <img *ngIf="location.type == 'restaurant'" src="assets/images/restaurants/{{location.photo}}" alt="">
-                            <img *ngIf="location.type == 'hotel'" src="assets/images/hotels/{{location.photo}}" alt="">
+                        <div>
+                            <img src="assets/images/items/{{location.photo}}" alt="">
                         </div>
-                        <ng-template #noPhotoFound>
-                            <img src="assets/images/listing-item-01.jpg" alt="">
-                        </ng-template>
-
                         <div *ngIf="location.type == 'restaurant' && location.open" class="listing-badge now-open">Now Open</div>
                         <div *ngIf="location.type == 'restaurant' && !location.open" class="listing-badge now-closed">Now Closed</div>
                         <div class="listing-item-content">
@@ -132,7 +127,6 @@
                 <a [routerLink]="['/articles', article.id]" class="blog-compact-item-container">
                     <div class="blog-compact-item">
                         <img src="assets/images/articles/{{article.photo}}" alt="">
-
                         <div class="blog-compact-item-content">
                             <ul class="blog-post-tags">
                                 <li>{{article.inserted | date:'longDate'}}</li>

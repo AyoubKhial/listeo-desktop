@@ -65,10 +65,7 @@
                     <div class="listing-item-container list-layout">
                         <a [routerLink]="['/hotels', hotel.id]" class="listing-item">
                             <div class="listing-item-image">
-                                <img *ngIf="hotel.photo !== 'null'; else defaultPhoto" src="assets/images/hotels/{{hotel.photo}}" alt="">
-                                <ng-template #defaultPhoto>
-                                    <img src="assets/images/listing-item-01.jpg" alt="">
-                                </ng-template>
+                                <img src="assets/images/items/{{hotel.photo}}" alt="">
                             </div>
                             <div class="listing-item-content">
                                 <div class="listing-item-inner">
@@ -95,10 +92,7 @@
                 <div class="col-lg-6 col-md-12" *ngFor="let hotel of pagedHotels">
                     <a class="listing-item-container compact">
                         <div [routerLink]="['/hotels', hotel.id]" class="listing-item">
-                            <img *ngIf="hotel.photo !== 'null'; else defaultPhoto" src="assets/images/hotels/{{hotel.photo}}" alt="">
-                            <ng-template #defaultPhoto>
-                                <img src="assets/images/listing-item-01.jpg" alt="">
-                            </ng-template>
+                            <img src="assets/images/items/{{hotel.photo}}" alt="">
                             <div class="listing-item-content">
                                 <div class="numerical-rating" attr.data-rating="{{hotel.rating | number : '1.2-2'}}" [ngClass]="{
                                         'low':hotel.rating < 3,

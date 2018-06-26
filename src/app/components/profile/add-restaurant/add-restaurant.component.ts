@@ -277,6 +277,7 @@ export class AddRestaurantComponent implements OnInit, OnDestroy {
         for (var i = 0; i < event.target.files.length; i++) {
             this.images.push(event.target.files[i]);
         }
+        console.log(this.images)
     }
 
     ngOnDestroy(): void {

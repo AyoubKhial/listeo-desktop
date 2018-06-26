@@ -1,21 +1,9 @@
 <button onclick="scriptCall()" id="scriptCall" style="display: none"></button>
 <button onclick="singleListingMap()" id="loadMap" style="display: none"></button>
-<div class="listing-slider mfp-gallery-container margin-bottom-0" *ngIf="hotel.photos; else defaultSliderPhotos">
-    <a *ngFor="let photo of hotel.photos" href="assets/images/hotels/{{photo}}" attr.data-background-image="assets/images/hotels/{{photo}}"
-        class="item mfp-gallery" title="Title 1"></a>
+<div class="listing-slider mfp-gallery-container margin-bottom-0">
+    <a *ngFor="let photo of hotel.photos" href="assets/images/items/{{photo}}" attr.data-background-image="assets/images/items/{{photo}}"
+        class="item mfp-gallery" title="{{hotel?.name}}"></a>
 </div>
-<ng-template #defaultSliderPhotos>
-    <div class="listing-slider mfp-gallery-container margin-bottom-0">
-        <a href="assets/images/restaurants/default/single-listing-01.jpg" data-background-image="assets/images/restaurants/default/single-listing-01.jpg"
-            class="item mfp-gallery" title="Title 1"></a>
-        <a href="assets/images/restaurants/default/single-listing-02.jpg" data-background-image="assets/images/restaurants/default/single-listing-02.jpg"
-            class="item mfp-gallery" title="Title 1"></a>
-        <a href="assets/images/restaurants/default/single-listing-03.jpg" data-background-image="assets/images/restaurants/default/single-listing-03.jpg"
-            class="item mfp-gallery" title="Title 1"></a>
-        <a href="assets/images/restaurants/default/single-listing-04.jpg" data-background-image="assets/images/restaurants/default/single-listing-04.jpg"
-            class="item mfp-gallery" title="Title 1"></a>
-    </div>
-</ng-template>
 <div class="container">
     <div class="row sticky-wrapper">
         <div class="col-lg-8 col-md-8 padding-right-30">
@@ -105,10 +93,7 @@
                     <ul *ngIf="hotel.comments; else noCommentsFound">
                         <li *ngFor="let comment of pagedComments">
                             <div class="avatar">
-                                <img *ngIf="comment[3] != null; else defaultPhoto" src="assets/images/users/{{comment[3]}}" alt="">
-                                <ng-template #defaultPhoto>
-                                    <img src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=70" alt="" />
-                                </ng-template>
+                                <img src="assets/images/users/{{comment[3]}}" alt="">
                             </div>
                             <div class="comment-content">
                                 <div class="arrow-comment"></div>
@@ -126,10 +111,6 @@
                                         <img src="assets/images/comments/{{photo}}" alt="">
                                     </a>
                                 </div>
-                                <a href="#" class="rate-review">
-                                    <i class="sl sl-icon-like"></i> Helpful Review
-                                    <span>4</span>
-                                </a>
                             </div>
                         </li>
                     </ul>
@@ -222,7 +203,6 @@
                     <a href="pages-user-profile.html" class="hosted-by-avatar">
                         <img *ngIf="hotel?.user[0].provider != 'listeo'" src="{{hotel?.user[0].photo}}">
                         <img *ngIf="hotel?.user[0].provider == 'listeo' && hotel?.user[0].photo" src="assets/images/users/{{hotel?.user[0].photo}}">
-                        <img *ngIf="hotel?.user[0].provider == 'listeo' && !hotel?.user[0].photo" src="assets/images/users/user.png">
                     </a>
                 </div>
                 <ul class="listing-details-sidebar">
@@ -266,6 +246,39 @@
                 <a href="#small-dialog" class="send-message-to-owner button popup-with-zoom-anim" *ngIf="isLoggedIn && userId != hotel?.user[0].id">
                     <i class="sl sl-icon-envelope-open"></i> Send Message
                 </a>
+            </div>
+            <div class="boxed-widget margin-top-35">
+                <h3>
+                    <i class="sl sl-icon-info"></i> Hotel Information
+                </h3>
+                <ul class="listing-details-sidebar">
+                    <li *ngIf="hotel?.phone">
+                        <i class="sl sl-icon-phone"></i> {{hotel?.phone}}
+                    </li>
+                    <li *ngIf="hotel?.email">
+                        <i class="fa fa-envelope-o"></i>
+                        <a href="#">
+                            <span class="__cf_email__" data-cfemail="c1b5aeac81a4b9a0acb1ada4efa2aeac">{{hotel?.email}}</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="listing-details-sidebar social-profiles">
+                    <li *ngIf="hotel?.facebook">
+                        <a href="{{hotel?.facebook}}" class="facebook-profile">
+                            <i class="fa fa-facebook-square"></i> Facebook
+                        </a>
+                    </li>
+                    <li *ngIf="hotel?.instagram">
+                        <a href="{{hotel?.instagram}}" class="instagram-profile">
+                            <i class="fa fa-instagram"></i> Instagram
+                        </a>
+                    </li>
+                    <li *ngIf="hotel?.twitter">
+                        <a href="{{hotel?.twitter}}" class="twitter-profile">
+                            <i class="fa fa-twitter"></i> Twitter
+                        </a>
+                    </li>
+                </ul>
             </div>
             <div class="listing-share margin-top-40 margin-bottom-40 no-border">
                 <button class="like-button" [ngClass]="{'liked': hotel?.liked}" (click)="addOrRemoveFromFavoris($event)">

@@ -27,11 +27,8 @@
                     <li *ngFor="let item of pagedItems">
                         <div class="list-box-listing">
                             <div class="list-box-listing-img">
-                                <a *ngIf="item.type == 'restaurant'" href="#">
-                                    <img src="assets/images/restaurants/{{item.photo}}" alt="">
-                                </a>
-                                <a *ngIf="item.type == 'hotel'" href="#">
-                                    <img src="assets/images/hotels/{{item.photo}}" alt="">
+                                <a href="#">
+                                    <img src="assets/images/items/{{item.photo}}" alt="">
                                 </a>
                             </div>
                             <div class="list-box-listing-content">

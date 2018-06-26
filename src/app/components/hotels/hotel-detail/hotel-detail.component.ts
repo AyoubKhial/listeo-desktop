@@ -88,6 +88,7 @@ export class HotelDetailComponent implements OnInit {
         }
         this.databaseService.getHotelDetails(data).takeUntil(this.unsubscribe).subscribe(response => {
             if (response != 'Not found') {
+                console.log(response)
                 this.hotel = response[0];
                 if (this.hotel.comments) {
                     this.comments = this.hotel.comments

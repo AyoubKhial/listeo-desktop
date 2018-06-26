@@ -3,7 +3,7 @@
     $data = json_decode(file_get_contents("php://input"));
     $hotelId = $data->hotel;
     $userId = $data->user;
-    $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, i.longitude, i.latitude, i.description, v.name AS ville_name
+    $sql = "SELECT i.id, i.name, i.type, i.adresse, i.rating, i.longitude, i.latitude, i.description, i.phone, i.email, i.website, i.facebook, i.instagram, i.twitter, v.name AS ville_name
             FROM ville v INNER JOIN item i ON v.id = i.id_ville
             WHERE i.type = 'hotel' AND i.active = 1 AND i.id = $hotelId";
     $qry = $conn->query($sql);

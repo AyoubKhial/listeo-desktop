@@ -64,10 +64,7 @@
                     <div class="listing-item-container list-layout">
                         <a [routerLink]="['/restaurants', restaurant.id]" class="listing-item">
                             <div class="listing-item-image">
-                                <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/restaurants/{{restaurant.photo}}" alt="">
-                                <ng-template #defaultPhoto>
-                                    <img src="assets/images/listing-item-01.jpg" alt="">
-                                </ng-template>
+                                <img src="assets/images/items/{{restaurant.photo}}" alt="">
                                 <span class="tag">{{restaurant.category_name}}</span>
                             </div>
                             <div class="listing-item-content">
@@ -97,10 +94,7 @@
                 <div class="col-lg-6 col-md-12" *ngFor="let restaurant of pagedRestaurants">
                     <a class="listing-item-container compact">
                         <div [routerLink]="['/restaurants', restaurant.id]" class="listing-item">
-                            <img *ngIf="restaurant.photo !== 'null'; else defaultPhoto" src="assets/images/restaurants/{{restaurant.photo}}" alt="">
-                            <ng-template #defaultPhoto>
-                                <img src="assets/images/listing-item-01.jpg" alt="">
-                            </ng-template>
+                            <img src="assets/images/items/{{restaurant.photo}}" alt="">
                             <div *ngIf="restaurant.open" class="listing-badge now-open">Now Open</div>
                             <div *ngIf="!restaurant.open" class="listing-badge now-closed">Now Closed</div>
                             <div class="listing-item-content">
